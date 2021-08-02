@@ -1,0 +1,5 @@
+{
+	"editor.formatOnSave": true,
+    "workbench.tree.indent": 20,
+    "workbench.tree.renderIndentGuides": "always"
+}
