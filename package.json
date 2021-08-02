@@ -1,38 +1,40 @@
 {
-  "name": "formily-antd-table",
-  "version": "1.0.0",
-  "description": "Formily for AntDesign Table，Most Easy Way To Use AntDesign Table",
-  "main": "index.js",
-  "scripts": {
-    "start": "tsc --project tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fishedee/FormilyAntdTable.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/fishedee/FormilyAntdTable/issues"
-  },
-  "homepage": "https://github.com/fishedee/FormilyAntdTable#readme",
-  "devDependencies": {
-    "prettier": "^2.3.2",
-    "typescript": "^4.3.5"
-  },
-  "peerDependencies": {
-    "@formily/core": ">= 2.0.0-beta.84",
-    "@formily/json-schema": ">= 2.0.0-beta.84",
-    "@formily/react": ">= 2.0.0-beta.84",
-    "@formily/reactive": ">= 2.0.0-beta.84",
-    "@formily/reactive-react": ">= 2.0.0-beta.84",
-    "@formily/shared": ">= 2.0.0-beta.84",
-    "@ant-design/icons": "^4.0.0",
-    "antd": "^4.0.0",
-    "@types/react": ">=16.8.0 || >=17.0.0",
-    "@types/react-dom": ">=16.8.0 || >=17.0.0",
-    "react": ">=16.8.0 || >=17.0.0",
-    "react-dom": ">=16.8.0 || >=17.0.0"
-  }
+    "name": "formily-antd-table",
+    "version": "1.0.0",
+    "description": "Formily for AntDesign Table，Most Easy Way To Use AntDesign Table",
+    "main": "index.js",
+    "scripts": {
+        "start": "rimraf -rf lib esm && npm run build:cjs && npm run build:esm",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build:cjs": "tsc --project tsconfig.json",
+        "build:esm": "tsc --project tsconfig.json --module es2015 --outDir esm"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fishedee/formily-antd-table.git"
+    },
+    "author": "fishedee",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/fishedee/formily-antd-table/issues"
+    },
+    "homepage": "https://github.com/fishedee/formily-antd-table#readme",
+    "devDependencies": {
+        "prettier": "^2.3.2",
+        "typescript": "^4.3.5"
+    },
+    "peerDependencies": {
+        "@formily/core": ">= 2.0.0-beta.84",
+        "@formily/json-schema": ">= 2.0.0-beta.84",
+        "@formily/react": ">= 2.0.0-beta.84",
+        "@formily/reactive": ">= 2.0.0-beta.84",
+        "@formily/reactive-react": ">= 2.0.0-beta.84",
+        "@formily/shared": ">= 2.0.0-beta.84",
+        "@ant-design/icons": "^4.0.0",
+        "antd": "^4.0.0",
+        "@types/react": ">=16.8.0 || >=17.0.0",
+        "@types/react-dom": ">=16.8.0 || >=17.0.0",
+        "react": ">=16.8.0 || >=17.0.0",
+        "react-dom": ">=16.8.0 || >=17.0.0"
+    }
 }

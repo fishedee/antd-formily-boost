@@ -1,4 +1,4 @@
 import React from 'react';
-export default ()=>{
-    return <div>{'HelloWorld'}</div>
-}
+export default () => {
+    return <div>{'HelloWorld'}</div>;
+};
