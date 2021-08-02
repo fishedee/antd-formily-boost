@@ -1,8 +1,9 @@
 {
     "name": "formily-antd-table",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Formily for AntDesign Table，Most Easy Way To Use AntDesign Table",
-    "main": "index.js",
+    "main": "lib",
+    "module": "esm",
     "scripts": {
         "start": "rimraf -rf lib esm && npm run build:cjs && npm run build:esm",
         "test": "echo \"Error: no test specified\" && exit 1",
