@@ -5,7 +5,7 @@ import {
   FormConsumer,
   ObjectField,
 } from '@formily/react';
-import FormilyAntdTable from 'formily-antd-table';
+import FormilyAntdTable from 'formily-antd';
 import {
   Form,
   FormItem,
