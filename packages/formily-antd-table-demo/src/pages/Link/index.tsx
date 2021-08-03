@@ -6,8 +6,16 @@ import {
   ObjectField,
 } from '@formily/react';
 import FormilyAntdTable from 'formily-antd-table';
-import { Form, FormItem, Input, Select, PreviewText } from '@formily/antd';
+import {
+  Form,
+  FormItem,
+  Input,
+  Select,
+  PreviewText,
+  Space,
+} from '@formily/antd';
 import ProCard from '@ant-design/pro-card';
+import 'antd/dist/antd.css';
 
 const form = createForm({
   initialValues: {
@@ -40,7 +48,15 @@ const SchemaField = createSchemaField({
 
 export default () => {
   return (
-    <div style={{ background: 'rgb(240, 242, 245)', padding: '20px' }}>
+    <Space
+      style={{
+        background: 'rgb(240, 242, 245)',
+        padding: '20px',
+        display: 'flex',
+      }}
+      direction="vertical"
+      size={10}
+    >
       <ProCard title="基础">
         <Form form={form} feedbackLayout="terse">
           <SchemaField>
@@ -51,16 +67,17 @@ export default () => {
                   x-component="Table.Column"
                   x-component-props={{
                     title: '名字',
-                    width: '100px',
+                    width: '50%',
                   }}
                 >
-                  <SchemaField.String name="name" x-component={'Table.Text'} />
+                  <SchemaField.String name="name" x-component={'Input'} />
                 </SchemaField.Void>
 
                 <SchemaField.Void
                   x-component="Table.Column"
                   x-component-props={{
                     title: '年龄',
+                    width: '50%',
                   }}
                 >
                   <SchemaField.String name="age" x-component={'Table.Text'} />
@@ -68,11 +85,16 @@ export default () => {
               </SchemaField.Void>
             </SchemaField.Array>
           </SchemaField>
+        </Form>
+      </ProCard>
+
+      <ProCard title="数据">
+        <Form form={form} feedbackLayout="terse">
           <FormConsumer>
             {() => <div>{JSON.stringify(form.values)}</div>}
           </FormConsumer>
         </Form>
       </ProCard>
-    </div>
+    </Space>
   );
 };
