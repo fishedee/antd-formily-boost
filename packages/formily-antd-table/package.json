@@ -22,6 +22,7 @@
     },
     "homepage": "https://github.com/fishedee/formily-antd-table#readme",
     "devDependencies": {
+        "@types/node": "^16.4.10",
         "prettier": "^2.3.2",
         "typescript": "^4.3.5"
     },

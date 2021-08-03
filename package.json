@@ -17,17 +17,15 @@
   },
   "homepage": "https://github.com/fishedee/formily-antd-table#readme",
   "dependencies": {
-    "@formily/core": ">= 2.0.0-beta.84",
-    "@formily/json-schema": ">= 2.0.0-beta.84",
-    "@formily/react": ">= 2.0.0-beta.84",
-    "@formily/reactive": ">= 2.0.0-beta.84",
-    "@formily/reactive-react": ">= 2.0.0-beta.84",
-    "@formily/shared": ">= 2.0.0-beta.84",
-    "@ant-design/icons": "^4.0.0",
-    "antd": "^4.0.0",
-    "@types/react": ">=16.8.0 || >=17.0.0",
-    "@types/react-dom": ">=16.8.0 || >=17.0.0",
-    "react": ">=16.8.0 || >=17.0.0",
-    "react-dom": ">=16.8.0 || >=17.0.0"
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "react": "17.x",
+    "react-dom": "17.x",
+    "antd": "^4.16.10",
+    "@formily/antd": "^2.0.0-beta.84",
+    "@formily/core": "^2.0.0-beta.84",
+    "@formily/react": "^2.0.0-beta.84",
+    "@formily/reactive": "^2.0.0-beta.84",
+    "@formily/reactive-react": "^2.0.0-beta.84"
   }
 }
