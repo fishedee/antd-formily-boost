@@ -26,6 +26,7 @@ export default defineConfig({
       './node_modules/@formily/reactive-react',
     ),
   },
+  //msfu对于node_modules的软链接模块并不友好
+  //msfu:{}
   fastRefresh: {},
-  mfsu: {},
 });

@@ -1,19 +1,7 @@
 import { createForm, onFieldInputValueChange } from '@formily/core';
-import {
-  createSchemaField,
-  Field,
-  FormConsumer,
-  ObjectField,
-} from '@formily/react';
-import FormilyAntdTable from 'formily-antd';
-import {
-  Form,
-  FormItem,
-  Input,
-  Select,
-  PreviewText,
-  Space,
-} from '@formily/antd';
+import { createSchemaField, FormConsumer } from '@formily/react';
+import { Label, Table } from 'formily-antd';
+import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import ProCard from '@ant-design/pro-card';
 import 'antd/dist/antd.css';
 
@@ -42,7 +30,8 @@ const SchemaField = createSchemaField({
     FormItem,
     Input,
     Select,
-    Table: FormilyAntdTable,
+    Table,
+    Label,
   },
 });
 
@@ -70,7 +59,12 @@ export default () => {
                     width: '50%',
                   }}
                 >
-                  <SchemaField.String name="name" x-component={'Input'} />
+                  <SchemaField.String
+                    name="name"
+                    required={true}
+                    x-component={'Input'}
+                    x-decorator="FormItem"
+                  />
                 </SchemaField.Void>
 
                 <SchemaField.Void
@@ -80,7 +74,7 @@ export default () => {
                     width: '50%',
                   }}
                 >
-                  <SchemaField.String name="age" x-component={'Table.Text'} />
+                  <SchemaField.String name="age" x-component={'Label'} />
                 </SchemaField.Void>
               </SchemaField.Void>
             </SchemaField.Array>
