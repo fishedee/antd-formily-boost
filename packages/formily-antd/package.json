@@ -1,6 +1,6 @@
 {
-    "name": "formily-antd-table",
-    "version": "1.0.1",
+    "name": "formily-antd",
+    "version": "1.0.0",
     "description": "Formily for AntDesign Table，Most Easy Way To Use AntDesign Table",
     "main": "lib",
     "module": "esm",
