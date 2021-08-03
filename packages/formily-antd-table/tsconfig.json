@@ -14,5 +14,6 @@
     },
     "inclue": [
         "src" //输入的文件夹
-    ]
+    ],
+    "exclude": ["esm", "lib"]
 }
