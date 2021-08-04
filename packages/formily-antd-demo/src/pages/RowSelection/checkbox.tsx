@@ -39,21 +39,7 @@ export default () => {
     const form = useMemo(() => {
         return createForm({
             values: lastState,
-            effects: () => {
-                onFieldReact('data.*.operation.edit', (field) => {
-                    field.componentProps.to = {
-                        pathname: '/Link/edit',
-                        query: {
-                            name: field.query('..name').value(),
-                        },
-                    };
-                });
-                onFieldReact('data.*.operation.delete', (field) => {
-                    field.componentProps.onClick = () => {
-                        console.log('del', field.query('..name').value());
-                    };
-                });
-            },
+            effects: () => {},
         });
     }, []);
     return (
@@ -75,6 +61,9 @@ export default () => {
                                     x-component="Table.CheckboxColumn"
                                     x-component-props={{
                                         dataIndex: '_checked',
+                                        width: '100px',
+                                        //可以设定是否固定在左侧
+                                        //fixed:true
                                     }}
                                 />
                                 <SchemaField.Void
@@ -99,27 +88,6 @@ export default () => {
                                         name="age"
                                         x-component={'Label'}
                                     />
-                                </SchemaField.Void>
-                                <SchemaField.Void
-                                    title="操作"
-                                    x-component="Table.Column"
-                                    x-component-props={{}}
-                                >
-                                    <SchemaField.Void
-                                        name="operation"
-                                        x-component={'SpaceDivider'}
-                                    >
-                                        <SchemaField.Void
-                                            name="edit"
-                                            title="编辑"
-                                            x-component={'Link'}
-                                        />
-                                        <SchemaField.Void
-                                            name="delete"
-                                            title="删除"
-                                            x-component={'Link'}
-                                        />
-                                    </SchemaField.Void>
                                 </SchemaField.Void>
                             </SchemaField.Void>
                         </SchemaField.Array>

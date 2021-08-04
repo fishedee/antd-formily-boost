@@ -7,15 +7,19 @@ import {
     useForm,
 } from '@formily/react';
 import { observer } from '@formily/reactive-react';
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Table } from 'antd';
 import { ReactElement } from 'react';
-import { isColumnType, isCheckedColumnType, isRadioColumnType } from './IsType';
+import {
+    isColumnType,
+    isCheckboxColumnType,
+    isRadioColumnType,
+} from './IsType';
 import { ColumnsType, ColumnType } from 'antd/lib/table';
 import { ArrayIndexContextProvider } from './Context';
 import { ColumnGroupType } from 'antd/lib/table';
 import Column, { ColumnProps } from './Column';
-import CheckedColumn, { CheckedColumnProps } from './CheckedColumn';
+import CheckedColumn, { CheckboxColumnProps } from './CheckboxColumn';
 import { RowSelectionType, TableRowSelection } from 'antd/lib/table/interface';
 import RadioColumn, { RadioColumnProps } from './RadioColumn';
 
@@ -28,10 +32,9 @@ type Column = {
     dataIndex: string;
     key: string;
     schema: Schema;
-    width?: number;
-    ellipsis?: boolean;
-    fixed?: 'left' | 'right';
-    children?: Column[];
+    type: 'column' | 'rowSelectionColumn';
+    columnProps?: ColumnProps & { children: Column[] };
+    rowSelectionColumnProps?: { type: RowSelectionType } & CheckboxColumnProps;
 };
 
 function getColumn(schema: Schema): Column[] {
@@ -51,6 +54,12 @@ function getColumn(schema: Schema): Column[] {
         if (isVisible == false) {
             return [];
         }
+        let columnBase = {
+            key: schema.name + '',
+            dataIndex: schema.name + '',
+            title: columnField ? columnField.title : schema.title,
+            schema: schema,
+        };
         if (isColumnType(component)) {
             //获取该列的信息
             const style: ColumnProps = {};
@@ -65,12 +74,67 @@ function getColumn(schema: Schema): Column[] {
                 : schema['x-component-props']?.fixed;
             return [
                 {
-                    key: schema.name + '',
-                    dataIndex: schema.name + '',
-                    title: columnField ? columnField.title : schema.title,
-                    schema: schema,
-                    children: reduceProperties(schema),
-                    ...style,
+                    ...columnBase,
+                    type: 'column',
+                    columnProps: {
+                        children: reduceProperties(schema),
+                        ...style,
+                    },
+                },
+            ];
+        } else if (isCheckboxColumnType(component)) {
+            //获取该列的信息
+            const style: CheckboxColumnProps = {
+                dataIndex: columnField
+                    ? columnField.componentProps?.dataIndex
+                    : schema['x-component-props']?.dataIndex,
+                fixed: columnField
+                    ? columnField.componentProps?.fixed
+                    : schema['x-component-props']?.fixed,
+                width: columnField
+                    ? columnField.componentProps?.width
+                    : schema['x-component-props']?.width,
+                selectRowByClick: columnField
+                    ? columnField.componentProps?.selectRowByClick
+                    : schema['x-component-props']?.selectRowByClick,
+                checkStrictly: columnField
+                    ? columnField.componentProps?.checkStrictly
+                    : schema['x-component-props']?.checkStrictly,
+            };
+            return [
+                {
+                    ...columnBase,
+                    type: 'rowSelectionColumn',
+                    rowSelectionColumnProps: {
+                        type: 'checkbox',
+                        ...style,
+                    },
+                },
+            ];
+        } else if (isRadioColumnType(component)) {
+            //获取该列的信息
+            const style: RadioColumnProps = {
+                dataIndex: columnField
+                    ? columnField.componentProps?.dataIndex
+                    : schema['x-component-props']?.dataIndex,
+                fixed: columnField
+                    ? columnField.componentProps?.fixed
+                    : schema['x-component-props']?.fixed,
+                width: columnField
+                    ? columnField.componentProps?.width
+                    : schema['x-component-props']?.width,
+                selectRowByClick: columnField
+                    ? columnField.componentProps?.selectRowByClick
+                    : schema['x-component-props']?.selectRowByClick,
+            };
+            return [
+                {
+                    ...columnBase,
+                    type: 'rowSelectionColumn',
+                    rowSelectionColumnProps: {
+                        type: 'radio',
+                        ...style,
+                    },
                 },
             ];
         }
@@ -95,77 +159,6 @@ function getColumn(schema: Schema): Column[] {
     }, [] as Column[]);
 }
 
-type RowSelectedColumn = {
-    type: RowSelectionType;
-    dataIndex: string;
-    key: string;
-    schema: Schema;
-};
-
-function getRowSelectedColumn(schema: Schema): RowSelectedColumn[] {
-    let itemsSchema: Schema['items'] = schema.items;
-    const items = Array.isArray(itemsSchema) ? itemsSchema : [itemsSchema];
-    let form = useForm();
-    let field = useField();
-    const parseSource = (schema: Schema): RowSelectedColumn[] => {
-        let columnField = form.query(field.address + '.' + schema.name).take();
-        let component = schema['x-component'];
-        let isVisible = columnField ? columnField.visible : schema['x-visible'];
-        if (isVisible == false) {
-            return [];
-        }
-        if (isCheckedColumnType(component)) {
-            //获取该列的信息
-            const style = {
-                dataIndex: columnField
-                    ? columnField.componentProps?.dataIndex
-                    : schema['x-component-props']?.dataIndex,
-            };
-            return [
-                {
-                    key: schema.name + '',
-                    type: 'checkbox',
-                    schema: schema,
-                    ...style,
-                },
-            ];
-        } else if (isRadioColumnType(component)) {
-            //获取该列的信息
-            const style = {
-                dataIndex: columnField
-                    ? columnField.componentProps?.dataIndex
-                    : schema['x-component-props']?.dataIndex,
-            };
-            return [
-                {
-                    key: schema.name + '',
-                    type: 'radio',
-                    schema: schema,
-                    ...style,
-                },
-            ];
-        }
-        return [];
-    };
-    const reduceProperties = (schema: Schema): RowSelectedColumn[] => {
-        //对于items里面的每个schema，每个Schema为Void字段，遍历它的Properties
-        if (schema.properties) {
-            return schema.reduceProperties((current, schema) => {
-                return current.concat(parseSource(schema));
-            }, [] as RowSelectedColumn[]);
-        } else {
-            return [];
-        }
-    };
-    return items.reduce((current, schema) => {
-        //遍历每个items里面的schema
-        if (schema) {
-            return current.concat(reduceProperties(schema));
-        }
-        return current;
-    }, [] as RowSelectedColumn[]);
-}
-
 function getDataSource(data: any[], columns: Column[]): any[] {
     let result = [];
     for (var i in data) {
@@ -181,10 +174,18 @@ function getDataColumns(
     columns: Column[]
 ): (ColumnGroupType<unknown> | ColumnType<unknown>)[] {
     const convertColumn = (column: Column) => {
-        if (column.children && column.children.length != 0) {
+        if (
+            column.columnProps &&
+            column.columnProps.children &&
+            column.columnProps.children.length != 0
+        ) {
             let single: ColumnGroupType<unknown> = {
                 ...column,
-                children: column.children.map(convertColumn),
+                children: column.columnProps.children
+                    .filter((column) => {
+                        return column.type == 'column';
+                    })
+                    .map(convertColumn),
             };
             return single;
         } else {
@@ -205,29 +206,40 @@ function getDataColumns(
             return single;
         }
     };
-    return columns.map(convertColumn);
+    return columns
+        .filter((column) => {
+            return column.type == 'column';
+        })
+        .map(convertColumn);
 }
 
 function getRowSelection(
     data: any[],
-    columns: RowSelectedColumn[]
-): TableRowSelection<any> | undefined {
-    let column: RowSelectedColumn | undefined;
-    if (columns && columns.length != 0) {
-        column = columns[0];
+    columns: Column[]
+): {
+    selection: TableRowSelection<any> | undefined;
+    rowWrapper: React.FC<any> | undefined;
+} {
+    let rowSelectionColumns = columns.filter((column) => {
+        return column.type == 'rowSelectionColumn';
+    });
+    let column: Column;
+    if (rowSelectionColumns.length < 0) {
+        return { selection: undefined, rowWrapper: undefined };
     }
-    if (!column) {
-        return undefined;
-    }
-    let selectedRowKeys = [];
+    column = rowSelectionColumns[0];
+    let selectedRowKeys: any[] = [];
     for (var i = 0; i != data.length; i++) {
         let single = data[i];
-        if (single[column.dataIndex]) {
+        if (single[column.rowSelectionColumnProps!.dataIndex!]) {
             selectedRowKeys.push(i + '');
         }
     }
-    const rowSelection = {
-        type: column.type,
+    const rowSelection: TableRowSelection<any> = {
+        type: column.rowSelectionColumnProps!.type,
+        fixed: column.rowSelectionColumnProps!.fixed,
+        columnTitle: column.title,
+        columnWidth: column.rowSelectionColumnProps!.width,
         selectedRowKeys: selectedRowKeys,
         onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
             let selectedKey: { [key in number]: boolean } = {};
@@ -238,9 +250,9 @@ function getRowSelection(
             for (let i = 0; i != data.length; i++) {
                 let single = data[i];
                 if (selectedKey[i]) {
-                    single[column!.dataIndex] = true;
+                    single[column.rowSelectionColumnProps!.dataIndex!] = true;
                 } else {
-                    single[column!.dataIndex] = false;
+                    single[column.rowSelectionColumnProps!.dataIndex!] = false;
                 }
             }
         },
@@ -250,7 +262,39 @@ function getRowSelection(
             Table.SELECTION_NONE,
         ],
     };
-    return rowSelection;
+    let rowWrapper: React.FC<any> | undefined;
+    if (column.rowSelectionColumnProps?.selectRowByClick) {
+        rowWrapper = (props) => {
+            const rowKey = props['data-row-key'];
+            const onClick = () => {
+                let dataIndex = column.rowSelectionColumnProps!.dataIndex!;
+                if (column.rowSelectionColumnProps?.type == 'radio') {
+                    //radio是清空原来的
+                    if (selectedRowKeys.length != 0) {
+                        let oldRowKey = selectedRowKeys[0];
+                        let single = data[oldRowKey];
+                        single[dataIndex] = false;
+                    }
+                    let single = data[rowKey];
+                    single[dataIndex] = true;
+                } else {
+                    //checkbox反选
+                    let single = data[rowKey];
+                    single[dataIndex] = !single[dataIndex];
+                }
+            };
+            return (
+                <tr {...props} onClick={onClick}>
+                    {props.children}
+                </tr>
+            );
+        };
+    }
+
+    return {
+        selection: rowSelection,
+        rowWrapper: rowWrapper,
+    };
 }
 type PropsType = Field & {
     children: (index: number) => ReactElement;
@@ -258,7 +302,7 @@ type PropsType = Field & {
 
 type MyTableType = React.FC<PropsType> & {
     Column?: React.FC<ColumnProps>;
-    CheckboxColumn?: React.FC<CheckedColumnProps>;
+    CheckboxColumn?: React.FC<CheckboxColumnProps>;
     RadioColumn?: React.FC<RadioColumnProps>;
 };
 
@@ -269,12 +313,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
 
     const dataSource = getDataSource(field.value, tableColumns);
     const dataColumns: ColumnsType<any> = getDataColumns(tableColumns);
-
-    const rowSelectedColumns = getRowSelectedColumn(fieldSchema);
-    const rowSelection: TableRowSelection<any> | undefined = getRowSelection(
-        field.value,
-        rowSelectedColumns
-    );
+    const rowSelection = getRowSelection(field.value, tableColumns);
     return (
         <Fragment>
             <Table
@@ -282,22 +321,15 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                 bordered={true}
                 columns={dataColumns}
                 dataSource={dataSource}
-                rowSelection={rowSelection}
+                rowSelection={rowSelection.selection}
+                components={{
+                    body: {
+                        row: rowSelection.rowWrapper,
+                    },
+                }}
             />
             {tableColumns.map((column) => {
                 //这里实际渲染每个Column，以保证Column能接收到Reaction
-                //注意要使用onlyRenderSelf
-                return (
-                    <RecursionField
-                        key={column.key}
-                        name={column.key}
-                        schema={column.schema}
-                        onlyRenderSelf
-                    />
-                );
-            })}
-            {rowSelectedColumns.map((column) => {
-                //这里实际渲染每个RowSelectedColumn，以保证Column能接收到Reaction
                 //注意要使用onlyRenderSelf
                 return (
                     <RecursionField
