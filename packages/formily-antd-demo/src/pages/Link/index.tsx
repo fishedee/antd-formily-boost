@@ -1,19 +1,10 @@
-import {
-    createForm,
-    Field,
-    IFormState,
-    onFieldChange,
-    onFieldInputValueChange,
-    onFieldReact,
-    onFieldValueChange,
-    onFormMount,
-    onFormUnmount,
-} from '@formily/core';
-import { createSchemaField, FormConsumer } from '@formily/react';
-import { Label, Table, Link } from 'formily-antd';
+import { createForm, onFieldReact } from '@formily/core';
+import { createSchemaField, FormConsumer, Schema } from '@formily/react';
+import { Label, Table, Link, SpaceDivider } from 'formily-antd';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import ProCard from '@ant-design/pro-card';
 import { useMemo } from 'react';
+import { observable } from '@formily/reactive';
 
 const SchemaField = createSchemaField({
     components: {
@@ -23,47 +14,44 @@ const SchemaField = createSchemaField({
         Table,
         Label,
         Link,
+        SpaceDivider,
     },
 });
 
-let lastState: any = undefined;
+let lastState = observable({
+    data: [
+        {
+            name: 'fish',
+            age: 123,
+        },
+        {
+            name: 'cat',
+            age: 456,
+        },
+        {
+            name: 'dog',
+            age: 789,
+        },
+    ],
+});
 
 export default () => {
     const form = useMemo(() => {
         return createForm({
+            values: lastState,
             effects: () => {
-                onFieldReact('data.*.edit', (field) => {
+                onFieldReact('data.*.operation.edit', (field) => {
                     field.componentProps.to = {
                         pathname: '/Link/edit',
                         query: {
-                            name: field.query('.name').value(),
+                            name: field.query('..name').value(),
                         },
                     };
                 });
-                onFormMount(() => {
-                    if (lastState) {
-                        form.setValues(lastState);
-                    } else {
-                        form.setInitialValues({
-                            data: [
-                                {
-                                    name: 'fish',
-                                    age: 123,
-                                },
-                                {
-                                    name: 'cat',
-                                    age: 456,
-                                },
-                                {
-                                    name: 'dog',
-                                    age: 789,
-                                },
-                            ],
-                        });
-                    }
-                });
-                onFormUnmount(() => {
-                    lastState = form.values;
+                onFieldReact('data.*.operation.delete', (field) => {
+                    field.componentProps.onClick = () => {
+                        console.log('del', field.query('..name').value());
+                    };
                 });
             },
         });
@@ -112,10 +100,20 @@ export default () => {
                                     x-component-props={{}}
                                 >
                                     <SchemaField.Void
-                                        name="edit"
-                                        title="编辑"
-                                        x-component={'Link'}
-                                    />
+                                        name="operation"
+                                        x-component={'SpaceDivider'}
+                                    >
+                                        <SchemaField.Void
+                                            name="edit"
+                                            title="编辑"
+                                            x-component={'Link'}
+                                        />
+                                        <SchemaField.Void
+                                            name="delete"
+                                            title="删除"
+                                            x-component={'Link'}
+                                        />
+                                    </SchemaField.Void>
                                 </SchemaField.Void>
                             </SchemaField.Void>
                         </SchemaField.Array>

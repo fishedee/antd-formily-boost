@@ -1,8 +1,8 @@
 import React, { Fragment } from 'React';
-import { Link } from 'umi';
 import { IVoidFieldProps } from '@formily/core';
 import { useField } from '@formily/react';
 import { observable } from '@formily/reactive';
+import { useHistory } from 'umi';
 
 type LinkToProps =
     | {
@@ -14,11 +14,18 @@ type LinkToProps =
 
 type LinkProps = {
     to: LinkToProps;
+    onClick?: () => void;
 };
 
 const MyLink: React.FC<LinkProps> = observable((props) => {
+    const history = useHistory();
     const field = useField();
-    return <Link to={props.to}>{field.title}</Link>;
+    let onClick = props.onClick
+        ? props.onClick
+        : () => {
+              history.push(props.to);
+          };
+    return <a onClick={onClick}>{field.title}</a>;
 });
 
 export default MyLink;
