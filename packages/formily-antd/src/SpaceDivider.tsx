@@ -1,3 +1,5 @@
+import { observable } from '@formily/reactive';
+import { observer } from '@formily/reactive-react';
 import { Divider } from 'antd';
 import React, { Children, Fragment } from 'react';
 
@@ -5,7 +7,7 @@ type SpaceDividerProps = {
     type?: 'vertical' | 'horizontal';
 };
 
-const SpaceDivider: React.FC<SpaceDividerProps> = (props) => {
+const SpaceDivider: React.FC<SpaceDividerProps> = observer((props) => {
     let type = props.type ? props.type : 'vertical';
     let children = props.children as any;
     let innerChildren = [];
@@ -24,8 +26,7 @@ const SpaceDivider: React.FC<SpaceDividerProps> = (props) => {
         }
         result.push(innerChildren[i]);
     }
-    console.log(result);
     return <Fragment>{result}</Fragment>;
-};
+});
 
 export default SpaceDivider;

@@ -1,3 +1,4 @@
+import { observer } from '@formily/reactive-react';
 import React, { Fragment } from 'react';
 type LabelProps = {
     value: string;
@@ -5,7 +6,7 @@ type LabelProps = {
     suffix?: string;
 };
 
-const Label: React.FC<LabelProps> = (props) => {
+const Label: React.FC<LabelProps> = observer((props) => {
     let result = '';
     if (props.prefix) {
         result += props.prefix;
@@ -15,6 +16,6 @@ const Label: React.FC<LabelProps> = (props) => {
         result += props.suffix;
     }
     return <Fragment>{result}</Fragment>;
-};
+});
 
 export default Label;

@@ -7,7 +7,7 @@ function isRadioColumnType(name?: string) {
 }
 
 function isCheckedColumnType(name?: string) {
-    return name && name.endsWith('.CheckedColumn');
+    return name && name.endsWith('.CheckboxColumn');
 }
 
 function isNestedRowType(name?: string) {
@@ -24,6 +24,8 @@ function isRecursiveRowType(name?: string) {
 
 export {
     isColumnType,
+    isCheckedColumnType,
+    isRadioColumnType,
     isNestedRowType,
     isExpandableRowType,
     isRecursiveRowType,

@@ -7,7 +7,6 @@ import { createSchemaField, FormConsumer } from '@formily/react';
 import { Label, Table } from 'formily-antd';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import ProCard from '@ant-design/pro-card';
-import 'antd/dist/antd.css';
 
 const form = createForm({
     initialValues: {
