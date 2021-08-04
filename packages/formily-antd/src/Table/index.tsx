@@ -47,29 +47,27 @@ function getColumn(schema: Schema): Column[] {
         //当第一次render的时候，Field不存在时，返回值为undefined
         let columnField = form.query(field.address + '.' + schema.name).take();
         let component = schema['x-component'];
-        let isVisible = columnField?.visible || schema['x-visible'];
+        let isVisible = columnField ? columnField.visible : schema['x-visible'];
         if (isVisible == false) {
             return [];
         }
         if (isColumnType(component)) {
             //获取该列的信息
             const style: ColumnProps = {};
-            style.width =
-                columnField?.componentProps?.width ||
-                schema['x-component-props']?.width;
-            style.ellipsis =
-                columnField?.componentProps?.ellipsis ||
-                schema['x-component-props']?.ellipsis;
-            style.fixed =
-                columnField?.componentProps?.fixed ||
-                schema['x-component-props']?.fixed;
+            style.width = columnField
+                ? columnField.componentProps?.width
+                : schema['x-component-props']?.width;
+            style.ellipsis = columnField
+                ? columnField.componentProps?.ellipsis
+                : schema['x-component-props']?.ellipsis;
+            style.fixed = columnField
+                ? columnField.componentProps?.fixed
+                : schema['x-component-props']?.fixed;
             return [
                 {
                     key: schema.name + '',
                     dataIndex: schema.name + '',
-                    title:
-                        columnField?.componentProps?.title ||
-                        schema['x-component-props']?.title,
+                    title: columnField ? columnField.title : schema.title,
                     schema: schema,
                     ...style,
                 },

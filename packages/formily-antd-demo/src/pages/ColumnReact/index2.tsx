@@ -1,19 +1,33 @@
 import {
     createForm,
-    Field,
-    IFormState,
-    onFieldChange,
     onFieldInputValueChange,
     onFieldReact,
-    onFieldValueChange,
-    onFormMount,
-    onFormUnmount,
 } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
-import { Label, Table, Link } from 'formily-antd';
+import { Label, Table } from 'formily-antd';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import ProCard from '@ant-design/pro-card';
-import { useMemo } from 'react';
+import 'antd/dist/antd.css';
+
+const form = createForm({
+    initialValues: {
+        data: [
+            {
+                name: 'fish',
+                age: 123,
+            },
+            {
+                name: 'cat',
+                age: 456,
+            },
+            {
+                name: 'dog',
+                age: 789,
+            },
+        ],
+    },
+    effects: () => {},
+});
 
 const SchemaField = createSchemaField({
     components: {
@@ -22,52 +36,10 @@ const SchemaField = createSchemaField({
         Select,
         Table,
         Label,
-        Link,
     },
 });
 
-let lastState: any = undefined;
-
 export default () => {
-    const form = useMemo(() => {
-        return createForm({
-            effects: () => {
-                onFieldReact('data.*.edit', (field) => {
-                    field.componentProps.to = {
-                        pathname: '/Link/edit',
-                        query: {
-                            name: field.query('.name').value(),
-                        },
-                    };
-                });
-                onFormMount(() => {
-                    if (lastState) {
-                        form.setValues(lastState);
-                    } else {
-                        form.setInitialValues({
-                            data: [
-                                {
-                                    name: 'fish',
-                                    age: 123,
-                                },
-                                {
-                                    name: 'cat',
-                                    age: 456,
-                                },
-                                {
-                                    name: 'dog',
-                                    age: 789,
-                                },
-                            ],
-                        });
-                    }
-                });
-                onFormUnmount(() => {
-                    lastState = form.values;
-                });
-            },
-        });
-    }, []);
     return (
         <Space
             style={{
@@ -84,9 +56,22 @@ export default () => {
                         <SchemaField.Array name="data" x-component="Table">
                             <SchemaField.Void>
                                 <SchemaField.Void
+                                    name="firstColumn"
                                     title="名字"
                                     x-component="Table.Column"
-                                    x-component-props={{}}
+                                    x-component-props={{
+                                        width: '50%',
+                                    }}
+                                    //FIXME 用Schema Reaction无效
+                                    x-reactions={{
+                                        dependencies: ['.*.name'],
+                                        effects: ['onFieldInputValueChange'],
+                                        fulfill: {
+                                            state: {
+                                                title: '{{$deps[0]}}',
+                                            },
+                                        },
+                                    }}
                                 >
                                     <SchemaField.String
                                         name="name"
@@ -99,22 +84,13 @@ export default () => {
                                 <SchemaField.Void
                                     title="年龄"
                                     x-component="Table.Column"
-                                    x-component-props={{}}
+                                    x-component-props={{
+                                        width: '50%',
+                                    }}
                                 >
                                     <SchemaField.String
                                         name="age"
                                         x-component={'Label'}
-                                    />
-                                </SchemaField.Void>
-                                <SchemaField.Void
-                                    title="操作"
-                                    x-component="Table.Column"
-                                    x-component-props={{}}
-                                >
-                                    <SchemaField.Void
-                                        name="edit"
-                                        title="编辑"
-                                        x-component={'Link'}
                                     />
                                 </SchemaField.Void>
                             </SchemaField.Void>
