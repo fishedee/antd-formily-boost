@@ -18,41 +18,25 @@ const SchemaField = createSchemaField({
     },
 });
 
-let lastState = observable({
-    data: [
-        {
-            name: 'fish',
-            age: 123,
-        },
-        {
-            name: 'edit_false',
-            age: 456,
-        },
-        {
-            name: 'dog',
-            age: 789,
-        },
-    ],
+type DataType = {
+    name: string;
+    age: number;
+};
+let lastState: { data: DataType[] } = observable({
+    data: [],
 });
+
+for (var i = 0; i != 100; i++) {
+    lastState.data.push({
+        name: 'fish_' + i,
+        age: i,
+    });
+}
 
 export default () => {
     const form = useMemo(() => {
         return createForm({
             values: lastState,
-            effects: () => {
-                onFieldReact('data.*.operation.edit', (field) => {
-                    //visible与name有关
-                    field.visible =
-                        field.query('..name').value() != 'edit_false';
-                });
-                onFieldReact('data.*.operation.delete', (field) => {
-                    //在field初始化后设置为true
-                    field.visible = true;
-                    field.componentProps.onClick = () => {
-                        console.log('del', field.query('..name').value());
-                    };
-                });
-            },
         });
     }, []);
     return (
@@ -92,29 +76,6 @@ export default () => {
                                         name="age"
                                         x-component={'Label'}
                                     />
-                                </SchemaField.Void>
-                                <SchemaField.Void
-                                    title="操作"
-                                    x-component="Table.Column"
-                                    x-component-props={{}}
-                                >
-                                    <SchemaField.Void
-                                        name="operation"
-                                        x-component={'SpaceDivider'}
-                                    >
-                                        <SchemaField.Void
-                                            name="edit"
-                                            title="编辑"
-                                            x-component={'Link'}
-                                        />
-                                        <SchemaField.Void
-                                            name="delete"
-                                            title="删除"
-                                            x-component={'Link'}
-                                            //在Schema中默认填写为false
-                                            x-visible={false}
-                                        />
-                                    </SchemaField.Void>
                                 </SchemaField.Void>
                             </SchemaField.Void>
                         </SchemaField.Array>

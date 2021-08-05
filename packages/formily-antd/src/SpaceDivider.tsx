@@ -9,23 +9,32 @@ type SpaceDividerProps = {
     type?: 'vertical' | 'horizontal';
 };
 
-function getColumns(schema: Schema): Schema[] {
+type Column = {
+    visible?: boolean;
+    schema: Schema;
+    name: string;
+};
+//所有Column都要拿出来，即使visible为false，因为Column的隐藏状态时，也要createField，使得它的effects能运行起来
+function getColumns(schema: Schema): Column[] {
     const form = useForm();
     const field = useField();
-    const parseSource = (schema: Schema): Schema[] => {
+    const parseSource = (schema: Schema): Column[] => {
         let columnField = form.query(field.address + '.' + schema.name).take();
         let isVisible = columnField ? columnField.visible : schema['x-visible'];
-        if (isVisible === false) {
-            return [];
-        }
-        return [schema];
+        return [
+            {
+                visible: isVisible,
+                schema: schema,
+                name: schema.name + '',
+            },
+        ];
     };
-    const reduceProperties = (schema: Schema): Schema[] => {
+    const reduceProperties = (schema: Schema): Column[] => {
         //对于items里面的每个schema，每个Schema为Void字段，遍历它的Properties
         if (schema.properties) {
             return schema.reduceProperties((current, preSchema) => {
                 return current.concat(parseSource(preSchema));
-            }, [] as Schema[]);
+            }, [] as Column[]);
         } else {
             return [];
         }
@@ -37,18 +46,23 @@ function getColumns(schema: Schema): Schema[] {
 const SpaceDivider: React.FC<SpaceDividerProps> = observer((props) => {
     let type = props.type ? props.type : 'vertical';
     const schema = useFieldSchema();
-    const properties: Schema[] = getColumns(schema);
+    const columns: Column[] = getColumns(schema);
     let result = [];
-    for (var i = 0; i != properties.length; i++) {
-        if (i != 0) {
+    let showIndex = 0;
+    for (var i = 0; i != columns.length; i++) {
+        let isShow = columns[i].visible === true;
+        if (isShow && showIndex != 0) {
             result.push(<Divider type={type} key={'_divider_' + i} />);
         }
-        let single = properties[i];
+        if (isShow) {
+            showIndex++;
+        }
+        let single = columns[i];
         result.push(
             <RecursionField
                 key={'_field_' + single.name}
                 name={single.name}
-                schema={single}
+                schema={single.schema}
             />
         );
     }

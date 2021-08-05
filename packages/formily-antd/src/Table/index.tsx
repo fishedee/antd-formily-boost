@@ -7,7 +7,7 @@ import {
     useForm,
 } from '@formily/react';
 import { observer } from '@formily/reactive-react';
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, useMemo } from 'react';
 import { Table } from 'antd';
 import { ReactElement } from 'react';
 import {
@@ -15,13 +15,14 @@ import {
     isCheckboxColumnType,
     isRadioColumnType,
 } from './IsType';
-import { ColumnsType, ColumnType } from 'antd/lib/table';
+import { ColumnsType, ColumnType, TablePaginationConfig } from 'antd/lib/table';
 import { ArrayIndexContextProvider } from './Context';
 import { ColumnGroupType } from 'antd/lib/table';
 import Column, { ColumnProps } from './Column';
 import CheckedColumn, { CheckboxColumnProps } from './CheckboxColumn';
 import { RowSelectionType, TableRowSelection } from 'antd/lib/table/interface';
 import RadioColumn, { RadioColumnProps } from './RadioColumn';
+import { observable } from '@formily/reactive';
 
 type TextProps = {
     value: string;
@@ -101,6 +102,9 @@ function getColumn(schema: Schema): Column[] {
                     ? columnField.componentProps?.checkStrictly
                     : schema['x-component-props']?.checkStrictly,
             };
+            if (!style.dataIndex) {
+                style.dataIndex = '_selected';
+            }
             return [
                 {
                     ...columnBase,
@@ -127,6 +131,9 @@ function getColumn(schema: Schema): Column[] {
                     ? columnField.componentProps?.selectRowByClick
                     : schema['x-component-props']?.selectRowByClick,
             };
+            if (!style.dataIndex) {
+                style.dataIndex = '_selected';
+            }
             return [
                 {
                     ...columnBase,
@@ -228,10 +235,15 @@ function getRowSelection(
         return { selection: undefined, rowWrapper: undefined };
     }
     column = rowSelectionColumns[0];
+    const dataIndex = column.rowSelectionColumnProps!.dataIndex!;
     let selectedRowKeys: any[] = [];
     for (var i = 0; i != data.length; i++) {
         let single = data[i];
-        if (single[column.rowSelectionColumnProps!.dataIndex!]) {
+        //初始化每个值为false
+        if (single[dataIndex] === undefined) {
+            single[dataIndex] = false;
+        }
+        if (single[dataIndex]) {
             selectedRowKeys.push(i + '');
         }
     }
@@ -241,19 +253,23 @@ function getRowSelection(
         columnTitle: column.title,
         columnWidth: column.rowSelectionColumnProps!.width,
         selectedRowKeys: selectedRowKeys,
-        onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
-            let selectedKey: { [key in number]: boolean } = {};
-            for (let i in selectedRowKeys) {
-                let index = selectedRowKeys[i] as number;
-                selectedKey[index] = true;
+        onChange: (newSelectedRowKeys: React.Key[], selectedRows: any[]) => {
+            //虽然这里没有使用Batch来触发更改数据，但是只会产生1次Render，可能是observer的优化问题
+            let newSelectedKeyMap: { [key in number]: boolean } = {};
+            for (let i in newSelectedRowKeys) {
+                let index = newSelectedRowKeys[i] as number;
+                newSelectedKeyMap[index] = true;
             }
-            for (let i = 0; i != data.length; i++) {
-                let single = data[i];
-                if (selectedKey[i]) {
-                    single[column.rowSelectionColumnProps!.dataIndex!] = true;
-                } else {
-                    single[column.rowSelectionColumnProps!.dataIndex!] = false;
+            //先将旧值设置为false
+            for (let i = 0; i != selectedRowKeys.length; i++) {
+                let index = selectedRowKeys[i];
+                if (!newSelectedKeyMap[index]) {
+                    data[index][dataIndex] = false;
                 }
+            }
+            for (let i = 0; i != newSelectedRowKeys.length; i++) {
+                let index = newSelectedRowKeys[i] as number;
+                data[index][dataIndex] = true;
             }
         },
         selections: [
@@ -267,7 +283,6 @@ function getRowSelection(
         rowWrapper = (props) => {
             const rowKey = props['data-row-key'];
             const onClick = () => {
-                let dataIndex = column.rowSelectionColumnProps!.dataIndex!;
                 if (column.rowSelectionColumnProps?.type == 'radio') {
                     //radio是清空原来的
                     if (selectedRowKeys.length != 0) {
@@ -296,8 +311,64 @@ function getRowSelection(
         rowWrapper: rowWrapper,
     };
 }
-type PropsType = Field & {
-    children: (index: number) => ReactElement;
+
+export type PaginationType = {
+    current: number;
+    pageSize: number;
+    total?: number;
+};
+
+type PaginationPropsType = {
+    defaultPageSize?: number;
+    showQuickJumper?: boolean;
+    showSizeChanger?: boolean;
+    showTotal?: boolean;
+    pageSizeOptions?: string[];
+};
+
+function getPagination(
+    totalSize: number,
+    paginaction?: PaginationType,
+    paginationProps?: PaginationPropsType
+): TablePaginationConfig | false {
+    if (!paginationProps || !paginaction) {
+        return false;
+    }
+    //重新当前页
+    if (paginaction.current < 1) {
+        paginaction.current = 1;
+    }
+    if (paginaction.total !== undefined) {
+        totalSize = paginaction.total;
+    }
+    const maxPage = Math.ceil(totalSize / paginaction.pageSize) + 1;
+    if (paginaction.current > maxPage) {
+        paginaction.current = maxPage;
+    }
+    let result: TablePaginationConfig = {
+        current: paginaction.current,
+        onChange: (current: number) => {
+            paginaction.current = current;
+        },
+        pageSize: paginaction.pageSize,
+        onShowSizeChange: (current: number, pageSize: number) => {
+            paginaction.current = current;
+            paginaction.pageSize = pageSize;
+        },
+        total: paginaction.total,
+        showQuickJumper: paginationProps.showQuickJumper,
+        showSizeChanger: paginationProps.showSizeChanger,
+        pageSizeOptions: paginationProps.pageSizeOptions,
+        showTotal: paginationProps.showTotal
+            ? (total, range) => `共${total}条`
+            : undefined,
+    };
+    return result;
+}
+
+type PropsType = {
+    paginaction?: PaginationType;
+    paginationProps?: PaginationPropsType;
 };
 
 type MyTableType = React.FC<PropsType> & {
@@ -314,6 +385,13 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const dataSource = getDataSource(field.value, tableColumns);
     const dataColumns: ColumnsType<any> = getDataColumns(tableColumns);
     const rowSelection = getRowSelection(field.value, tableColumns);
+
+    const pagination = getPagination(
+        dataSource.length,
+        props.paginaction,
+        props.paginationProps
+    );
+    console.log('Table Render');
     return (
         <Fragment>
             <Table
@@ -322,6 +400,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                 columns={dataColumns}
                 dataSource={dataSource}
                 rowSelection={rowSelection.selection}
+                pagination={pagination}
                 components={{
                     body: {
                         row: rowSelection.rowWrapper,
