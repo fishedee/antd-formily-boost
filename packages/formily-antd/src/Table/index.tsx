@@ -224,7 +224,7 @@ function getRowSelection(
         return column.type == 'rowSelectionColumn';
     });
     let column: Column;
-    if (rowSelectionColumns.length < 0) {
+    if (rowSelectionColumns.length <= 0) {
         return { selection: undefined, rowWrapper: undefined };
     }
     column = rowSelectionColumns[0];
