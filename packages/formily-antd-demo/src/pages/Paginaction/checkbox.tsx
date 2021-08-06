@@ -74,7 +74,6 @@ export default () => {
                                     x-component="Table.CheckboxColumn"
                                     x-component-props={{
                                         dataIndex: '_checked',
-                                        selectRowByClick: true,
                                     }}
                                 />
                                 <SchemaField.Void
@@ -86,7 +85,7 @@ export default () => {
                                         name="name"
                                         required={true}
                                         x-component={'Input'}
-                                        x-decorator="FormItem"
+                                        x-decorator={'FormItem'}
                                     />
                                 </SchemaField.Void>
 

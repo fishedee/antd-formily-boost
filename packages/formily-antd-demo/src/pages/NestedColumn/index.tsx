@@ -42,21 +42,7 @@ export default () => {
     const form = useMemo(() => {
         return createForm({
             values: lastState,
-            effects: () => {
-                onFieldReact('data.*.operation.edit', (field) => {
-                    field.componentProps.to = {
-                        pathname: '/Link/edit',
-                        query: {
-                            name: field.query('..lastName').value(),
-                        },
-                    };
-                });
-                onFieldReact('data.*.operation.delete', (field) => {
-                    field.componentProps.onClick = () => {
-                        console.log('del', field.query('..lastName').value());
-                    };
-                });
-            },
+            effects: () => {},
         });
     }, []);
     return (

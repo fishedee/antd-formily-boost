@@ -1,0 +1,10 @@
+.formily_antd_none_checkbox {
+}
+
+.formily_antd_none_checkbox .ant-table-selection-column {
+    display: none;
+}
+
+.formily_antd_none_checkbox .ant-table-selection-col {
+    display: none;
+}

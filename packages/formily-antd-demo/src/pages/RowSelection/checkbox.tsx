@@ -62,6 +62,7 @@ export default () => {
                                     x-component-props={{
                                         dataIndex: '_checked',
                                         width: '100px',
+
                                         //可以设定是否固定在左侧
                                         //fixed:true
                                     }}

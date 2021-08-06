@@ -4,6 +4,7 @@ type RadioColumnProps = {
     fixed?: boolean;
     width?: string;
     selectRowByClick?: boolean;
+    hidden?: boolean;
 };
 
 const RadioColumn: React.FC<RadioColumnProps> = (props) => {

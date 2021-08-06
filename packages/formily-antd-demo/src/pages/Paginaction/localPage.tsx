@@ -62,11 +62,7 @@ export default () => {
                             x-component="Table"
                             x-component-props={{
                                 paginaction: lastState.paginaction,
-                                paginationProps: {
-                                    defaultPageSize: 10,
-                                    showQuickJumper: true,
-                                    showTotal: true,
-                                },
+                                paginationProps: {},
                             }}
                         >
                             <SchemaField.Void>

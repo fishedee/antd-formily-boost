@@ -5,7 +5,6 @@ import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import ProCard from '@ant-design/pro-card';
 import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
-import { PaginationType } from 'formily-antd/Table';
 
 const SchemaField = createSchemaField({
     components: {
@@ -19,29 +18,28 @@ const SchemaField = createSchemaField({
     },
 });
 
-type DataType = {
-    name: string;
-    age: number;
-};
-let lastState: { data: DataType[]; pagniaction: PaginationType } = observable({
-    data: [],
-    pagniaction: {
-        current: 0,
-        pageSize: 10,
-    },
+let lastState = observable({
+    data: [
+        {
+            name: 'fish',
+            age: 123,
+        },
+        {
+            name: 'cat',
+            age: 456,
+        },
+        {
+            name: 'dog',
+            age: 789,
+        },
+    ],
 });
-
-for (var i = 0; i != 100; i++) {
-    lastState.data.push({
-        name: 'fish_' + i,
-        age: i,
-    });
-}
 
 export default () => {
     const form = useMemo(() => {
         return createForm({
             values: lastState,
+            effects: () => {},
         });
     }, []);
     return (
@@ -57,29 +55,14 @@ export default () => {
             <ProCard title="基础">
                 <Form form={form} feedbackLayout="terse">
                     <SchemaField>
-                        <SchemaField.Array
-                            name="data"
-                            x-component="Table"
-                            x-component-props={{
-                                paginaction: lastState.pagniaction,
-                                paginationProps: {
-                                    defaultPageSize: 10,
-                                    showQuickJumper: true,
-                                    showTotal: true,
-                                },
-                            }}
-                        >
+                        <SchemaField.Array name="data" x-component="Table">
                             <SchemaField.Void>
-                                <SchemaField.Void
-                                    x-component="Table.RadioColumn"
-                                    x-component-props={{
-                                        dataIndex: '_checked',
-                                    }}
-                                />
                                 <SchemaField.Void
                                     title="名字"
                                     x-component="Table.Column"
-                                    x-component-props={{}}
+                                    x-component-props={{
+                                        width: '33%',
+                                    }}
                                 >
                                     <SchemaField.String
                                         name="name"
@@ -92,12 +75,37 @@ export default () => {
                                 <SchemaField.Void
                                     title="年龄"
                                     x-component="Table.Column"
-                                    x-component-props={{}}
+                                    x-component-props={{
+                                        width: '33%',
+                                    }}
                                 >
                                     <SchemaField.String
                                         name="age"
                                         x-component={'Label'}
                                     />
+                                </SchemaField.Void>
+                                <SchemaField.Void
+                                    title="操作"
+                                    x-component="Table.Column"
+                                    x-component-props={{
+                                        width: '33%',
+                                    }}
+                                >
+                                    <SchemaField.Void
+                                        name="operation"
+                                        x-component={'SpaceDivider'}
+                                    >
+                                        <SchemaField.Void
+                                            name="edit"
+                                            title="编辑"
+                                            x-component={'Link'}
+                                        />
+                                        <SchemaField.Void
+                                            name="delete"
+                                            title="删除"
+                                            x-component={'Link'}
+                                        />
+                                    </SchemaField.Void>
                                 </SchemaField.Void>
                             </SchemaField.Void>
                         </SchemaField.Array>

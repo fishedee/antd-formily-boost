@@ -22,11 +22,6 @@ import Column, { ColumnProps } from './Column';
 import CheckedColumn, { CheckboxColumnProps } from './CheckboxColumn';
 import { RowSelectionType, TableRowSelection } from 'antd/lib/table/interface';
 import RadioColumn, { RadioColumnProps } from './RadioColumn';
-import { observable } from '@formily/reactive';
-
-type TextProps = {
-    value: string;
-};
 
 type Column = {
     title: string;
@@ -101,6 +96,9 @@ function getColumn(schema: Schema): Column[] {
                 checkStrictly: columnField
                     ? columnField.componentProps?.checkStrictly
                     : schema['x-component-props']?.checkStrictly,
+                hidden: columnField
+                    ? columnField.componentProps?.hidden
+                    : schema['x-component-props']?.hidden,
             };
             if (!style.dataIndex) {
                 style.dataIndex = '_selected';
@@ -130,6 +128,9 @@ function getColumn(schema: Schema): Column[] {
                 selectRowByClick: columnField
                     ? columnField.componentProps?.selectRowByClick
                     : schema['x-component-props']?.selectRowByClick,
+                hidden: columnField
+                    ? columnField.componentProps?.hidden
+                    : schema['x-component-props']?.hidden,
             };
             if (!style.dataIndex) {
                 style.dataIndex = '_selected';
@@ -188,6 +189,7 @@ function getDataColumns(
         ) {
             let single: ColumnGroupType<unknown> = {
                 ...column,
+                ...column.columnProps,
                 children: column.columnProps.children
                     .filter((column) => {
                         return column.type == 'column';
@@ -198,6 +200,7 @@ function getDataColumns(
         } else {
             let single: ColumnType<unknown> = {
                 ...column,
+                ...column.columnProps,
                 render: (value: any, record: any, index: number) => {
                     return (
                         <ArrayIndexContextProvider value={record._index}>
@@ -220,19 +223,33 @@ function getDataColumns(
         .map(convertColumn);
 }
 
+//rowSelection的设计的三个目标
+//1. 数组的每个元素的_rowSelected值都需要初始化为false
+// * 使用renderCell里面的createField每个元素是不行的，因为在Table分页的时候有些元素的ReactNode根本就没有创建出来
+// * 目前的方案只能显式地通过data[i]._rowSelected = false 来初始化每个元素
+//2. _rowSelected的每个Field值能响应effected，同时Field的disabled来控制该checkbox是否可用
+// * 这只能通过在renderCell里面创建field来实现，同时在getCheckboxProps中控制是否可用，但是性能损耗较大
+// * 暂时没有找到合适的解决方案，这里并没有得到实现
+//3. 尽可能减少render，当数组元素checked的时候，不会整个Table的render，而只是局部的render
+// * 使用每个Field类型为Checkbox来代替Table组件的rowSelection，Column的头部为单独的Checkbox组件，但是这样会造成原有的选中样式丢失了
+// * 暂时没有找到合适的解决方案，这里并没有得到实现
+//4. 选中行但是不显示rowSelection列，仅仅是显式底色，功能依然可以通过点击行来实现选择行。
+// * 返回一个新的classname
+
 function getRowSelection(
     data: any[],
     columns: Column[]
 ): {
     selection: TableRowSelection<any> | undefined;
     rowWrapper: React.FC<any> | undefined;
+    className: string[];
 } {
     let rowSelectionColumns = columns.filter((column) => {
         return column.type == 'rowSelectionColumn';
     });
     let column: Column;
     if (rowSelectionColumns.length <= 0) {
-        return { selection: undefined, rowWrapper: undefined };
+        return { selection: undefined, rowWrapper: undefined, className: [] };
     }
     column = rowSelectionColumns[0];
     const dataIndex = column.rowSelectionColumnProps!.dataIndex!;
@@ -306,9 +323,15 @@ function getRowSelection(
         };
     }
 
+    let className: string[] = [];
+    if (column.rowSelectionColumnProps?.hidden === true) {
+        className = ['formily_antd_none_checkbox'];
+    }
+
     return {
         selection: rowSelection,
         rowWrapper: rowWrapper,
+        className: className,
     };
 }
 
@@ -331,7 +354,7 @@ function getPagination(
     paginaction?: PaginationType,
     paginationProps?: PaginationPropsType
 ): TablePaginationConfig | false {
-    if (!paginationProps || !paginaction) {
+    if (!paginaction) {
         return false;
     }
     //重新当前页
@@ -356,10 +379,10 @@ function getPagination(
             paginaction.pageSize = pageSize;
         },
         total: paginaction.total,
-        showQuickJumper: paginationProps.showQuickJumper,
-        showSizeChanger: paginationProps.showSizeChanger,
-        pageSizeOptions: paginationProps.pageSizeOptions,
-        showTotal: paginationProps.showTotal
+        showQuickJumper: paginationProps?.showQuickJumper,
+        showSizeChanger: paginationProps?.showSizeChanger,
+        pageSizeOptions: paginationProps?.pageSizeOptions,
+        showTotal: paginationProps?.showTotal
             ? (total, range) => `共${total}条`
             : undefined,
     };
@@ -384,6 +407,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
 
     const dataSource = getDataSource(field.value, tableColumns);
     const dataColumns: ColumnsType<any> = getDataColumns(tableColumns);
+
     const rowSelection = getRowSelection(field.value, tableColumns);
 
     const pagination = getPagination(
@@ -391,10 +415,12 @@ const MyTable: MyTableType = observer((props: PropsType) => {
         props.paginaction,
         props.paginationProps
     );
-    console.log('Table Render');
+
+    const allClassName = [...rowSelection.className];
     return (
         <Fragment>
             <Table
+                className={allClassName.join(' ')}
                 rowKey="_index"
                 bordered={true}
                 columns={dataColumns}

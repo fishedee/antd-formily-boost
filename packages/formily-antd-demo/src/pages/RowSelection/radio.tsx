@@ -63,11 +63,6 @@ export default () => {
                                     x-component="Table.RadioColumn"
                                     x-component-props={{
                                         dataIndex: '_radio',
-                                        width: '100px',
-                                        //点击行的时候就是选择该行
-                                        selectRowByClick: true,
-                                        //可以设定是否固定在左侧
-                                        //fixed:true
                                     }}
                                 />
                                 <SchemaField.Void
@@ -79,7 +74,7 @@ export default () => {
                                         name="name"
                                         required={true}
                                         x-component={'Input'}
-                                        x-decorator="FormItem"
+                                        x-decorator={'FormItem'}
                                     />
                                 </SchemaField.Void>
 

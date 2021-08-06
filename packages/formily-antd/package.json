@@ -6,10 +6,10 @@
     "module": "esm",
     "scripts": {
         "start": "rimraf -rf lib esm && npm run build:cjs && npm run build:esm",
-        "watch": "tsc --project tsconfig.json --module es2015 --outDir esm --watch",
+        "watch": "cp src/style.css esm && tsc --project tsconfig.json --module es2015 --outDir esm --watch",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build:cjs": "tsc --project tsconfig.json",
-        "build:esm": "tsc --project tsconfig.json --module es2015 --outDir esm"
+        "build:cjs": "tsc --project tsconfig.json && cp src/style.css lib",
+        "build:esm": "tsc --project tsconfig.json --module es2015 --outDir esm && cp src/style.css esm"
     },
     "repository": {
         "type": "git",
