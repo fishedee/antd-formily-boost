@@ -22,6 +22,10 @@ import Column, { ColumnProps } from './Column';
 import CheckedColumn, { CheckboxColumnProps } from './CheckboxColumn';
 import { RowSelectionType, TableRowSelection } from 'antd/lib/table/interface';
 import RadioColumn, { RadioColumnProps } from './RadioColumn';
+import { useEffect } from 'react';
+import { useRef } from 'react';
+import { TableProps as RcTableProps } from 'rc-table/lib/Table';
+import { useState } from 'react';
 
 type Column = {
     title: string;
@@ -389,9 +393,85 @@ function getPagination(
     return result;
 }
 
+function getScroll(scroll: RcTableProps<any>['scroll']) {
+    return scroll;
+}
+
+type VirtualScrollProps = {
+    itemHeight?: number;
+};
+
+let globalClassId = 10001;
+function getVirtual(
+    dataSource: any[],
+    scroll?: RcTableProps<any>['scroll'],
+    virtualScroll?: VirtualScrollProps
+): { className: string[]; dataSource: any[]; onRow: any } {
+    if (!scroll || !virtualScroll || !dataSource) {
+        return { className: [], dataSource: dataSource, onRow: undefined };
+    }
+    if (!scroll.y || typeof scroll.y != 'number') {
+        console.log(
+            'You have not property set scroll.y，so Virtual Scroll disabled'
+        );
+        return { className: [], dataSource: dataSource, onRow: undefined };
+    }
+    const [scrollTop, setScrollTop] = useState(0);
+    const className = useMemo(() => {
+        globalClassId++;
+        return 'formily_antd_virtual_' + globalClassId;
+    }, []);
+    const tableNode = useRef<Element>();
+    useEffect(() => {
+        tableNode.current = document.querySelector(
+            '.' + className + ' .ant-table-body'
+        )!;
+        const listener = () => {
+            setScrollTop(tableNode.current!.scrollTop);
+        };
+        tableNode.current.addEventListener('scroll', listener);
+        return () => {
+            tableNode.current?.removeEventListener('scroll', listener);
+        };
+    }, []);
+
+    const totalHeight: number = scroll.y;
+    const itemHeight = virtualScroll.itemHeight ? virtualScroll.itemHeight : 38;
+    const visibleCount = Math.ceil(totalHeight / itemHeight) + 10;
+    let firstIndex = 0;
+    firstIndex = Math.floor(scrollTop / itemHeight);
+    //往前5条
+    if (firstIndex - 5 >= 0) {
+        firstIndex = firstIndex - 5;
+    }
+    let endIndex = firstIndex + visibleCount;
+    if (endIndex >= dataSource.length) {
+        endIndex = dataSource.length;
+    }
+    const visibleData = dataSource.slice(firstIndex, endIndex);
+    for (let i = 0; i != visibleData.length; i++) {
+        let single = visibleData[i];
+        let _style: { height?: string } = {};
+        if (i == 0 && firstIndex != 0) {
+            _style.height = firstIndex * itemHeight + 'px';
+        }
+        if (i == visibleData.length - 1 && endIndex != dataSource.length) {
+            _style.height =
+                (dataSource.length - endIndex + 1) * itemHeight + 'px';
+        }
+        single._style = _style;
+    }
+    let onRow = (record: any) => {
+        return { style: record._style };
+    };
+    return { className: [className], dataSource: visibleData, onRow: onRow };
+}
+
 type PropsType = {
     paginaction?: PaginationType;
     paginationProps?: PaginationPropsType;
+    scroll?: RcTableProps<any>['scroll'];
+    virtualScroll?: VirtualScrollProps;
 };
 
 type MyTableType = React.FC<PropsType> & {
@@ -416,7 +496,11 @@ const MyTable: MyTableType = observer((props: PropsType) => {
         props.paginationProps
     );
 
-    const allClassName = [...rowSelection.className];
+    const scroll = getScroll(props.scroll);
+    const virtual = getVirtual(dataSource, props.scroll, props.virtualScroll);
+
+    const allClassName = [rowSelection.className, virtual.className];
+    console.log('Table Render');
     return (
         <Fragment>
             <Table
@@ -424,14 +508,16 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                 rowKey="_index"
                 bordered={true}
                 columns={dataColumns}
-                dataSource={dataSource}
+                dataSource={virtual.dataSource}
                 rowSelection={rowSelection.selection}
                 pagination={pagination}
+                scroll={scroll}
                 components={{
                     body: {
                         row: rowSelection.rowWrapper,
                     },
                 }}
+                onRow={virtual.onRow}
             />
             {tableColumns.map((column) => {
                 //这里实际渲染每个Column，以保证Column能接收到Reaction

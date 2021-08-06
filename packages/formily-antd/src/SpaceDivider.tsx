@@ -19,7 +19,7 @@ function getColumns(schema: Schema): Column[] {
     const form = useForm();
     const field = useField();
     const parseSource = (schema: Schema): Column[] => {
-        let columnField = form.query(field.address + '.' + schema.name).take();
+        let columnField = field.query('.' + schema.name).take();
         let isVisible = columnField ? columnField.visible : schema['x-visible'];
         return [
             {
