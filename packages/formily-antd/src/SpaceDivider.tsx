@@ -43,6 +43,7 @@ function getColumns(schema: Schema): Column[] {
 }
 
 //需要属于Void类型的组件，但是依然使用自己解析schema。因为该组件只在visible的子组件之间插入Divider
+//FIXME 初开始的时候不显示
 const SpaceDivider: React.FC<SpaceDividerProps> = observer((props) => {
     let type = props.type ? props.type : 'vertical';
     const schema = useFieldSchema();

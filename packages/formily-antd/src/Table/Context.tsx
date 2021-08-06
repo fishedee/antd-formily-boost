@@ -13,7 +13,7 @@ const useArray = () => {
     return useContext(ArrayContext);
 };
 
-const userArrayIndex = () => {
+const useArrayIndex = () => {
     return useContext(ArrayIndexContext);
 };
 
@@ -21,5 +21,5 @@ export {
     ArrayContextProvider,
     useArray,
     ArrayIndexContextProvider,
-    userArrayIndex,
+    useArrayIndex,
 };

@@ -16,7 +16,7 @@ import {
     isRadioColumnType,
 } from './IsType';
 import { ColumnsType, ColumnType, TablePaginationConfig } from 'antd/lib/table';
-import { ArrayIndexContextProvider } from './Context';
+import { ArrayContextProvider, ArrayIndexContextProvider } from './Context';
 import { ColumnGroupType } from 'antd/lib/table';
 import Column, { ColumnProps } from './Column';
 import CheckedColumn, { CheckboxColumnProps } from './CheckboxColumn';
@@ -26,6 +26,11 @@ import { useEffect } from 'react';
 import { useRef } from 'react';
 import { TableProps as RcTableProps } from 'rc-table/lib/Table';
 import { useState } from 'react';
+import MyIndex, { MyIndexProps } from './MyIndex';
+import MyRemove, { MyRemoveProps } from './MyRemove';
+import MyMoveUp, { MyMoveUpProps } from './MyMoveUp';
+import MyMoveDown, { MyMoveDownProps } from './MyMoveDown';
+import MyAddition, { MyAdditionProps } from './MyAddition';
 
 type Column = {
     title: string;
@@ -173,7 +178,7 @@ function getColumn(schema: Schema): Column[] {
 
 function getDataSource(data: any[], columns: Column[]): any[] {
     let result = [];
-    for (var i in data) {
+    for (var i = 0; i != data.length; i++) {
         var single = {
             _index: i,
         };
@@ -207,7 +212,9 @@ function getDataColumns(
                 ...column.columnProps,
                 render: (value: any, record: any, index: number) => {
                     return (
-                        <ArrayIndexContextProvider value={record._index}>
+                        <ArrayIndexContextProvider
+                            value={parseInt(record._index)}
+                        >
                             <RecursionField
                                 name={record._index}
                                 schema={column.schema}
@@ -401,6 +408,8 @@ type VirtualScrollProps = {
     itemHeight?: number;
 };
 
+//虚拟列表的做法与用react-window的不同，它仅仅就是将视图的data传入Table组件而已，而是将头部与底部的rowHeight扩大来使得滚动条可用
+//FIXME virtual暂时对checkbox的rowSelection的支持不完整，主要在于传入Table组件的数据仅仅是一小部分，一小部分点击完毕后，会误以为已经全选
 let globalClassId = 10001;
 function getVirtual(
     dataSource: any[],
@@ -437,12 +446,12 @@ function getVirtual(
 
     const totalHeight: number = scroll.y;
     const itemHeight = virtualScroll.itemHeight ? virtualScroll.itemHeight : 38;
-    const visibleCount = Math.ceil(totalHeight / itemHeight) + 10;
+    const visibleCount = Math.ceil(totalHeight / itemHeight) + 6;
     let firstIndex = 0;
     firstIndex = Math.floor(scrollTop / itemHeight);
-    //往前5条
-    if (firstIndex - 5 >= 0) {
-        firstIndex = firstIndex - 5;
+    //往前3条
+    if (firstIndex - 3 >= 0) {
+        firstIndex = firstIndex - 3;
     }
     let endIndex = firstIndex + visibleCount;
     if (endIndex >= dataSource.length) {
@@ -478,6 +487,11 @@ type MyTableType = React.FC<PropsType> & {
     Column?: React.FC<ColumnProps>;
     CheckboxColumn?: React.FC<CheckboxColumnProps>;
     RadioColumn?: React.FC<RadioColumnProps>;
+    Index?: React.FC<MyIndexProps>;
+    Remove?: React.FC<MyRemoveProps>;
+    MoveUp?: React.FC<MyMoveUpProps>;
+    MoveDown?: React.FC<MyMoveDownProps>;
+    Addition?: React.FC<MyAdditionProps>;
 };
 
 const MyTable: MyTableType = observer((props: PropsType) => {
@@ -500,9 +514,9 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const virtual = getVirtual(dataSource, props.scroll, props.virtualScroll);
 
     const allClassName = [rowSelection.className, virtual.className];
-    console.log('Table Render');
+    console.log('Table Render', virtual.dataSource.length);
     return (
-        <Fragment>
+        <ArrayContextProvider value={field}>
             <Table
                 className={allClassName.join(' ')}
                 rowKey="_index"
@@ -524,14 +538,19 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                 //注意要使用onlyRenderSelf
                 return (
                     <RecursionField
-                        key={column.key}
+                        key={'items_' + column.key}
                         name={column.key}
                         schema={column.schema}
                         onlyRenderSelf
                     />
                 );
             })}
-        </Fragment>
+            <RecursionField
+                key={'properties'}
+                schema={fieldSchema}
+                onlyRenderProperties
+            />
+        </ArrayContextProvider>
     );
 });
 
@@ -540,5 +559,15 @@ MyTable.Column = Column;
 MyTable.CheckboxColumn = CheckedColumn;
 
 MyTable.RadioColumn = RadioColumn;
+
+MyTable.Index = MyIndex;
+
+MyTable.Remove = MyRemove;
+
+MyTable.MoveUp = MyMoveUp;
+
+MyTable.MoveDown = MyMoveDown;
+
+MyTable.Addition = MyAddition;
 
 export default MyTable;

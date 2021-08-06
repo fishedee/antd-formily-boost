@@ -18,17 +18,22 @@ const SchemaField = createSchemaField({
     },
 });
 
-let lastState: any = observable({
-    data: [],
+let lastState = observable({
+    data: [
+        {
+            name: 'fish',
+            age: 123,
+        },
+        {
+            name: 'edit_false',
+            age: 456,
+        },
+        {
+            name: 'dog',
+            age: 789,
+        },
+    ],
 });
-
-for (var i = 0; i != 100000; i++) {
-    lastState.data.push({
-        id: i + 1,
-        name: 'fish_' + i,
-        age: i,
-    });
-}
 
 export default () => {
     const form = useMemo(() => {
@@ -50,83 +55,65 @@ export default () => {
             <ProCard title="基础">
                 <Form form={form} feedbackLayout="terse">
                     <SchemaField>
-                        <SchemaField.Array
-                            name="data"
-                            x-component="Table"
-                            x-component-props={{
-                                //默认不打开virtualScroll
-                                scroll: {
-                                    x: 2000,
-                                    y: 300,
-                                },
-                                virtualScroll: {},
-                            }}
-                        >
+                        <SchemaField.Array name="data" x-component="Table">
                             <SchemaField.Void>
                                 <SchemaField.Void
                                     title="序号"
                                     x-component="Table.Column"
-                                    x-component-props={{
-                                        fixed: 'left',
-                                        width: 100,
-                                    }}
+                                    x-component-props={{}}
                                 >
-                                    <SchemaField.String
-                                        name="id"
-                                        x-component={'Label'}
-                                    />
+                                    <SchemaField.Void x-component="Table.Index" />
                                 </SchemaField.Void>
                                 <SchemaField.Void
-                                    title="名字2"
+                                    title="名字"
                                     x-component="Table.Column"
-                                    x-component-props={{
-                                        width: 300,
-                                    }}
-                                >
-                                    <SchemaField.String
-                                        name="name"
-                                        x-component={'Label'}
-                                    />
-                                </SchemaField.Void>
-                                <SchemaField.Void
-                                    title="名字3"
-                                    x-component="Table.Column"
-                                    x-component-props={{
-                                        width: 300,
-                                    }}
-                                >
-                                    <SchemaField.String
-                                        name="name"
-                                        x-component={'Label'}
-                                    />
-                                </SchemaField.Void>
-                                <SchemaField.Void
-                                    title="名字4"
-                                    x-component="Table.Column"
-                                    x-component-props={{
-                                        width: 300,
-                                    }}
+                                    x-component-props={{}}
                                 >
                                     <SchemaField.String
                                         name="name"
                                         required={true}
-                                        x-component={'Label'}
+                                        x-component={'Input'}
+                                        x-decorator="FormItem"
                                     />
                                 </SchemaField.Void>
 
                                 <SchemaField.Void
                                     title="年龄"
                                     x-component="Table.Column"
-                                    x-component-props={{
-                                        width: 300,
-                                    }}
+                                    x-component-props={{}}
                                 >
                                     <SchemaField.String
                                         name="age"
-                                        x-component={'Label'}
+                                        required={true}
+                                        format={'number'}
+                                        x-component={'Input'}
+                                        x-decorator="FormItem"
                                     />
                                 </SchemaField.Void>
+                                <SchemaField.Void
+                                    title="操作"
+                                    x-component="Table.Column"
+                                    x-component-props={{}}
+                                >
+                                    <SchemaField.Void
+                                        name="operation"
+                                        x-component={'SpaceDivider'}
+                                    >
+                                        <SchemaField.Void
+                                            x-component={'Table.MoveUp'}
+                                        />
+                                        <SchemaField.Void
+                                            x-component={'Table.MoveDown'}
+                                        />
+                                        <SchemaField.Void
+                                            x-component={'Table.Remove'}
+                                        />
+                                    </SchemaField.Void>
+                                </SchemaField.Void>
                             </SchemaField.Void>
+                            <SchemaField.Void
+                                x-component={'Table.Addition'}
+                            ></SchemaField.Void>
                         </SchemaField.Array>
                     </SchemaField>
                 </Form>
