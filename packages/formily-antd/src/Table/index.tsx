@@ -31,6 +31,7 @@ import MyRemove, { MyRemoveProps } from './MyRemove';
 import MyMoveUp, { MyMoveUpProps } from './MyMoveUp';
 import MyMoveDown, { MyMoveDownProps } from './MyMoveDown';
 import MyAddition, { MyAdditionProps } from './MyAddition';
+import { throttle } from 'underscore';
 
 type Column = {
     title: string;
@@ -404,12 +405,23 @@ function getScroll(scroll: RcTableProps<any>['scroll']) {
     return scroll;
 }
 
+type VirtualScrollSizeProps = {
+    size: 'default' | 'middle' | 'small';
+    compact: boolean;
+};
 type VirtualScrollProps = {
-    itemHeight?: number;
+    itemHeight?: number | VirtualScrollSizeProps;
 };
 
 //虚拟列表的做法与用react-window的不同，它仅仅就是将视图的data传入Table组件而已，而是将头部与底部的rowHeight扩大来使得滚动条可用
-//FIXME virtual暂时对checkbox的rowSelection的支持不完整，主要在于传入Table组件的数据仅仅是一小部分，一小部分点击完毕后，会误以为已经全选
+//这样做的好处在于：
+//* 可以支持原有的Table组件特性，column的fixed，render，width，行选择的radio，支持rowSpan与colSpan
+//* 使用react-window的效率更高，但是以上所有特性都会丢失
+//FIXME 暂时发现的问题有：
+//* virtual暂时对checkbox的rowSelection的支持不完整，主要在于传入Table组件的数据仅仅是一小部分，一小部分点击完毕后，会误以为已经全选
+//* 对expandable的支持不太完美，在底部行进行expandable会有点小问题
+//TODO 未来要新增的功能有：
+//* 向外部提供scroll控制，滚动到指定的位置
 let globalClassId = 10001;
 function getVirtual(
     dataSource: any[],
@@ -425,6 +437,30 @@ function getVirtual(
         );
         return { className: [], dataSource: dataSource, onRow: undefined };
     }
+    function getHeight(): number {
+        //未设置时
+        if (!virtualScroll?.itemHeight) {
+            return 55;
+        }
+        if (typeof virtualScroll.itemHeight == 'number') {
+            return virtualScroll.itemHeight;
+        }
+        if (virtualScroll.itemHeight.compact === true) {
+            const compactValue = {
+                default: 45,
+                middle: 37,
+                small: 29,
+            };
+            return compactValue[virtualScroll.itemHeight.size || 'default'];
+        } else {
+            const defaultValue = {
+                default: 57,
+                middle: 47,
+                small: 39,
+            };
+            return defaultValue[virtualScroll.itemHeight.size || 'default'];
+        }
+    }
     const [scrollTop, setScrollTop] = useState(0);
     const className = useMemo(() => {
         globalClassId++;
@@ -435,9 +471,10 @@ function getVirtual(
         tableNode.current = document.querySelector(
             '.' + className + ' .ant-table-body'
         )!;
-        const listener = () => {
+        //节流函数，以避免过度渲染
+        const listener = throttle(() => {
             setScrollTop(tableNode.current!.scrollTop);
-        };
+        }, 100);
         tableNode.current.addEventListener('scroll', listener);
         return () => {
             tableNode.current?.removeEventListener('scroll', listener);
@@ -445,7 +482,7 @@ function getVirtual(
     }, []);
 
     const totalHeight: number = scroll.y;
-    const itemHeight = virtualScroll.itemHeight ? virtualScroll.itemHeight : 38;
+    const itemHeight = getHeight();
     const visibleCount = Math.ceil(totalHeight / itemHeight) + 6;
     let firstIndex = 0;
     firstIndex = Math.floor(scrollTop / itemHeight);
@@ -481,6 +518,7 @@ type PropsType = {
     paginationProps?: PaginationPropsType;
     scroll?: RcTableProps<any>['scroll'];
     virtualScroll?: VirtualScrollProps;
+    size?: 'middle' | 'small';
 };
 
 type MyTableType = React.FC<PropsType> & {
@@ -531,6 +569,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                         row: rowSelection.rowWrapper,
                     },
                 }}
+                size={props.size}
                 onRow={virtual.onRow}
             />
             {tableColumns.map((column) => {

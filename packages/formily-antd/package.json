@@ -40,5 +40,9 @@
         "react": ">=16.8.0 || >=17.0.0",
         "react-dom": ">=16.8.0 || >=17.0.0",
         "umi": ">= 3.5.7"
+    },
+    "dependencies": {
+        "@types/underscore": "^1.11.3",
+        "underscore": "^1.13.1"
     }
 }

@@ -59,11 +59,12 @@ export default () => {
                                     x: 2000,
                                     y: 300,
                                 },
+                                size: 'small',
                                 virtualScroll: {
                                     //你可以直接传送每行的高度，也可以告诉Table组件当前使用的哪种主题，compact模式，size是大还是小
                                     itemHeight: {
                                         compact: true,
-                                        size: 'default',
+                                        size: 'small',
                                     },
                                 },
                             }}
