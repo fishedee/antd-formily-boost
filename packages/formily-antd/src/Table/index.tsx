@@ -14,13 +14,18 @@ import {
     isColumnType,
     isCheckboxColumnType,
     isRadioColumnType,
+    isExpandableRowType,
 } from './IsType';
 import { ColumnsType, ColumnType, TablePaginationConfig } from 'antd/lib/table';
 import { ArrayContextProvider, ArrayIndexContextProvider } from './Context';
 import { ColumnGroupType } from 'antd/lib/table';
 import Column, { ColumnProps } from './Column';
 import CheckedColumn, { CheckboxColumnProps } from './CheckboxColumn';
-import { RowSelectionType, TableRowSelection } from 'antd/lib/table/interface';
+import {
+    RowSelectionType,
+    TableRowSelection,
+    ExpandableConfig,
+} from 'antd/lib/table/interface';
 import RadioColumn, { RadioColumnProps } from './RadioColumn';
 import { useEffect } from 'react';
 import { useRef } from 'react';
@@ -32,15 +37,17 @@ import MyMoveUp, { MyMoveUpProps } from './MyMoveUp';
 import MyMoveDown, { MyMoveDownProps } from './MyMoveDown';
 import MyAddition, { MyAdditionProps } from './MyAddition';
 import { throttle } from 'underscore';
+import ExpandableRow, { ExpandableRowProps } from './ExpandableRow';
 
 type Column = {
     title: string;
     dataIndex: string;
     key: string;
     schema: Schema;
-    type: 'column' | 'rowSelectionColumn';
+    type: 'column' | 'rowSelectionColumn' | 'expandableRow';
     columnProps?: ColumnProps & { children: Column[] };
     rowSelectionColumnProps?: { type: RowSelectionType } & CheckboxColumnProps;
+    expandableRrops?: ExpandableRowProps;
 };
 
 function getColumn(schema: Schema): Column[] {
@@ -153,6 +160,19 @@ function getColumn(schema: Schema): Column[] {
                         type: 'radio',
                         ...style,
                     },
+                },
+            ];
+        } else if (isExpandableRowType(component)) {
+            const style: ExpandableRowProps = {
+                expandRowByClick: columnField
+                    ? columnField.componentProps?.expandRowByClick
+                    : schema['x-component-props']?.expandRowByClick,
+            };
+            return [
+                {
+                    ...columnBase,
+                    type: 'expandableRow',
+                    expandableRrops: { ...style },
                 },
             ];
         }
@@ -513,6 +533,33 @@ function getVirtual(
     return { className: [className], dataSource: visibleData, onRow: onRow };
 }
 
+function getExpandable(
+    tableColumns: Column[]
+): ExpandableConfig<any> | undefined {
+    const columns = tableColumns.filter(
+        (column) => column.type == 'expandableRow'
+    );
+    if (columns.length == 0) {
+        return undefined;
+    }
+    let expandableRow = columns[0];
+    const expandedRowRender = (record: any, index: number) => {
+        return (
+            <ArrayIndexContextProvider value={parseInt(record._index)}>
+                <RecursionField
+                    name={record._index}
+                    schema={expandableRow.schema}
+                    onlyRenderProperties
+                />
+            </ArrayIndexContextProvider>
+        );
+    };
+    return {
+        expandedRowRender: expandedRowRender,
+        ...expandableRow.expandableRrops,
+    };
+}
+
 type PropsType = {
     paginaction?: PaginationType;
     paginationProps?: PaginationPropsType;
@@ -525,6 +572,7 @@ type MyTableType = React.FC<PropsType> & {
     Column?: React.FC<ColumnProps>;
     CheckboxColumn?: React.FC<CheckboxColumnProps>;
     RadioColumn?: React.FC<RadioColumnProps>;
+    ExpandableRow?: React.FC<ExpandableRowProps>;
     Index?: React.FC<MyIndexProps>;
     Remove?: React.FC<MyRemoveProps>;
     MoveUp?: React.FC<MyMoveUpProps>;
@@ -551,6 +599,8 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const scroll = getScroll(props.scroll);
     const virtual = getVirtual(dataSource, props.scroll, props.virtualScroll);
 
+    const expandable = getExpandable(tableColumns);
+
     const allClassName = [rowSelection.className, virtual.className];
     console.log('Table Render', virtual.dataSource.length);
     return (
@@ -564,6 +614,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                 rowSelection={rowSelection.selection}
                 pagination={pagination}
                 scroll={scroll}
+                expandable={expandable}
                 components={{
                     body: {
                         row: rowSelection.rowWrapper,
@@ -598,6 +649,8 @@ MyTable.Column = Column;
 MyTable.CheckboxColumn = CheckedColumn;
 
 MyTable.RadioColumn = RadioColumn;
+
+MyTable.ExpandableRow = ExpandableRow;
 
 MyTable.Index = MyIndex;
 
