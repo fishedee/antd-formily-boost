@@ -221,12 +221,12 @@ function getDataSourceRecursive(
     let result = [];
     for (var i = 0; i != data.length; i++) {
         var single: any = {
-            _index: preIndex != '' ? preIndex + '.' + i : i,
+            _index: preIndex != '' ? preIndex + '.' + i : i + '',
             _current: i,
         };
         if (recursiveIndex) {
             let children = data[i][recursiveIndex];
-            if (children) {
+            if (children && children.length != 0) {
                 single._children = getDataSourceRecursive(
                     single._index + '.' + recursiveIndex,
                     children,
@@ -294,6 +294,7 @@ function extractSelection(
     data: any[],
     dataIndex: string,
     result: string[],
+    prevIndex: string,
     recursiveIndex?: string
 ) {
     for (var i = 0; i != data.length; i++) {
@@ -302,11 +303,21 @@ function extractSelection(
         if (single[dataIndex] === undefined) {
             single[dataIndex] = false;
         }
+        const currentIndex = prevIndex != '' ? prevIndex + '.' + i : i + '';
         if (single[dataIndex]) {
-            result.push(single._index);
+            result.push(currentIndex);
         }
         if (recursiveIndex) {
-            extractSelection(data, dataIndex, result, recursiveIndex);
+            let children = single[recursiveIndex];
+            if (children && children.length != 0) {
+                extractSelection(
+                    children,
+                    dataIndex,
+                    result,
+                    currentIndex + '.' + recursiveIndex,
+                    recursiveIndex
+                );
+            }
         }
     }
 }
@@ -414,7 +425,7 @@ function getRowSelection(
     let selectedRowKeys: string[] = [];
 
     //从data里面抽取selection
-    extractSelection(data, dataIndex, selectedRowKeys, recursiveIndex);
+    extractSelection(data, dataIndex, selectedRowKeys, '', recursiveIndex);
 
     const rowSelection: TableRowSelection<any> = {
         type: column.rowSelectionColumnProps!.type,
@@ -745,8 +756,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const expandable = getExpandable(tableColumns);
 
     const allClassName = [...rowSelection.className, ...virtual.className];
-    console.log('');
-    console.log('Table Render rowSelection', virtual.dataSource.length);
+    console.log('Table Render', virtual.dataSource.length);
     return (
         <ArrayContextProvider value={field}>
             <Table

@@ -97,7 +97,10 @@ export default () => {
                     <SchemaField>
                         <SchemaField.Array name="data" x-component="Table">
                             <SchemaField.Void>
-                                <SchemaField.Void x-component="Table.CheckboxColumn" />
+                                <SchemaField.Void
+                                    x-component="Table.CheckboxColumn"
+                                    x-component-props={{ checkStrictly: true }}
+                                />
                                 <SchemaField.Void
                                     title="名字"
                                     x-component="Table.Column"

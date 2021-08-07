@@ -1,8 +1,15 @@
-# formily-antd
+# umi project
 
-这是一个在官方的[@Formily/antd](https://antd.formilyjs.org/)包以外的，试图以 formily 的方式整合 antd 的库
+## Getting Started
 
-它的特点在于：
+Install dependencies,
 
-- 以展示组件为主
-- 更强的 Table 表格功能
+```bash
+$ yarn
+```
+
+Start the dev server,
+
+```bash
+$ yarn start
+```
