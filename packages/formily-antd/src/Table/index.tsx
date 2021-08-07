@@ -216,12 +216,12 @@ function getColumn(schema: Schema): Column[] {
 function getDataSourceRecursive(
     preIndex: string,
     data: any[],
-    recursiveIndex: string
+    recursiveIndex?: string
 ): any[] {
     let result = [];
     for (var i = 0; i != data.length; i++) {
         var single: any = {
-            _index: preIndex + '.' + i,
+            _index: preIndex != '' ? preIndex + '.' + i : i,
             _current: i,
         };
         if (recursiveIndex) {
@@ -240,26 +240,7 @@ function getDataSourceRecursive(
 }
 
 function getDataSource(data: any[], recursiveIndex?: string): any[] {
-    let result = [];
-    for (var i = 0; i != data.length; i++) {
-        var single: any = {
-            _index: i,
-            _current: i,
-        };
-
-        if (recursiveIndex) {
-            let children = data[i][recursiveIndex];
-            if (children) {
-                single._children = getDataSourceRecursive(
-                    i + '.' + recursiveIndex,
-                    children,
-                    recursiveIndex
-                );
-            }
-        }
-        result.push(single);
-    }
-    return result;
+    return getDataSourceRecursive('', data, recursiveIndex);
 }
 
 function getDataColumns(
@@ -309,6 +290,97 @@ function getDataColumns(
         .map(convertColumn);
 }
 
+function extractSelection(
+    data: any[],
+    dataIndex: string,
+    result: string[],
+    recursiveIndex?: string
+) {
+    for (var i = 0; i != data.length; i++) {
+        let single = data[i];
+        //初始化每个值为false
+        if (single[dataIndex] === undefined) {
+            single[dataIndex] = false;
+        }
+        if (single[dataIndex]) {
+            result.push(single._index);
+        }
+        if (recursiveIndex) {
+            extractSelection(data, dataIndex, result, recursiveIndex);
+        }
+    }
+}
+
+function getDataInIndex(data: any[], index: string): any {
+    const indexArray = index.split('.');
+    let current: any = data;
+    for (let i = 0; i != indexArray.length; i++) {
+        let single = indexArray[i];
+        if (typeof current == 'object') {
+            if (current instanceof Array) {
+                let index = single as unknown as number;
+                if (index < current.length && index >= 0) {
+                    current = current[index];
+                } else {
+                    //越界了
+                    return undefined;
+                }
+            } else {
+                if (current.hasOwnProperty(single)) {
+                    current = current[single];
+                } else {
+                    //没有该key
+                    return undefined;
+                }
+            }
+        } else {
+            //非Object与Array，退出吧
+            return undefined;
+        }
+    }
+    return current;
+}
+
+function setDataInIndex(data: any[], index: string, target: any) {
+    const lastDelimeter = index.lastIndexOf('.');
+    const preIndex = index.substr(0, lastDelimeter);
+    const lastIndex = index.substr(lastDelimeter + 1);
+
+    //先查找前级的数据
+    const current = getDataInIndex(data, preIndex);
+    //再设置
+    if (current) {
+        current[lastIndex] = target;
+    }
+}
+
+function fillSelection(
+    data: any[],
+    dataIndex: string,
+    oldSelectedRowKeys: string[],
+    newSelectedRowKeys: string[]
+) {
+    //先建立一个map
+    let newSelectedKeyMap: { [key in string]: boolean } = {};
+    for (let i in newSelectedRowKeys) {
+        let index = newSelectedRowKeys[i];
+        newSelectedKeyMap[index] = true;
+    }
+
+    //对于每个旧值，设置为false
+    for (let i = 0; i != oldSelectedRowKeys.length; i++) {
+        let index = oldSelectedRowKeys[i];
+        if (!newSelectedKeyMap[index]) {
+            setDataInIndex(data, index + '.' + dataIndex, false);
+        }
+    }
+
+    //对于每个新值，设置为true
+    for (let i = 0; i != newSelectedRowKeys.length; i++) {
+        let index = newSelectedRowKeys[i];
+        setDataInIndex(data, index + '.' + dataIndex, true);
+    }
+}
 //rowSelection的设计的三个目标
 //1. 数组的每个元素的_rowSelected值都需要初始化为false
 // * 使用renderCell里面的createField每个元素是不行的，因为在Table分页的时候有些元素的ReactNode根本就没有创建出来
@@ -321,10 +393,10 @@ function getDataColumns(
 // * 暂时没有找到合适的解决方案，这里并没有得到实现
 //4. 选中行但是不显示rowSelection列，仅仅是显式底色，功能依然可以通过点击行来实现选择行。
 // * 返回一个新的classname
-
 function getRowSelection(
     data: any[],
-    columns: Column[]
+    columns: Column[],
+    recursiveIndex?: string
 ): {
     selection: TableRowSelection<any> | undefined;
     rowWrapper: React.FC<any> | undefined;
@@ -339,17 +411,11 @@ function getRowSelection(
     }
     column = rowSelectionColumns[0];
     const dataIndex = column.rowSelectionColumnProps!.dataIndex!;
-    let selectedRowKeys: any[] = [];
-    for (var i = 0; i != data.length; i++) {
-        let single = data[i];
-        //初始化每个值为false
-        if (single[dataIndex] === undefined) {
-            single[dataIndex] = false;
-        }
-        if (single[dataIndex]) {
-            selectedRowKeys.push(i + '');
-        }
-    }
+    let selectedRowKeys: string[] = [];
+
+    //从data里面抽取selection
+    extractSelection(data, dataIndex, selectedRowKeys, recursiveIndex);
+
     const rowSelection: TableRowSelection<any> = {
         type: column.rowSelectionColumnProps!.type,
         fixed: column.rowSelectionColumnProps!.fixed,
@@ -357,23 +423,12 @@ function getRowSelection(
         columnWidth: column.rowSelectionColumnProps!.width,
         selectedRowKeys: selectedRowKeys,
         onChange: (newSelectedRowKeys: React.Key[], selectedRows: any[]) => {
-            //虽然这里没有使用Batch来触发更改数据，但是只会产生1次Render，可能是observer的优化问题
-            let newSelectedKeyMap: { [key in number]: boolean } = {};
-            for (let i in newSelectedRowKeys) {
-                let index = newSelectedRowKeys[i] as number;
-                newSelectedKeyMap[index] = true;
-            }
-            //先将旧值设置为false
-            for (let i = 0; i != selectedRowKeys.length; i++) {
-                let index = selectedRowKeys[i];
-                if (!newSelectedKeyMap[index]) {
-                    data[index][dataIndex] = false;
-                }
-            }
-            for (let i = 0; i != newSelectedRowKeys.length; i++) {
-                let index = newSelectedRowKeys[i] as number;
-                data[index][dataIndex] = true;
-            }
+            fillSelection(
+                data,
+                dataIndex,
+                selectedRowKeys,
+                newSelectedRowKeys as string[]
+            );
         },
         selections: [
             Table.SELECTION_ALL,
@@ -390,15 +445,17 @@ function getRowSelection(
                     //radio是清空原来的
                     if (selectedRowKeys.length != 0) {
                         let oldRowKey = selectedRowKeys[0];
-                        let single = data[oldRowKey];
-                        single[dataIndex] = false;
+                        setDataInIndex(
+                            data,
+                            oldRowKey + '.' + dataIndex,
+                            false
+                        );
                     }
-                    let single = data[rowKey];
-                    single[dataIndex] = true;
+                    setDataInIndex(data, rowKey + '.' + dataIndex, true);
                 } else {
                     //checkbox反选
-                    let single = data[rowKey];
-                    single[dataIndex] = !single[dataIndex];
+                    let current = getDataInIndex(data, rowKey);
+                    current[dataIndex] = !current[dataIndex];
                 }
             };
             return (
@@ -667,8 +724,8 @@ const MyTable: MyTableType = observer((props: PropsType) => {
 
     const rowSelection = getRowSelection(
         field.value,
-        tableColumns
-        //FIXME recursiveRow?.dataIndex
+        tableColumns,
+        recursiveRow?.dataIndex
     );
 
     const pagination = getPagination(
@@ -687,8 +744,9 @@ const MyTable: MyTableType = observer((props: PropsType) => {
 
     const expandable = getExpandable(tableColumns);
 
-    const allClassName = [rowSelection.className, virtual.className];
-    console.log('Table Render', virtual.dataSource.length);
+    const allClassName = [...rowSelection.className, ...virtual.className];
+    console.log('');
+    console.log('Table Render rowSelection', virtual.dataSource.length);
     return (
         <ArrayContextProvider value={field}>
             <Table

@@ -8,7 +8,6 @@ type LabelProps = {
 };
 
 const Label: React.FC<LabelProps> = observer((props) => {
-    const field = useField();
     let result = '';
     if (props.prefix) {
         result += props.prefix;
