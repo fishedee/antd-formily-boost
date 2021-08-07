@@ -15,6 +15,7 @@ import {
     isCheckboxColumnType,
     isRadioColumnType,
     isExpandableRowType,
+    isRecursiveRowType,
 } from './IsType';
 import { ColumnsType, ColumnType, TablePaginationConfig } from 'antd/lib/table';
 import { ArrayContextProvider, ArrayIndexContextProvider } from './Context';
@@ -38,16 +39,18 @@ import MyMoveDown, { MyMoveDownProps } from './MyMoveDown';
 import MyAddition, { MyAdditionProps } from './MyAddition';
 import { throttle } from 'underscore';
 import ExpandableRow, { ExpandableRowProps } from './ExpandableRow';
+import RecursiveRow, { RecursiveRowProps } from './RecursiveRow';
 
 type Column = {
     title: string;
     dataIndex: string;
     key: string;
     schema: Schema;
-    type: 'column' | 'rowSelectionColumn' | 'expandableRow';
+    type: 'column' | 'rowSelectionColumn' | 'expandableRow' | 'recursiveRow';
     columnProps?: ColumnProps & { children: Column[] };
     rowSelectionColumnProps?: { type: RowSelectionType } & CheckboxColumnProps;
     expandableRrops?: ExpandableRowProps;
+    recursiveProps?: RecursiveRowProps;
 };
 
 function getColumn(schema: Schema): Column[] {
@@ -175,6 +178,19 @@ function getColumn(schema: Schema): Column[] {
                     expandableRrops: { ...style },
                 },
             ];
+        } else if (isRecursiveRowType(component)) {
+            const style: RecursiveRowProps = {
+                dataIndex: columnField
+                    ? columnField.componentProps?.dataIndex
+                    : schema['x-component-props']?.dataIndex,
+            };
+            return [
+                {
+                    ...columnBase,
+                    type: 'recursiveRow',
+                    recursiveProps: { ...style },
+                },
+            ];
         }
         return [];
     };
@@ -197,12 +213,50 @@ function getColumn(schema: Schema): Column[] {
     }, [] as Column[]);
 }
 
-function getDataSource(data: any[], columns: Column[]): any[] {
+function getDataSourceRecursive(
+    preIndex: string,
+    data: any[],
+    recursiveIndex: string
+): any[] {
     let result = [];
     for (var i = 0; i != data.length; i++) {
-        var single = {
-            _index: i,
+        var single: any = {
+            _index: preIndex + '.' + i,
+            _current: i,
         };
+        if (recursiveIndex) {
+            let children = data[i][recursiveIndex];
+            if (children) {
+                single._children = getDataSourceRecursive(
+                    single._index + '.' + recursiveIndex,
+                    children,
+                    recursiveIndex
+                );
+            }
+        }
+        result.push(single);
+    }
+    return result;
+}
+
+function getDataSource(data: any[], recursiveIndex?: string): any[] {
+    let result = [];
+    for (var i = 0; i != data.length; i++) {
+        var single: any = {
+            _index: i,
+            _current: i,
+        };
+
+        if (recursiveIndex) {
+            let children = data[i][recursiveIndex];
+            if (children) {
+                single._children = getDataSourceRecursive(
+                    i + '.' + recursiveIndex,
+                    children,
+                    recursiveIndex
+                );
+            }
+        }
         result.push(single);
     }
     return result;
@@ -440,6 +494,7 @@ type VirtualScrollProps = {
 //FIXME 暂时发现的问题有：
 //* virtual暂时对checkbox的rowSelection的支持不完整，主要在于传入Table组件的数据仅仅是一小部分，一小部分点击完毕后，会误以为已经全选
 //* 对expandable的支持不太完美，在底部行进行expandable会有点小问题
+//* 对recursive的支持也不太完美
 //TODO 未来要新增的功能有：
 //* 向外部提供scroll控制，滚动到指定的位置
 let globalClassId = 10001;
@@ -560,6 +615,25 @@ function getExpandable(
     };
 }
 
+function getRecursiveRow(
+    tableColumns: Column[]
+): RecursiveRowProps | undefined {
+    let columns = tableColumns.filter(
+        (column) => column.type == 'recursiveRow'
+    );
+    if (columns.length == 0) {
+        return undefined;
+    }
+    let column = columns[0];
+    if (!column.recursiveProps) {
+        return undefined;
+    }
+    if (!column.recursiveProps.dataIndex) {
+        return undefined;
+    }
+    return column.recursiveProps;
+}
+
 type PropsType = {
     paginaction?: PaginationType;
     paginationProps?: PaginationPropsType;
@@ -573,6 +647,7 @@ type MyTableType = React.FC<PropsType> & {
     CheckboxColumn?: React.FC<CheckboxColumnProps>;
     RadioColumn?: React.FC<RadioColumnProps>;
     ExpandableRow?: React.FC<ExpandableRowProps>;
+    RecursiveRow?: React.FC<RecursiveRowProps>;
     Index?: React.FC<MyIndexProps>;
     Remove?: React.FC<MyRemoveProps>;
     MoveUp?: React.FC<MyMoveUpProps>;
@@ -585,10 +660,16 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const fieldSchema = useFieldSchema();
     const tableColumns = getColumn(fieldSchema);
 
-    const dataSource = getDataSource(field.value, tableColumns);
+    const recursiveRow = getRecursiveRow(tableColumns);
+
+    const dataSource = getDataSource(field.value, recursiveRow?.dataIndex);
     const dataColumns: ColumnsType<any> = getDataColumns(tableColumns);
 
-    const rowSelection = getRowSelection(field.value, tableColumns);
+    const rowSelection = getRowSelection(
+        field.value,
+        tableColumns
+        //FIXME recursiveRow?.dataIndex
+    );
 
     const pagination = getPagination(
         dataSource.length,
@@ -597,7 +678,12 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     );
 
     const scroll = getScroll(props.scroll);
-    const virtual = getVirtual(dataSource, props.scroll, props.virtualScroll);
+    const virtual = getVirtual(
+        dataSource,
+        props.scroll,
+        //有递归行的时候，不能使用虚拟滚动
+        recursiveRow ? undefined : props.virtualScroll
+    );
 
     const expandable = getExpandable(tableColumns);
 
@@ -622,6 +708,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                 }}
                 size={props.size}
                 onRow={virtual.onRow}
+                childrenColumnName={recursiveRow ? '_children' : undefined}
             />
             {tableColumns.map((column) => {
                 //这里实际渲染每个Column，以保证Column能接收到Reaction
@@ -651,6 +738,8 @@ MyTable.CheckboxColumn = CheckedColumn;
 MyTable.RadioColumn = RadioColumn;
 
 MyTable.ExpandableRow = ExpandableRow;
+
+MyTable.RecursiveRow = RecursiveRow;
 
 MyTable.Index = MyIndex;
 

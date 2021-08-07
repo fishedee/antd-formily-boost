@@ -1,3 +1,4 @@
+import { useField } from '@formily/react';
 import { observer } from '@formily/reactive-react';
 import React, { Fragment } from 'react';
 type LabelProps = {
@@ -7,6 +8,7 @@ type LabelProps = {
 };
 
 const Label: React.FC<LabelProps> = observer((props) => {
+    const field = useField();
     let result = '';
     if (props.prefix) {
         result += props.prefix;

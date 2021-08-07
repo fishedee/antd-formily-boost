@@ -51,7 +51,7 @@ const SpaceDivider: React.FC<SpaceDividerProps> = observer((props) => {
     let result = [];
     let showIndex = 0;
     for (var i = 0; i != columns.length; i++) {
-        let isShow = columns[i].visible === true;
+        let isShow = columns[i].visible !== false;
         if (isShow && showIndex != 0) {
             result.push(<Divider type={type} key={'_divider_' + i} />);
         }

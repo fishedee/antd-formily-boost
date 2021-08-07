@@ -33,23 +33,24 @@ let lastState = observable({
             name: 'cat',
             age: 456,
             contacts: [
-                { phone: 'phone-1', address: 'address-1' },
-                { phone: 'phone-2', address: 'address-2' },
-                { phone: 'phone-3', address: 'address-3' },
+                { phone: 'phone-4', address: 'address-4' },
+                { phone: 'phone-5', address: 'address-5' },
+                { phone: 'phone-6', address: 'address-6' },
             ],
         },
         {
             name: 'dog',
             age: 789,
             contacts: [
-                { phone: 'phone-1', address: 'address-1' },
-                { phone: 'phone-2', address: 'address-2' },
-                { phone: 'phone-3', address: 'address-3' },
+                { phone: 'phone-7', address: 'address-7' },
+                { phone: 'phone-8', address: 'address-8' },
+                { phone: 'phone-9', address: 'address-9' },
             ],
         },
     ],
 });
 
+//可以嵌套一个子表格
 const expandRowTable = (
     <SchemaField.Array name="contacts" x-component="Table">
         <SchemaField.Void>
@@ -79,21 +80,6 @@ export default () => {
     const form = useMemo(() => {
         return createForm({
             values: lastState,
-            effects: () => {
-                onFieldReact('data.*.operation.edit', (field) => {
-                    field.componentProps.to = {
-                        pathname: '/Link/edit',
-                        query: {
-                            name: field.query('..name').value(),
-                        },
-                    };
-                });
-                onFieldReact('data.*.operation.delete', (field) => {
-                    field.componentProps.onClick = () => {
-                        console.log('del', field.query('..name').value());
-                    };
-                });
-            },
         });
     }, []);
     return (
@@ -158,6 +144,7 @@ export default () => {
                                 <SchemaField.Void
                                     x-component="Table.ExpandableRow"
                                     x-component-props={{
+                                        //可以设置点击行的时候展开
                                         expandRowByClick: true,
                                     }}
                                 >
