@@ -433,6 +433,7 @@ function getRowSelection(
         columnTitle: column.title,
         columnWidth: column.rowSelectionColumnProps!.width,
         selectedRowKeys: selectedRowKeys,
+        checkStrictly: column.rowSelectionColumnProps?.checkStrictly,
         onChange: (newSelectedRowKeys: React.Key[], selectedRows: any[]) => {
             fillSelection(
                 data,

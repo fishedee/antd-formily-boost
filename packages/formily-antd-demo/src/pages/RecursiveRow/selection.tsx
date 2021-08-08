@@ -99,7 +99,10 @@ export default () => {
                             <SchemaField.Void>
                                 <SchemaField.Void
                                     x-component="Table.CheckboxColumn"
-                                    x-component-props={{ checkStrictly: true }}
+                                    x-component-props={{
+                                        checkStrictly: false,
+                                        selectRowByClick: true,
+                                    }}
                                 />
                                 <SchemaField.Void
                                     title="名字"
