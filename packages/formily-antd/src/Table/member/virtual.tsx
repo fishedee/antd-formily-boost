@@ -10,9 +10,22 @@ type VirtualScrollProps = {
     itemHeight?: number | VirtualScrollSizeProps;
 };
 
+type VirtualConfig = {
+    className: string[];
+    totalHeight: number;
+    scrollTop: number;
+    itemHeight: number;
+};
+
 type DataSourceType = {
     _index: string;
-    _style: any;
+    _style?: any;
+    _children?: DataSourceType[];
+
+    //以下属性仅仅是运算时使用，render时没用
+    _begin?: number;
+    _end?: number;
+    _visible?: boolean;
 };
 
 function getDataSourceRecursive(
@@ -20,9 +33,9 @@ function getDataSourceRecursive(
     data: any[],
     recursiveIndex?: string
 ): DataSourceType[] {
-    let result = [];
+    let result: DataSourceType[] = [];
     for (var i = 0; i != data.length; i++) {
-        var single: any = {
+        var single: DataSourceType = {
             _index: preIndex != '' ? preIndex + '.' + i : i + '',
         };
         if (recursiveIndex) {
@@ -53,13 +66,11 @@ function getNoVirtual(
 
 function getNormalVirtual(
     data: any[],
-    totalHeight: number,
-    scrollTop: number,
-    itemHeight: number
+    config: VirtualConfig
 ): { dataSource: DataSourceType[]; onRow: any } {
-    const visibleCount = Math.ceil(totalHeight / itemHeight) + 6;
+    const visibleCount = Math.ceil(config.totalHeight / config.itemHeight) + 6;
     let firstIndex = 0;
-    firstIndex = Math.floor(scrollTop / itemHeight);
+    firstIndex = Math.floor(config.scrollTop / config.itemHeight);
     //往前3条
     if (firstIndex - 3 >= 0) {
         firstIndex = firstIndex - 3;
@@ -72,10 +83,11 @@ function getNormalVirtual(
     for (let i = firstIndex; i != endIndex; i++) {
         let _style: { height?: string } = {};
         if (i == 0 && firstIndex != 0) {
-            _style.height = firstIndex * itemHeight + 'px';
+            _style.height = firstIndex * config.itemHeight + 'px';
         }
         if (i == endIndex - 1 && endIndex != data.length) {
-            _style.height = (data.length - endIndex + 1) * itemHeight + 'px';
+            _style.height =
+                (data.length - endIndex + 1) * config.itemHeight + 'px';
         }
         visibleData.push({
             _index: i + '',
@@ -93,24 +105,179 @@ type VirtualRecursivePropsType = {
     expandedIndex: string;
 };
 
+//计算每行占用的高度
+function getRecursiveHeightDataSource(
+    prevHeight: number,
+    preIndex: string,
+    data: any[],
+    config: VirtualConfig,
+    virtualRecursiveProps: VirtualRecursivePropsType
+): [DataSourceType[], number] {
+    let dataSource: DataSourceType[] = [];
+    const recursiveIndex = virtualRecursiveProps.recursiveIndex;
+    const expandedIndex = virtualRecursiveProps.expandedIndex;
+    let allTotalChildrenCount = 0;
+    for (var i = 0; i != data.length; i++) {
+        var singleData = data[i];
+        var single: DataSourceType = {
+            _index: preIndex != '' ? preIndex + '.' + i : i + '',
+        };
+        single._begin = prevHeight;
+        let children = singleData[recursiveIndex];
+        let isExpand = singleData[expandedIndex];
+        let childrenData: DataSourceType[] = [];
+        let totalChildrenCount = 0;
+        if (children && children.length != 0 && isExpand) {
+            [childrenData, totalChildrenCount] = getRecursiveHeightDataSource(
+                prevHeight + config.itemHeight,
+                single._index + '.' + recursiveIndex,
+                children,
+                config,
+                virtualRecursiveProps
+            );
+        }
+
+        //末端高度为，自身高度，以及所有子children的高度相加
+        if (childrenData.length != 0) {
+            single._children = childrenData;
+        } else if (children && children.length != 0) {
+            //对于原数据含有子数据的，我们也要填充一个空数组进去，以显示expand图标
+            single._children = [];
+        }
+        single._end =
+            single._begin! + config.itemHeight * (totalChildrenCount + 1);
+        prevHeight = single._end;
+        allTotalChildrenCount += totalChildrenCount + 1;
+
+        if (
+            single._begin <= config.scrollTop + config.totalHeight + 100 &&
+            single._end >= config.scrollTop - 100
+        ) {
+            //该区块可见
+            single._visible = true;
+        } else {
+            //该区块不可见
+            single._visible = false;
+        }
+        dataSource.push(single);
+    }
+    return [dataSource, allTotalChildrenCount];
+}
+
+//从每行占用的行高来计算，是否需要填写这个页面
+function getRecursiveVirtualDataSource(
+    dataSource: DataSourceType[],
+    itemHeight: number
+): DataSourceType[] {
+    let result: DataSourceType[] = [];
+    for (var i = 0; i != dataSource.length; i++) {
+        let single = dataSource[i];
+        if (single._visible == true) {
+            //可见
+            if (i - 1 >= 0 && dataSource[i - 1]._visible == false) {
+                //前一个不可见
+                const end = dataSource[i - 1]._end;
+                let begin = dataSource[i - 1]._begin;
+                if (i - 1 != 0) {
+                    begin = dataSource[0]._begin;
+                }
+                //撑起高度的虚拟块，没有_children
+                let prevSingle = {
+                    ...dataSource[i - 1],
+                    _style: {
+                        height: end! - begin! + 'px',
+                    },
+                    _children: undefined,
+                };
+                result.push(prevSingle);
+            }
+            if (single._children) {
+                single._children = getRecursiveVirtualDataSource(
+                    single._children,
+                    itemHeight
+                );
+            }
+            if (
+                single._end! - single._begin! != itemHeight &&
+                (!single._children || single._children.length == 0)
+            ) {
+                single._style = {
+                    height: single._end! - single._begin! + 'px',
+                };
+            } else {
+                single._style = {
+                    height: itemHeight + 'px',
+                };
+            }
+
+            result.push(single);
+        } else {
+            //不可见
+            if (i - 1 >= 0 && dataSource[i - 1]._visible == true) {
+                //前一个可见
+                let end = single._end;
+                const begin = single._begin;
+                if (i != dataSource.length - 1) {
+                    end = dataSource[dataSource.length - 1]._end;
+                }
+                //撑起高度的虚拟块，没有_children
+                let nextSingle = {
+                    ...single,
+                    _style: {
+                        height: end! - begin! + 'px',
+                    },
+                    _children: undefined,
+                };
+                result.push(nextSingle);
+                //可以提前结束了
+                break;
+            }
+        }
+    }
+    return result;
+}
+
 function getRecursiveVirtual(
     data: any[],
-    totalHeight: number,
-    scrollTop: number,
-    itemHeight: number
+    config: VirtualConfig,
+    virtualRecursiveProps: VirtualRecursivePropsType
 ): { dataSource: DataSourceType[]; onRow: any } {
-    return { dataSource: [], onRow: [] };
+    let [dataSourceHeight, childrenCount] = getRecursiveHeightDataSource(
+        0,
+        '',
+        data,
+        config,
+        virtualRecursiveProps
+    );
+
+    let dataSource = getRecursiveVirtualDataSource(
+        dataSourceHeight,
+        config.itemHeight
+    );
+
+    let onRow = (record: any) => {
+        return { style: record._style };
+    };
+
+    return { dataSource: dataSource, onRow };
 }
+
+//虚拟列表的做法与用react-window的不同，它仅仅就是将视图的data传入Table组件而已，而是将头部与底部的rowHeight扩大来使得滚动条可用
+//这样做的好处在于：
+//* 可以支持原有的Table组件特性，column的fixed，render，width，行选择的radio，支持rowSpan与colSpan
+//* 使用react-window的效率更高，但是以上所有特性都会丢失
+//FIXME 暂时发现的问题有：
+//* virtual暂时对checkbox的rowSelection的支持不完整，主要在于传入Table组件的数据仅仅是一小部分，一小部分点击完毕后，会误以为已经全选
+//* 对expandable的支持不太完美，在底部行进行expandable会有点小问题
+//* 对recursive的支持也不太完美
+//TODO 未来要新增的功能有：
+//* 向外部提供scroll控制，滚动到指定的位置
+let globalClassId = 10001;
 
 function getVirtualConfig(
     scroll: RcTableProps<any>['scroll'],
     virtualScroll: VirtualScrollProps
-): {
-    className: string[];
-    totalHeight: number;
-    scrollTop: number;
-    itemHeight: number;
-} {
+): VirtualConfig {
     function getHeight(): number {
         //未设置时
         if (!virtualScroll?.itemHeight) {
@@ -148,6 +315,7 @@ function getVirtualConfig(
         //节流函数，以避免过度渲染
         const listener = throttle(() => {
             setScrollTop(tableNode.current!.scrollTop);
+            console.log('scrollTop', tableNode.current!.scrollTop, scroll!.y);
         }, 100);
         tableNode.current.addEventListener('scroll', listener);
         return () => {
@@ -161,18 +329,6 @@ function getVirtualConfig(
         scrollTop: scrollTop,
     };
 }
-
-//虚拟列表的做法与用react-window的不同，它仅仅就是将视图的data传入Table组件而已，而是将头部与底部的rowHeight扩大来使得滚动条可用
-//这样做的好处在于：
-//* 可以支持原有的Table组件特性，column的fixed，render，width，行选择的radio，支持rowSpan与colSpan
-//* 使用react-window的效率更高，但是以上所有特性都会丢失
-//FIXME 暂时发现的问题有：
-//* virtual暂时对checkbox的rowSelection的支持不完整，主要在于传入Table组件的数据仅仅是一小部分，一小部分点击完毕后，会误以为已经全选
-//* 对expandable的支持不太完美，在底部行进行expandable会有点小问题
-//* 对recursive的支持也不太完美
-//TODO 未来要新增的功能有：
-//* 向外部提供scroll控制，滚动到指定的位置
-let globalClassId = 10001;
 
 function getVirtual(
     data: any[],
@@ -202,19 +358,14 @@ function getVirtual(
     let virtual: { dataSource: DataSourceType[]; onRow: any };
     if (!virtualRecursiveProps) {
         //普通列表虚拟滚动
-        virtual = getNormalVirtual(
-            data,
-            virtualConfig.totalHeight,
-            virtualConfig.scrollTop,
-            virtualConfig.itemHeight
-        );
+        virtual = getNormalVirtual(data, virtualConfig);
     } else {
+        console.log('tree scroll');
         //树形数据虚拟滚动
         virtual = getRecursiveVirtual(
             data,
-            virtualConfig.totalHeight,
-            virtualConfig.scrollTop,
-            virtualConfig.itemHeight
+            virtualConfig,
+            virtualRecursiveProps
         );
     }
     return {

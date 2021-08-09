@@ -85,8 +85,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const virtual = getVirtual(
         field.value,
         props.scroll,
-        //有递归行的时候，不能使用虚拟滚动
-        recursiveRow ? undefined : props.virtualScroll,
+        props.virtualScroll,
         recursiveRow
     );
 
@@ -99,7 +98,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     }
 
     const allClassName = [...rowSelection.className, ...virtual.className];
-    console.log('Table Render', virtual.dataSource);
+    console.log('Table Render', virtual.dataSource.length);
     return (
         <ArrayContextProvider value={field}>
             <Table

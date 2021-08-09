@@ -34,7 +34,8 @@ function getRecursiveRow(
         expandedIndex,
         '',
         !!column.recursiveProps.defaultExpand,
-        recursiveIndex
+        recursiveIndex,
+        true
     );
     const onExpandedRowsChange = (newExpandedRowKeys: any) => {
         fillDataInIndex(

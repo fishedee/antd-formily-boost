@@ -63,7 +63,8 @@ function flatDataInIndex(
     dataIndex: string,
     prevIndex: string,
     defaultValue: boolean,
-    recursiveIndex?: string
+    recursiveIndex?: string,
+    isEarilerStop?: boolean
 ): string[] {
     let result: string[] = [];
     for (var i = 0; i != data.length; i++) {
@@ -77,6 +78,10 @@ function flatDataInIndex(
             result.push(currentIndex);
         }
         if (recursiveIndex) {
+            //当上下级关联的时候，提前终止
+            if (isEarilerStop && !single[dataIndex]) {
+                continue;
+            }
             let children = single[recursiveIndex];
             if (children && children.length != 0) {
                 let result2 = flatDataInIndex(
@@ -119,8 +124,6 @@ function fillDataInIndex(
         let index = newSelectedRowKeys[i];
         setDataInIndex(data, index + '.' + dataIndex, true);
     }
-
-    console.log('newData', data);
 }
 
 export {
