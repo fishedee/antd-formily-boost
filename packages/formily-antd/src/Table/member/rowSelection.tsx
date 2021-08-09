@@ -97,7 +97,6 @@ function getRowSelection(
 
     //从data里面抽取selection
     extractSelection(data, dataIndex, selectedRowKeys, '', recursiveIndex);
-
     const rowSelection: TableRowSelection<any> = {
         type: column.rowSelectionColumnProps!.type,
         fixed: column.rowSelectionColumnProps!.fixed,
@@ -119,28 +118,35 @@ function getRowSelection(
             Table.SELECTION_NONE,
         ],
     };
+
+    //这里采用在行中寻找对应的input元素，手动触发onClick事件的方式来实现行点击
+    //为什么不直接修改数据，因为在RecursiveRow的树形数据中，本行的checkbox状态与父checkbox状态是有关联的，只修改本行状态，不修改父checkbox状态会有问题
+    const onClick = (e: any) => {
+        const event: PointerEvent = e.nativeEvent;
+        let target: any = event.target as any;
+        if (!target) {
+            return;
+        }
+        while (target != null) {
+            if (target.nodeName.toLowerCase() == 'tr') {
+                break;
+            }
+            target = target.parentNode;
+        }
+        if (!target) {
+            return;
+        }
+        let input = target.querySelector(
+            '.ant-table-selection-column .ant-checkbox-input'
+        ) as any;
+        if (input && input.click) {
+            input.click();
+        }
+    };
     let rowWrapper: React.FC<any> | undefined;
     if (column.rowSelectionColumnProps?.selectRowByClick) {
         rowWrapper = (props) => {
             const rowKey = props['data-row-key'];
-            const onClick = () => {
-                if (column.rowSelectionColumnProps?.type == 'radio') {
-                    //radio是清空原来的
-                    if (selectedRowKeys.length != 0) {
-                        let oldRowKey = selectedRowKeys[0];
-                        setDataInIndex(
-                            data,
-                            oldRowKey + '.' + dataIndex,
-                            false
-                        );
-                    }
-                    setDataInIndex(data, rowKey + '.' + dataIndex, true);
-                } else {
-                    //checkbox反选
-                    let current = getDataInIndex(data, rowKey);
-                    current[dataIndex] = !current[dataIndex];
-                }
-            };
             return (
                 <tr {...props} onClick={onClick}>
                     {props.children}

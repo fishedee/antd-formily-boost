@@ -63,7 +63,7 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
         };
         if (isColumnType(component)) {
             const config: any = {};
-            for (let key in ColumnPropsKeys) {
+            for (let key in new ColumnPropsKeys()) {
                 config[key] = columnField
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];
@@ -81,13 +81,16 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
         } else if (isCheckboxColumnType(component)) {
             //获取该列的信息
             const config: any = {};
-            for (let key in CheckboxColumnPropsKey) {
+            for (let key in new CheckboxColumnPropsKey()) {
                 config[key] = columnField
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];
             }
             if (!config.dataIndex) {
                 config.dataIndex = '_selected';
+            }
+            if (!config.checkStrictly) {
+                config.checkStrictly = false;
             }
             return [
                 {
@@ -102,7 +105,7 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
         } else if (isRadioColumnType(component)) {
             //获取该列的信息
             const config: any = {};
-            for (let key in RadioColumnPropsKey) {
+            for (let key in new RadioColumnPropsKey()) {
                 config[key] = columnField
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];
@@ -123,7 +126,7 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
         } else if (isExpandableRowType(component)) {
             //获取该列的信息
             const config: any = {};
-            for (let key in ExpandableRowPropsKey) {
+            for (let key in new ExpandableRowPropsKey()) {
                 config[key] = columnField
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];
@@ -140,7 +143,7 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
             ];
         } else if (isRecursiveRowType(component)) {
             const config: any = {};
-            for (let key in RecursiveRowPropsKey) {
+            for (let key in new RecursiveRowPropsKey()) {
                 config[key] = columnField
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];

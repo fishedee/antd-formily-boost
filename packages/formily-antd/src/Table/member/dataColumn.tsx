@@ -6,14 +6,14 @@ import React from 'react';
 
 function getDataColumns(
     columns: ColumnSchema[]
-): (ColumnGroupType<unknown> | ColumnType<unknown>)[] {
+): (ColumnGroupType<object> | ColumnType<object>)[] {
     const convertColumn = (column: ColumnSchema) => {
         if (
             column.columnProps &&
             column.columnProps.children &&
             column.columnProps.children.length != 0
         ) {
-            let single: ColumnGroupType<unknown> = {
+            let single: ColumnGroupType<object> = {
                 ...column,
                 ...column.columnProps,
                 children: column.columnProps.children
@@ -24,7 +24,7 @@ function getDataColumns(
             };
             return single;
         } else {
-            let single: ColumnType<unknown> = {
+            let single: ColumnType<object> = {
                 ...column,
                 ...column.columnProps,
                 render: (value: any, record: any, index: number) => {

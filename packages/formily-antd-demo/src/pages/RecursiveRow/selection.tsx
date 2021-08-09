@@ -100,7 +100,8 @@ export default () => {
                                 <SchemaField.Void
                                     x-component="Table.CheckboxColumn"
                                     x-component-props={{
-                                        checkStrictly: false,
+                                        //checkStrictly，单独选每个行，而不是有树的联动选择关系
+                                        //checkStrictly: true,
                                         selectRowByClick: true,
                                     }}
                                 />
