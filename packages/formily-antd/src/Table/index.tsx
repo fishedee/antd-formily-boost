@@ -25,7 +25,6 @@ import getPagination, {
 import getVirtual, { VirtualScrollProps } from './member/virtual';
 import getColumnSchema from './member/columnSchema';
 import getRecursiveRow from './member/recursiveRow';
-import getDataSource from './member/dataSource';
 import getDataColumns from './member/dataColumn';
 import getRowSelection from './member/rowSelection';
 import getScroll from './member/scroll';
@@ -64,7 +63,6 @@ const MyTable: MyTableType = observer((props: PropsType) => {
 
     const recursiveRow = getRecursiveRow(field.value, columnSchemas);
 
-    const dataSource = getDataSource(field.value, recursiveRow?.recursiveIndex);
     const dataColumns = getDataColumns(
         field.value,
         columnSchemas,
@@ -78,17 +76,18 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     );
 
     const pagination = getPagination(
-        dataSource.length,
+        field.value.length,
         props.paginaction,
         props.paginationProps
     );
 
     const scroll = getScroll(props.scroll);
     const virtual = getVirtual(
-        dataSource,
+        field.value,
         props.scroll,
         //有递归行的时候，不能使用虚拟滚动
-        recursiveRow ? undefined : props.virtualScroll
+        recursiveRow ? undefined : props.virtualScroll,
+        recursiveRow
     );
 
     //递归行，与展开行，只能二选一
@@ -100,7 +99,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     }
 
     const allClassName = [...rowSelection.className, ...virtual.className];
-    console.log('Table Render', virtual.dataSource.length);
+    console.log('Table Render', virtual.dataSource);
     return (
         <ArrayContextProvider value={field}>
             <Table

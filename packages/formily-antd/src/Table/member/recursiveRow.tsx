@@ -10,6 +10,7 @@ function getRecursiveRow(
 ):
     | {
           recursiveIndex: string;
+          expandedIndex: string;
           expandedProps: ExpandableConfig<any>;
       }
     | undefined {
@@ -45,6 +46,7 @@ function getRecursiveRow(
     };
     return {
         recursiveIndex: column.recursiveProps.recursiveIndex,
+        expandedIndex: expandedIndex,
         expandedProps: {
             ...column.recursiveProps,
             expandedRowKeys: expandedRowKeys,
