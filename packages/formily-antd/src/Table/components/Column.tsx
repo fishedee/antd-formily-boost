@@ -6,6 +6,7 @@ type ColumnProps = {
     width?: number;
     ellipsis?: boolean;
     fixed?: 'left' | 'right';
+    labelIndex?: string;
 };
 
 //运行时类型信息
@@ -13,6 +14,7 @@ class ColumnPropsKeys implements KeyProps<ColumnProps> {
     width = true;
     ellipsis = true;
     fixed = true;
+    labelIndex = true;
 }
 
 const Column: React.FC<ColumnProps> = (props) => {

@@ -6,8 +6,10 @@ import {
 } from '../components/Context';
 import { ColumnSchema } from './columnSchema';
 import React from 'react';
+import { getDataInIndex } from '../util';
 
 function getDataColumns(
+    data: any[],
     columns: ColumnSchema[],
     recursiveIndex?: string
 ): (ColumnGroupType<object> | ColumnType<object>)[] {
@@ -32,17 +34,29 @@ function getDataColumns(
                 ...column,
                 ...column.columnProps,
                 render: (value: any, record: any, index: number) => {
-                    return (
-                        <ArrayRecursiveContextProvider value={recursiveIndex}>
-                            <ArrayIndexContextProvider value={record._index}>
-                                <RecursionField
-                                    name={record._index}
-                                    schema={column.schema}
-                                    onlyRenderProperties
-                                />
-                            </ArrayIndexContextProvider>
-                        </ArrayRecursiveContextProvider>
-                    );
+                    if (column.columnProps?.labelIndex) {
+                        //直接返回数据，绕过field，这样做会失去effect，但是效率较高
+                        return getDataInIndex(
+                            data,
+                            record._index + '.' + column.columnProps?.labelIndex
+                        );
+                    } else {
+                        return (
+                            <ArrayRecursiveContextProvider
+                                value={recursiveIndex}
+                            >
+                                <ArrayIndexContextProvider
+                                    value={record._index}
+                                >
+                                    <RecursionField
+                                        name={record._index}
+                                        schema={column.schema}
+                                        onlyRenderProperties
+                                    />
+                                </ArrayIndexContextProvider>
+                            </ArrayRecursiveContextProvider>
+                        );
+                    }
                 },
             };
             return single;

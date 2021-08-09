@@ -66,6 +66,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
 
     const dataSource = getDataSource(field.value, recursiveRow?.recursiveIndex);
     const dataColumns = getDataColumns(
+        field.value,
         columnSchemas,
         recursiveRow?.recursiveIndex
     );
