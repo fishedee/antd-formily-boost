@@ -30,6 +30,9 @@ import getDataColumns from './member/dataColumn';
 import getRowSelection from './member/rowSelection';
 import getScroll from './member/scroll';
 import getExpandableRow from './member/expandableRow';
+import MySubtreeAddition, {
+    MySubtreeAdditionProps,
+} from './components/MySubtreeAddition';
 
 type PropsType = {
     paginaction?: PaginationType;
@@ -50,6 +53,7 @@ type MyTableType = React.FC<PropsType> & {
     MoveUp?: React.FC<MyMoveUpProps>;
     MoveDown?: React.FC<MyMoveDownProps>;
     Addition?: React.FC<MyAdditionProps>;
+    SubtreeAddition?: React.FC<MySubtreeAdditionProps>;
 };
 
 const MyTable: MyTableType = observer((props: PropsType) => {
@@ -60,7 +64,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const recursiveRow = getRecursiveRow(columnSchemas);
 
     const dataSource = getDataSource(field.value, recursiveRow?.dataIndex);
-    const dataColumns = getDataColumns(columnSchemas);
+    const dataColumns = getDataColumns(columnSchemas, recursiveRow?.dataIndex);
 
     const rowSelection = getRowSelection(
         field.value,
@@ -147,5 +151,7 @@ MyTable.MoveUp = MyMoveUp;
 MyTable.MoveDown = MyMoveDown;
 
 MyTable.Addition = MyAddition;
+
+MyTable.SubtreeAddition = MySubtreeAddition;
 
 export default MyTable;

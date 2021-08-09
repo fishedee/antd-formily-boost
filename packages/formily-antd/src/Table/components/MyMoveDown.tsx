@@ -1,6 +1,8 @@
 import { useArray, useArrayIndex } from './Context';
 import React, { Fragment } from 'react';
 import { ArrowDownOutlined } from '@ant-design/icons';
+import { getDataInIndex, parseIndex } from '../util';
+import { batch } from '@formily/reactive';
 
 export type MyMoveDownProps = {
     title?: string;
@@ -10,10 +12,18 @@ const MyMoveDown: React.FC<MyMoveDownProps> = (props) => {
     const array = useArray();
     const index = useArrayIndex();
     const onClick = () => {
-        if (index >= array.value?.length - 1) {
+        let [prevIndex, currentIndex] = parseIndex(index);
+        let current = parseInt(currentIndex);
+        const data = getDataInIndex(array.value, prevIndex);
+        if (!data || current >= data.length - 1) {
             return;
         }
-        array.moveDown(index);
+        batch(() => {
+            let currentData = data[current];
+            let nextData = data[current + 1];
+            data[current] = nextData;
+            data[current + 1] = currentData;
+        });
     };
     let icon = props.icon ? (
         props.icon

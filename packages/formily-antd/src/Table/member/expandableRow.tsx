@@ -16,7 +16,7 @@ function getExpandableRow(
     let expandableRow = columns[0];
     const expandedRowRender = (record: any, index: number) => {
         return (
-            <ArrayIndexContextProvider value={parseInt(record._index)}>
+            <ArrayIndexContextProvider value={record._index}>
                 <RecursionField
                     name={record._index}
                     schema={expandableRow.schema}

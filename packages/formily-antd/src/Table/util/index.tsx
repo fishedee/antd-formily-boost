@@ -1,8 +1,13 @@
+import { result } from 'underscore';
+
 function getDataInIndex(data: any[], index: string): any {
     const indexArray = index.split('.');
     let current: any = data;
     for (let i = 0; i != indexArray.length; i++) {
         let single = indexArray[i];
+        if (single == '') {
+            continue;
+        }
         if (typeof current == 'object') {
             if (current instanceof Array) {
                 let index = single as unknown as number;
@@ -29,16 +34,28 @@ function getDataInIndex(data: any[], index: string): any {
 }
 
 function setDataInIndex(data: any[], index: string, target: any) {
-    const lastDelimeter = index.lastIndexOf('.');
-    const preIndex = index.substr(0, lastDelimeter);
-    const lastIndex = index.substr(lastDelimeter + 1);
+    let [preIndex, lastIndex] = parseIndex(index);
 
     //先查找前级的数据
     const current = getDataInIndex(data, preIndex);
+
     //再设置
     if (current) {
         current[lastIndex] = target;
     }
 }
 
-export { getDataInIndex, setDataInIndex };
+function parseIndex(index: string): [string, string] {
+    let result: [string, string];
+    const lastDelimeter = index.lastIndexOf('.');
+    if (lastDelimeter < 0) {
+        result = ['', index];
+        return result;
+    }
+    const preIndex = index.substr(0, lastDelimeter);
+    const lastIndex = index.substr(lastDelimeter + 1);
+    result = [preIndex, lastIndex];
+    return result;
+}
+
+export { getDataInIndex, setDataInIndex, parseIndex };

@@ -1,7 +1,7 @@
 import { Table } from 'antd';
 import { TableRowSelection } from 'antd/lib/table/interface';
 import { ColumnSchema } from './columnSchema';
-import { getDataInIndex, setDataInIndex } from './util';
+import { getDataInIndex, setDataInIndex } from '../util';
 import React from 'react';
 
 function extractSelection(
