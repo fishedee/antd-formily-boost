@@ -86,8 +86,8 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];
             }
-            if (!config.dataIndex) {
-                config.dataIndex = '_selected';
+            if (!config.selectedIndex) {
+                config.selectedIndex = '_selected';
             }
             if (!config.checkStrictly) {
                 config.checkStrictly = false;
@@ -110,8 +110,8 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];
             }
-            if (!config.dataIndex) {
-                config.dataIndex = '_selected';
+            if (!config.selectedIndex) {
+                config.selectedIndex = '_selected';
             }
             return [
                 {
@@ -131,8 +131,8 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];
             }
-            if (!config.dataIndex) {
-                config.dataIndex = '_selected';
+            if (!config.expandedIndex) {
+                config.expandedIndex = '_expanded';
             }
             return [
                 {
@@ -148,8 +148,8 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
                     ? columnField.componentProps?.[key]
                     : schema['x-component-props']?.[key];
             }
-            if (!config.dataIndex) {
-                config.dataIndex = '_selected';
+            if (!config.expandedIndex) {
+                config.expandedIndex = '_expanded';
             }
             return [
                 {

@@ -139,7 +139,10 @@ export default () => {
                                     x-component="Table.RecursiveRow"
                                     x-component-props={{
                                         //递归的字段名
-                                        dataIndex: 'items',
+                                        recursiveIndex: 'items',
+                                        //默认展开全部
+                                        defaultExpand: true,
+                                        indentSize: 25,
                                     }}
                                 />
                                 <SchemaField.Void

@@ -1,5 +1,5 @@
 import { useArray, useArrayIndex } from './Context';
-import React, { Fragment } from 'react';
+import React, { Fragment, MouseEvent } from 'react';
 import { DeleteOutlined } from '@ant-design/icons';
 import { getDataInIndex, parseIndex } from '../util';
 
@@ -10,7 +10,8 @@ export type MyRemoveProps = {
 const MyRemove: React.FC<MyRemoveProps> = (props) => {
     const array = useArray();
     const index = useArrayIndex();
-    const onClick = () => {
+    const onClick = (e: MouseEvent<any>) => {
+        e.preventDefault();
         let [prevIndex, currentIndex] = parseIndex(index);
         let current = parseInt(currentIndex);
         const data = getDataInIndex(array.value, prevIndex);

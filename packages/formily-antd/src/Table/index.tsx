@@ -33,6 +33,7 @@ import getExpandableRow from './member/expandableRow';
 import MySubtreeAddition, {
     MySubtreeAdditionProps,
 } from './components/MySubtreeAddition';
+import { ExpandableConfig } from 'antd/lib/table/interface';
 
 type PropsType = {
     paginaction?: PaginationType;
@@ -61,15 +62,18 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const fieldSchema = useFieldSchema();
     const columnSchemas = getColumnSchema(fieldSchema);
 
-    const recursiveRow = getRecursiveRow(columnSchemas);
+    const recursiveRow = getRecursiveRow(field.value, columnSchemas);
 
-    const dataSource = getDataSource(field.value, recursiveRow?.dataIndex);
-    const dataColumns = getDataColumns(columnSchemas, recursiveRow?.dataIndex);
+    const dataSource = getDataSource(field.value, recursiveRow?.recursiveIndex);
+    const dataColumns = getDataColumns(
+        columnSchemas,
+        recursiveRow?.recursiveIndex
+    );
 
     const rowSelection = getRowSelection(
         field.value,
         columnSchemas,
-        recursiveRow?.dataIndex
+        recursiveRow?.recursiveIndex
     );
 
     const pagination = getPagination(
@@ -86,7 +90,13 @@ const MyTable: MyTableType = observer((props: PropsType) => {
         recursiveRow ? undefined : props.virtualScroll
     );
 
-    const expandable = getExpandableRow(columnSchemas);
+    //递归行，与展开行，只能二选一
+    let expandable: ExpandableConfig<any> | undefined;
+    if (recursiveRow) {
+        expandable = recursiveRow.expandedProps;
+    } else {
+        expandable = getExpandableRow(field.value, columnSchemas);
+    }
 
     const allClassName = [...rowSelection.className, ...virtual.className];
     console.log('Table Render', virtual.dataSource.length);

@@ -64,7 +64,7 @@ export default () => {
                                     title="选择"
                                     x-component="Table.RadioColumn"
                                     x-component-props={{
-                                        dataIndex: '_radio',
+                                        selectedIndex: '_radio',
                                         //点击行的时候就是选择该行
                                         selectRowByClick: true,
                                         //可隐藏该列，但是选择的样式和功能依然存在，通过点击行来实现选择行

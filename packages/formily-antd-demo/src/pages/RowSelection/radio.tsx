@@ -62,7 +62,7 @@ export default () => {
                                     title="选择"
                                     x-component="Table.RadioColumn"
                                     x-component-props={{
-                                        dataIndex: '_radio',
+                                        selectedIndex: '_radio',
                                     }}
                                 />
                                 <SchemaField.Void

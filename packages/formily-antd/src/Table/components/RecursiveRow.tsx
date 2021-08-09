@@ -1,11 +1,15 @@
 import React, { Fragment } from 'react';
+import { ExpandableRowProps, ExpandableRowPropsKey } from './ExpandableRow';
 import { KeyProps } from './KeyProps';
-type RecursiveRowProps = {
-    dataIndex: string;
+type RecursiveRowProps = ExpandableRowProps & {
+    recursiveIndex: string;
 };
 
-class RecursiveRowPropsKey implements KeyProps<RecursiveRowProps> {
-    dataIndex = true;
+class RecursiveRowPropsKey
+    extends ExpandableRowPropsKey
+    implements KeyProps<RecursiveRowProps>
+{
+    recursiveIndex = true;
 }
 
 const RecursiveRow: React.FC<RecursiveRowProps> = (props) => {

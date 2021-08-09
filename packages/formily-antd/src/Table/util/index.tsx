@@ -58,4 +58,75 @@ function parseIndex(index: string): [string, string] {
     return result;
 }
 
-export { getDataInIndex, setDataInIndex, parseIndex };
+function flatDataInIndex(
+    data: any[],
+    dataIndex: string,
+    prevIndex: string,
+    defaultValue: boolean,
+    recursiveIndex?: string
+): string[] {
+    let result: string[] = [];
+    for (var i = 0; i != data.length; i++) {
+        let single = data[i];
+        //初始化每个值为false
+        if (single[dataIndex] === undefined) {
+            single[dataIndex] = defaultValue;
+        }
+        const currentIndex = prevIndex != '' ? prevIndex + '.' + i : i + '';
+        if (single[dataIndex]) {
+            result.push(currentIndex);
+        }
+        if (recursiveIndex) {
+            let children = single[recursiveIndex];
+            if (children && children.length != 0) {
+                let result2 = flatDataInIndex(
+                    children,
+                    dataIndex,
+                    currentIndex + '.' + recursiveIndex,
+                    defaultValue,
+                    recursiveIndex
+                );
+                result = result.concat(result2);
+            }
+        }
+    }
+    return result;
+}
+
+function fillDataInIndex(
+    data: any[],
+    dataIndex: string,
+    oldSelectedRowKeys: string[],
+    newSelectedRowKeys: string[]
+) {
+    //先建立一个map
+    let newSelectedKeyMap: { [key in string]: boolean } = {};
+    for (let i in newSelectedRowKeys) {
+        let index = newSelectedRowKeys[i];
+        newSelectedKeyMap[index] = true;
+    }
+
+    //对于每个旧值，设置为false
+    for (let i = 0; i != oldSelectedRowKeys.length; i++) {
+        let index = oldSelectedRowKeys[i];
+        if (!newSelectedKeyMap[index]) {
+            setDataInIndex(data, index + '.' + dataIndex, false);
+        }
+    }
+
+    //对于每个新值，设置为true
+    for (let i = 0; i != newSelectedRowKeys.length; i++) {
+        let index = newSelectedRowKeys[i];
+        setDataInIndex(data, index + '.' + dataIndex, true);
+    }
+
+    console.log('newData', data);
+}
+
+export {
+    getDataInIndex,
+    setDataInIndex,
+    parseIndex,
+    flatDataInIndex,
+    fillDataInIndex,
+};

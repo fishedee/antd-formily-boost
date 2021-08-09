@@ -1,9 +1,18 @@
+import { ExpandableConfig } from 'antd/lib/table/interface';
 import { RecursiveRowProps } from '../components/RecursiveRow';
+import { flatDataInIndex, fillDataInIndex } from '../util';
 import { ColumnSchema } from './columnSchema';
 
+function getExpand() {}
 function getRecursiveRow(
+    data: any[],
     tableColumns: ColumnSchema[]
-): RecursiveRowProps | undefined {
+):
+    | {
+          recursiveIndex: string;
+          expandedProps: ExpandableConfig<any>;
+      }
+    | undefined {
     let columns = tableColumns.filter(
         (column) => column.type == 'recursiveRow'
     );
@@ -14,10 +23,34 @@ function getRecursiveRow(
     if (!column.recursiveProps) {
         return undefined;
     }
-    if (!column.recursiveProps.dataIndex) {
+    if (!column.recursiveProps.recursiveIndex) {
         return undefined;
     }
-    return column.recursiveProps;
+    const recursiveIndex = column.recursiveProps.recursiveIndex;
+    const expandedIndex = column.recursiveProps.expandedIndex!;
+    const expandedRowKeys = flatDataInIndex(
+        data,
+        expandedIndex,
+        '',
+        !!column.recursiveProps.defaultExpand,
+        recursiveIndex
+    );
+    const onExpandedRowsChange = (newExpandedRowKeys: any) => {
+        fillDataInIndex(
+            data,
+            expandedIndex,
+            expandedRowKeys,
+            newExpandedRowKeys
+        );
+    };
+    return {
+        recursiveIndex: column.recursiveProps.recursiveIndex,
+        expandedProps: {
+            ...column.recursiveProps,
+            expandedRowKeys: expandedRowKeys,
+            onExpandedRowsChange: onExpandedRowsChange,
+        },
+    };
 }
 
 export default getRecursiveRow;

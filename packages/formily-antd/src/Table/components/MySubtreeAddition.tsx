@@ -1,5 +1,5 @@
 import { useArray, useArrayIndex, useArrayRecursive } from './Context';
-import React, { Fragment } from 'react';
+import React, { Fragment, MouseEvent } from 'react';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { getDataInIndex, parseIndex } from '../util';
@@ -16,7 +16,8 @@ const MySubtreeAddition: React.FC<MySubtreeAdditionProps> = (props) => {
 
     const onClick = props.onClick
         ? props.onClick
-        : () => {
+        : (e: MouseEvent<any>) => {
+              e.preventDefault();
               if (!recurIndex) {
                   return;
               }

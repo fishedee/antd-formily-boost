@@ -60,7 +60,7 @@ export default () => {
                                 <SchemaField.Void
                                     x-component="Table.CheckboxColumn"
                                     x-component-props={{
-                                        dataIndex: '_checked',
+                                        selectedIndex: '_checked',
                                         width: '100px',
 
                                         //可以设定是否固定在左侧

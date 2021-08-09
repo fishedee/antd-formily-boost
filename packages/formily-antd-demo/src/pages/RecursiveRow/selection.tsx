@@ -140,7 +140,7 @@ export default () => {
                                     x-component="Table.RecursiveRow"
                                     x-component-props={{
                                         //递归的字段名
-                                        dataIndex: 'items',
+                                        recursiveIndex: 'items',
                                     }}
                                 />
                             </SchemaField.Void>

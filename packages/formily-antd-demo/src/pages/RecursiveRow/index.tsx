@@ -132,7 +132,9 @@ export default () => {
                                     x-component="Table.RecursiveRow"
                                     x-component-props={{
                                         //递归的字段名
-                                        dataIndex: 'items',
+                                        recursiveIndex: 'items',
+                                        //点击行的时候展开
+                                        expandRowByClick: true,
                                     }}
                                 />
                             </SchemaField.Void>

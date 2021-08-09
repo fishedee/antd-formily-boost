@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { KeyProps } from './KeyProps';
 
 type RadioColumnProps = {
-    dataIndex: string;
+    selectedIndex: string;
     fixed?: boolean;
     width?: string;
     selectRowByClick?: boolean;
@@ -11,7 +11,7 @@ type RadioColumnProps = {
 };
 
 class RadioColumnPropsKey implements KeyProps<RadioColumnProps> {
-    dataIndex = true;
+    selectedIndex = true;
     fixed = true;
     width = true;
     selectRowByClick = true;

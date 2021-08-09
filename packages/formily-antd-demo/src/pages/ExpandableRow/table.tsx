@@ -146,6 +146,8 @@ export default () => {
                                     x-component-props={{
                                         //可以设置点击行的时候展开
                                         expandRowByClick: true,
+                                        //默认展开全部
+                                        defaultExpand: true,
                                     }}
                                 >
                                     {expandRowTable}
