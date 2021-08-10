@@ -32,6 +32,7 @@ function getExpandableRow(
         data,
         expandedIndex,
         '',
+        0,
         !!expandableRow.expandableRrops?.defaultExpand
     );
     const onExpandedRowsChange = (newExpandedRowKeys: any) => {

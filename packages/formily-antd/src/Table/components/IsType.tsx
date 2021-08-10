@@ -22,6 +22,10 @@ function isRecursiveRowType(name?: string) {
     return name && name.endsWith('.RecursiveRow');
 }
 
+function isChildrenRowType(name?: string) {
+    return name && name.endsWith('.ChildrenRow');
+}
+
 export {
     isColumnType,
     isCheckboxColumnType,
@@ -29,4 +33,5 @@ export {
     isNestedRowType,
     isExpandableRowType,
     isRecursiveRowType,
+    isChildrenRowType,
 };

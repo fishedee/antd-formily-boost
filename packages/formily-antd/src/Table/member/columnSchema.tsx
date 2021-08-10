@@ -4,6 +4,7 @@ import {
     isRadioColumnType,
     isExpandableRowType,
     isRecursiveRowType,
+    isChildrenRowType,
 } from '../components/IsType';
 
 import { Schema, useField, useForm } from '@formily/react';
@@ -21,14 +22,29 @@ import {
     RecursiveRowPropsKey,
 } from '../components/RecursiveRow';
 import { RadioColumnPropsKey } from '../components/RadioColumn';
+import {
+    ChildrenRowProps,
+    ChildrenRowPropsKey,
+} from '../components/ChildrenRow';
+
+//ChildrenRowRender有两种方法
+//根据ColumnSchema渲染子数据
+//或者就是空的不渲染
+type ChildrenRowRenderType = ColumnSchema | undefined;
 
 type ColumnSchema = {
     title: string;
     dataIndex: string;
     key: string;
     schema: Schema;
-    type: 'column' | 'rowSelectionColumn' | 'expandableRow' | 'recursiveRow';
+    type:
+        | 'column'
+        | 'rowSelectionColumn'
+        | 'expandableRow'
+        | 'recursiveRow'
+        | 'childrenRow';
     columnProps?: ColumnProps & {
+        childrenRowRender: ChildrenRowRenderType[];
         children: ColumnSchema[];
     };
     rowSelectionColumnProps?: {
@@ -36,9 +52,13 @@ type ColumnSchema = {
     } & CheckboxColumnProps;
     expandableRrops?: ExpandableRowProps;
     recursiveProps?: RecursiveRowProps;
+    childrenProps?: ChildrenRowProps & {
+        children: ColumnSchema[];
+        allChildrenIndex: string[];
+    };
 };
 
-function getColumnSchema(schema: Schema): ColumnSchema[] {
+function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
     //在当前实现中，Column层看成是Field
     let itemsSchema: Schema['items'] = schema.items;
     const items = Array.isArray(itemsSchema) ? itemsSchema : [itemsSchema];
@@ -74,6 +94,7 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
                     type: 'column',
                     columnProps: {
                         children: reduceProperties(schema),
+                        childrenRowSchema: [],
                         ...config,
                     },
                 },
@@ -158,6 +179,26 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
                     recursiveProps: { ...config },
                 },
             ];
+        } else if (isChildrenRowType(component)) {
+            const config: any = {};
+            for (let key in new ChildrenRowPropsKey()) {
+                config[key] = columnField
+                    ? columnField.componentProps?.[key]
+                    : schema['x-component-props']?.[key];
+            }
+            if (!config.expandedIndex) {
+                config.expandedIndex = '_expanded';
+            }
+            return [
+                {
+                    ...columnBase,
+                    type: 'childrenRow',
+                    childrenProps: {
+                        ...config,
+                        children: reduceProperties(schema),
+                    },
+                },
+            ];
         }
         return [];
     };
@@ -178,6 +219,142 @@ function getColumnSchema(schema: Schema): ColumnSchema[] {
         }
         return current;
     }, [] as ColumnSchema[]);
+}
+
+function getAllNormalColumn(
+    columnSchema: ColumnSchema[]
+): Map<string, ColumnSchema> {
+    let result = new Map<string, ColumnSchema>();
+    for (let i = 0; i != columnSchema.length; i++) {
+        let column = columnSchema[i];
+        if (column.type == 'column') {
+            if (
+                !column.columnProps ||
+                column.columnProps.children.length == 0
+            ) {
+                //叶子节点
+                let refColumnName = column.columnProps?.refColumnName;
+                let columnName =
+                    refColumnName && refColumnName != ''
+                        ? refColumnName
+                        : column.schema.name + '';
+
+                result.set(columnName, column);
+            } else {
+                //非叶子节点
+                let childMapColumns = getAllNormalColumn(
+                    column.childrenProps!.children
+                );
+                childMapColumns.forEach((value, key) => {
+                    result.set(key, column);
+                });
+            }
+        }
+    }
+    return result;
+}
+
+type ChildrenRowColumn = {
+    childrenIndex: string;
+    allChildrenIndex: string[];
+    refColumns: Map<string, ColumnSchema>;
+    children?: ChildrenRowColumn;
+};
+
+function getAllChildrenRowColumn(
+    childrenRowSchema: ColumnSchema
+): ChildrenRowColumn {
+    let childrenSchema = childrenRowSchema.childrenProps?.children;
+    let nestedChildren: ChildrenRowColumn | undefined;
+
+    //获取子ChildrenRowSchema
+    if (childrenSchema && childrenSchema.length != 0) {
+        let nestedChildrenRowSchema = childrenSchema.filter((column) => {
+            return column.type == 'childrenRow';
+        });
+        if (nestedChildrenRowSchema.length != 0) {
+            nestedChildren = getAllChildrenRowColumn(
+                nestedChildrenRowSchema[0]
+            );
+        }
+    }
+
+    //获取普通的Schema
+    let refColumns = new Map<string, ColumnSchema>();
+    if (childrenSchema && childrenSchema.length != 0) {
+        refColumns = getAllNormalColumn(childrenSchema);
+    }
+
+    let childrenIndex = childrenRowSchema.childrenProps?.childrenIndex;
+    if (!childrenIndex) {
+        throw new Error(childrenRowSchema + '的childrenIndex为空!');
+    }
+
+    let allChildrenIndex: string[] = [childrenIndex];
+    if (nestedChildren) {
+        allChildrenIndex = allChildrenIndex.concat(
+            nestedChildren.allChildrenIndex
+        );
+    }
+
+    return {
+        childrenIndex: childrenIndex,
+        allChildrenIndex: allChildrenIndex,
+        refColumns: refColumns,
+        children: nestedChildren,
+    };
+}
+
+function fillChildrenRowColumnToNormalColumn(
+    parent: ChildrenRowColumn,
+    normalColumn: Map<string, ColumnSchema>
+) {
+    normalColumn.forEach((value, key) => {
+        const hasColumnRewrite = parent.refColumns.has(key);
+        if (hasColumnRewrite == false) {
+            //没有该数据的时候，填充undefined，不渲染
+            value.columnProps?.childrenRowRender.push(undefined);
+        } else {
+            //有该数据的时候，填充Schema进去
+            const currentChildrenRender = parent.refColumns.get(key);
+            value.columnProps?.childrenRowRender.push(currentChildrenRender);
+        }
+    });
+    //进一步渲染下一级的数据
+    if (parent.children) {
+        fillChildrenRowColumnToNormalColumn(parent.children, normalColumn);
+    }
+}
+
+function combineChildrenRowSchema(
+    columnSchema: ColumnSchema[]
+): ColumnSchema[] {
+    let childrenColumns = columnSchema.filter((column) => {
+        return column.type == 'childrenRow';
+    });
+    //没有childrenRow
+    if (childrenColumns.length == 0) {
+        return columnSchema;
+    }
+    let childrenColumn = childrenColumns[0];
+    let allNormalColumn = getAllNormalColumn(columnSchema);
+    let allChildrenRowColumn = getAllChildrenRowColumn(childrenColumn);
+
+    //将childrenRowColumn的信息填充进去
+    fillChildrenRowColumnToNormalColumn(allChildrenRowColumn, allNormalColumn);
+
+    //设置顶层的allChildrenIndex
+    childrenColumn.childrenProps!.allChildrenIndex =
+        allChildrenRowColumn.allChildrenIndex;
+
+    //原样返回，但是内部数据已经被修改过了
+    return columnSchema;
+}
+function getColumnSchema(schema: Schema): ColumnSchema[] {
+    let columnSchema: ColumnSchema[] = getColumnSchemaInner(schema);
+    let combineColumnSchema: ColumnSchema[] =
+        combineChildrenRowSchema(columnSchema);
+    return combineColumnSchema;
 }
 
 export default getColumnSchema;

@@ -3,6 +3,7 @@ import { TableRowSelection } from 'antd/lib/table/interface';
 import { ColumnSchema } from './columnSchema';
 import { flatDataInIndex, fillDataInIndex } from '../util';
 import React from 'react';
+import { RecursiveIndex } from './recursiveRow';
 
 //rowSelection的设计的三个目标
 //1. 数组的每个元素的_rowSelected值都需要初始化为false
@@ -19,7 +20,7 @@ import React from 'react';
 function getRowSelection(
     data: any[],
     columns: ColumnSchema[],
-    recursiveIndex?: string
+    recursiveIndex?: RecursiveIndex
 ): {
     selection: TableRowSelection<any> | undefined;
     rowWrapper: React.FC<any> | undefined;
@@ -38,8 +39,10 @@ function getRowSelection(
         data,
         selectedIndex,
         '',
+        0,
         false,
-        recursiveIndex
+        recursiveIndex,
+        false //不能提前终止对checkbox的检查
     );
 
     const rowSelection: TableRowSelection<any> = {
@@ -82,7 +85,7 @@ function getRowSelection(
             return;
         }
         let input = target.querySelector(
-            '.ant-table-selection-column .ant-checkbox-input'
+            '.ant-table-selection-column input'
         ) as any;
         if (input && input.click) {
             input.click();

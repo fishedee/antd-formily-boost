@@ -1,4 +1,5 @@
 import { result } from 'underscore';
+import { RecursiveIndex } from '../member/recursiveRow';
 
 function getDataInIndex(data: any[], index: string): any {
     const indexArray = index.split('.');
@@ -62,8 +63,9 @@ function flatDataInIndex(
     data: any[],
     dataIndex: string,
     prevIndex: string,
+    currentLevel: number,
     defaultValue: boolean,
-    recursiveIndex?: string,
+    recursiveIndex?: RecursiveIndex,
     isEarilerStop?: boolean
 ): string[] {
     let result: string[] = [];
@@ -82,14 +84,22 @@ function flatDataInIndex(
             if (isEarilerStop && !single[dataIndex]) {
                 continue;
             }
-            let children = single[recursiveIndex];
+            let recursiveIndexName: string;
+            if (recursiveIndex.type == 'recursive') {
+                recursiveIndexName = recursiveIndex.recursiveIndex;
+            } else {
+                recursiveIndexName = recursiveIndex.childrenIndex[currentLevel];
+            }
+            let children = single[recursiveIndexName];
             if (children && children.length != 0) {
                 let result2 = flatDataInIndex(
                     children,
                     dataIndex,
-                    currentIndex + '.' + recursiveIndex,
+                    currentIndex + '.' + recursiveIndexName,
+                    currentLevel + 1,
                     defaultValue,
-                    recursiveIndex
+                    recursiveIndex,
+                    isEarilerStop
                 );
                 result = result.concat(result2);
             }

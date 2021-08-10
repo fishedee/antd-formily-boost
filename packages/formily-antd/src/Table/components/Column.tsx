@@ -7,10 +7,12 @@ type ColumnProps = {
     ellipsis?: boolean;
     fixed?: 'left' | 'right';
     labelIndex?: string;
+    refColumnName?: string;
 };
 
 //运行时类型信息
 class ColumnPropsKeys implements KeyProps<ColumnProps> {
+    refColumnName = true;
     width = true;
     ellipsis = true;
     fixed = true;

@@ -33,6 +33,7 @@ import MySubtreeAddition, {
     MySubtreeAdditionProps,
 } from './components/MySubtreeAddition';
 import { ExpandableConfig } from 'antd/lib/table/interface';
+import { ChildrenRowProps } from './components/ChildrenRow';
 
 type PropsType = {
     paginaction?: PaginationType;
@@ -40,6 +41,7 @@ type PropsType = {
     scroll?: RcTableProps<any>['scroll'];
     virtualScroll?: VirtualScrollProps;
     size?: 'middle' | 'small';
+    bordered?: boolean;
 };
 
 type MyTableType = React.FC<PropsType> & {
@@ -48,6 +50,7 @@ type MyTableType = React.FC<PropsType> & {
     RadioColumn?: React.FC<RadioColumnProps>;
     ExpandableRow?: React.FC<ExpandableRowProps>;
     RecursiveRow?: React.FC<RecursiveRowProps>;
+    ChildrenRow?: React.FC<ChildrenRowProps>;
     Index?: React.FC<MyIndexProps>;
     Remove?: React.FC<MyRemoveProps>;
     MoveUp?: React.FC<MyMoveUpProps>;
@@ -104,7 +107,6 @@ const MyTable: MyTableType = observer((props: PropsType) => {
             <Table
                 className={allClassName.join(' ')}
                 rowKey="_index"
-                bordered={true}
                 columns={dataColumns}
                 dataSource={virtual.dataSource}
                 rowSelection={rowSelection.selection}
@@ -117,6 +119,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                     },
                 }}
                 size={props.size}
+                bordered={props.bordered}
                 onRow={virtual.onRow}
                 childrenColumnName={recursiveRow ? '_children' : undefined}
             />
@@ -150,6 +153,8 @@ MyTable.RadioColumn = RadioColumn;
 MyTable.ExpandableRow = ExpandableRow;
 
 MyTable.RecursiveRow = RecursiveRow;
+
+MyTable.ChildrenRow = ChildrenRow;
 
 MyTable.Index = MyIndex;
 

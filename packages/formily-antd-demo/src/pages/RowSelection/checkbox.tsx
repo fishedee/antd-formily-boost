@@ -62,7 +62,7 @@ export default () => {
                                     x-component-props={{
                                         selectedIndex: '_checked',
                                         width: '100px',
-
+                                        selectRowByClick: true,
                                         //可以设定是否固定在左侧
                                         //fixed:true
                                     }}
