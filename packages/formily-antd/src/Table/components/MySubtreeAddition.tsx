@@ -5,7 +5,7 @@ import { Button } from 'antd';
 import { getDataInIndex, parseIndex } from '../util';
 
 export type MySubtreeAdditionProps = {
-    onClick?: () => {};
+    onClick?: (data: any) => {};
     title?: string;
     icon?: React.ReactNode;
 };
@@ -14,22 +14,25 @@ const MySubtreeAddition: React.FC<MySubtreeAdditionProps> = (props) => {
     const index = useArrayIndex();
     const recurIndex = useArrayRecursive();
 
-    const onClick = props.onClick
-        ? props.onClick
-        : (e: MouseEvent<any>) => {
-              e.preventDefault();
-              if (!recurIndex) {
-                  return;
-              }
-              const data = getDataInIndex(array.value, index);
-              if (!data) {
-                  return;
-              }
-              if (!data.hasOwnProperty(recurIndex)) {
-                  data[recurIndex] = [];
-              }
-              data[recurIndex].push({});
-          };
+    const onClick = (e: MouseEvent<any>) => {
+        e.preventDefault();
+        if (!recurIndex) {
+            return;
+        }
+        const data = getDataInIndex(array.value, index);
+        if (!data) {
+            return;
+        }
+        if (!data.hasOwnProperty(recurIndex)) {
+            data[recurIndex] = [];
+        }
+        if (props.onClick) {
+            //传递onClick的数据
+            props.onClick(data[recurIndex]);
+        } else {
+            data[recurIndex].push({});
+        }
+    };
     let icon = props.icon ? (
         props.icon
     ) : (

@@ -1,11 +1,17 @@
 import { createForm, onFieldReact } from '@formily/core';
-import { createSchemaField, FormConsumer, Schema } from '@formily/react';
+import {
+    createSchemaField,
+    FormConsumer,
+    observer,
+    Schema,
+} from '@formily/react';
 import { Label, Table, Link, SpaceDivider } from 'formily-antd';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import ProCard from '@ant-design/pro-card';
 import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
 import { Field } from '@formily/core';
+import { onFieldValueChange } from '@formily/core';
 
 const SchemaField = createSchemaField({
     components: {
@@ -28,6 +34,7 @@ let lastState = observable({
             productors: [
                 {
                     productorName: 'company_1',
+                    count: 0,
                     items: [
                         {
                             productId: 20001,
@@ -98,24 +105,50 @@ let lastState = observable({
     ],
 });
 
-export default () => {
+export default observer(() => {
     const form = useMemo(() => {
         return createForm({
             values: lastState,
             effects: () => {
-                onFieldReact('data.*.productors.*.count', (field) => {
-                    console.log('lastState', lastState);
-                    const fieldNormal = field as Field;
-                    let items = field.query('.items').value();
-                    let result = 0;
-                    for (let i = 0; i != items.length; i++) {
-                        result += parseInt(items[i].count);
-                    }
-                    fieldNormal.value = result;
-                });
+                //加入effects会让数据在删除的时候出错
+                /*
+                onFieldValueChange(
+                    'data.*.productors.*.items.*.count',
+                    (field) => {
+                        console.log('lastState', lastState);
+                        const fieldNormal = field as Field;
+                        let items = field.query('.items').value();
+                        let result = 0;
+                        for (let i = 0; i != items.length; i++) {
+                            result += parseInt(items[i].count);
+                        }
+                        fieldNormal.setValue(result);
+                    },
+                );
+                */
             },
         });
     }, []);
+    //因为effect失效了，所以，只能用这种方法来实现
+    //FIXME 这样的性能较差，对count的修改，会造成整个Table重新render
+    for (let i = 0; i != lastState.data.length; i++) {
+        let singleOrder = lastState.data[i];
+        if (!singleOrder.productors) {
+            continue;
+        }
+        for (let j = 0; j != singleOrder.productors.length; j++) {
+            let singleProductor = singleOrder.productors[j];
+            let result = 0;
+            if (!singleProductor.items) {
+                singleProductor.count = 0;
+                continue;
+            }
+            for (let k = 0; k != singleProductor.items.length; k++) {
+                result += parseInt(singleProductor.items[k].count + '');
+            }
+            singleProductor.count = result;
+        }
+    }
     return (
         <Space
             style={{
@@ -151,7 +184,7 @@ export default () => {
                                     title="销售ID"
                                     x-component="Table.Column"
                                 >
-                                    <SchemaField.String
+                                    <SchemaField.Number
                                         name="salesOrderId"
                                         required={true}
                                         x-component="Input"
@@ -242,8 +275,9 @@ export default () => {
                                             refColumnName: 'address',
                                         }}
                                     >
-                                        <SchemaField.String
+                                        <SchemaField.Number
                                             //这个列不能用labelIndex，因为有effects
+                                            default={0}
                                             title={'总数'}
                                             required={true}
                                             name="count"
@@ -360,4 +394,4 @@ export default () => {
             </ProCard>
         </Space>
     );
-};
+});

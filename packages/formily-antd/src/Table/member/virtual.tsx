@@ -266,6 +266,8 @@ function getRecursiveVirtualDataSource(
 }
 
 //计算树形数据的virtual，这是整个项目中最复杂的部分
+//这里的时间不是极限的，还可以进一步提升，
+//高度不是每次render的时候重新计算，而是缓存一个本地数据，然后当data变化的时候，track同步来计算新数据。最后使用线段树来优化区间和操作
 function getRecursiveVirtual(
     data: any[],
     config: VirtualConfig,
