@@ -94,7 +94,7 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
                     type: 'column',
                     columnProps: {
                         children: reduceProperties(schema),
-                        childrenRowSchema: [],
+                        childrenRowRender: [],
                         ...config,
                     },
                 },
@@ -222,7 +222,8 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
 }
 
 function getAllNormalColumn(
-    columnSchema: ColumnSchema[]
+    columnSchema: ColumnSchema[],
+    isRefColumn?: boolean
 ): Map<string, ColumnSchema> {
     let result = new Map<string, ColumnSchema>();
     for (let i = 0; i != columnSchema.length; i++) {
@@ -233,12 +234,12 @@ function getAllNormalColumn(
                 column.columnProps.children.length == 0
             ) {
                 //叶子节点
-                let refColumnName = column.columnProps?.refColumnName;
-                let columnName =
-                    refColumnName && refColumnName != ''
-                        ? refColumnName
-                        : column.schema.name + '';
-
+                let columnName: string;
+                if (isRefColumn) {
+                    columnName = column.columnProps?.refColumnName + '';
+                } else {
+                    columnName = column.schema.name + '';
+                }
                 result.set(columnName, column);
             } else {
                 //非叶子节点
@@ -282,7 +283,7 @@ function getAllChildrenRowColumn(
     //获取普通的Schema
     let refColumns = new Map<string, ColumnSchema>();
     if (childrenSchema && childrenSchema.length != 0) {
-        refColumns = getAllNormalColumn(childrenSchema);
+        refColumns = getAllNormalColumn(childrenSchema, true);
     }
 
     let childrenIndex = childrenRowSchema.childrenProps?.childrenIndex;
@@ -339,10 +340,8 @@ function combineChildrenRowSchema(
     let childrenColumn = childrenColumns[0];
     let allNormalColumn = getAllNormalColumn(columnSchema);
     let allChildrenRowColumn = getAllChildrenRowColumn(childrenColumn);
-
     //将childrenRowColumn的信息填充进去
     fillChildrenRowColumnToNormalColumn(allChildrenRowColumn, allNormalColumn);
-
     //设置顶层的allChildrenIndex
     childrenColumn.childrenProps!.allChildrenIndex =
         allChildrenRowColumn.allChildrenIndex;

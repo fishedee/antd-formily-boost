@@ -35,6 +35,7 @@ function getDataColumns(
                 const level = record['_currentLevel'];
                 const childrenRowRenders =
                     column.columnProps?.childrenRowRender;
+
                 if (
                     !childrenRowRenders ||
                     level < 0 ||
@@ -44,7 +45,6 @@ function getDataColumns(
                 }
                 const childRowRenderColumn = childrenRowRenders[level - 1];
                 const childrenIndex = recursiveIndex?.childrenIndex[level];
-
                 //默认没有填充，返回空数据
                 if (!childRowRenderColumn) {
                     return null;

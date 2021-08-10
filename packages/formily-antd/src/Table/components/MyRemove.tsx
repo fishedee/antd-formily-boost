@@ -12,13 +12,17 @@ const MyRemove: React.FC<MyRemoveProps> = (props) => {
     const index = useArrayIndex();
     const onClick = (e: MouseEvent<any>) => {
         e.preventDefault();
+        console.log('remove', array.value, index);
         let [prevIndex, currentIndex] = parseIndex(index);
         let current = parseInt(currentIndex);
         const data = getDataInIndex(array.value, prevIndex);
+
+        console.log('remove After2', current, data);
         if (!data || current < 0 || current > data.length - 1) {
             return;
         }
         data.splice(current, 1);
+        console.log('remove After', array.value);
     };
     let icon = props.icon ? (
         props.icon

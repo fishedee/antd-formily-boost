@@ -33,7 +33,7 @@ import MySubtreeAddition, {
     MySubtreeAdditionProps,
 } from './components/MySubtreeAddition';
 import { ExpandableConfig } from 'antd/lib/table/interface';
-import { ChildrenRowProps } from './components/ChildrenRow';
+import ChildrenRow, { ChildrenRowProps } from './components/ChildrenRow';
 
 type PropsType = {
     paginaction?: PaginationType;
@@ -85,6 +85,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     );
 
     const scroll = getScroll(props.scroll);
+
     const virtual = getVirtual(
         field.value,
         props.scroll,
@@ -100,8 +101,9 @@ const MyTable: MyTableType = observer((props: PropsType) => {
         expandable = getExpandableRow(field.value, columnSchemas);
     }
 
-    const allClassName = [...rowSelection.className, ...virtual.className];
     console.log('Table Render', virtual.dataSource.length);
+
+    const allClassName = [...rowSelection.className, ...virtual.className];
     return (
         <ArrayContextProvider value={field}>
             <Table

@@ -46,9 +46,7 @@ function getRecursiveRowColumnInfo(
 function getChildrenRowColumnInfo(
     tableColumns: ColumnSchema[]
 ): RecursiveIndexInfo | undefined {
-    let columns = tableColumns.filter(
-        (column) => column.type == 'recursiveRow'
-    );
+    let columns = tableColumns.filter((column) => column.type == 'childrenRow');
     if (columns.length == 0) {
         return undefined;
     }

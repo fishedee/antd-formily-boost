@@ -57,7 +57,9 @@ function getDataSourceRecursive(
                     recursiveIndex
                 );
             }
-            single._currentLevel = currentLevel;
+            if (recursiveIndex.type == 'children') {
+                single._currentLevel = currentLevel;
+            }
         }
         result.push(single);
     }
@@ -96,7 +98,7 @@ function getNormalVirtual(
             //默认值
             height: config.itemHeight + 'px',
         };
-        if (i == 0 && firstIndex != 0) {
+        if (i == firstIndex && firstIndex != 0) {
             _style.height = firstIndex * config.itemHeight + 'px';
         }
         if (i == endIndex - 1 && endIndex != data.length) {
@@ -166,7 +168,10 @@ function getRecursiveHeightDataSource(
             //对于原数据含有子数据的，我们也要填充一个空数组进去，以显示expand图标
             single._children = [];
         }
-        single._currentLevel = currentLevel;
+        //写入当前的level
+        if (recursiveIndex.type == 'children') {
+            single._currentLevel = currentLevel;
+        }
         single._end =
             single._begin! + config.itemHeight * (totalChildrenCount + 1);
         prevHeight = single._end;

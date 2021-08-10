@@ -40,7 +40,6 @@ function getRecursive(depth: number, prevIndex: string): any {
 }
 
 lastState.data = getRecursive(5, '');
-console.log(lastState.data);
 
 export default () => {
     const form = useMemo(() => {
