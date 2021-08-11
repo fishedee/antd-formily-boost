@@ -2,9 +2,10 @@
 }
 
 .formily_antd_none_checkbox .ant-table-selection-column {
-    display: none;
+    width: 0px !important;
+    overflow: hidden !important;
 }
 
 .formily_antd_none_checkbox .ant-table-selection-col {
-    display: none;
+    width: 0px !important;
 }

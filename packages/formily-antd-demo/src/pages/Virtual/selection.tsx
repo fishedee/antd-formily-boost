@@ -5,6 +5,7 @@ import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import ProCard from '@ant-design/pro-card';
 import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
+import 'formily-antd/esm/style.css';
 
 const SchemaField = createSchemaField({
     components: {
@@ -22,7 +23,7 @@ let lastState: any = observable({
     data: [],
 });
 
-for (var i = 0; i != 100000; i++) {
+for (var i = 0; i != 10000; i++) {
     lastState.data.push({
         id: i + 1,
         name: 'fish_' + i,
@@ -59,6 +60,7 @@ export default () => {
                                     x: 2000,
                                     y: 300,
                                 },
+                                bordered: true,
                                 virtualScroll: {
                                     //你可以直接传送每行的高度，也可以告诉Table组件当前使用的哪种主题，compact模式，size是大还是小
                                     itemHeight: {
@@ -69,6 +71,13 @@ export default () => {
                             }}
                         >
                             <SchemaField.Void>
+                                <SchemaField.Void
+                                    x-component={'Table.RadioColumn'}
+                                    x-component-props={{
+                                        hidden: true,
+                                        selectRowByClick: true,
+                                    }}
+                                />
                                 <SchemaField.Void
                                     title="序号"
                                     x-component="Table.Column"
@@ -106,7 +115,6 @@ export default () => {
                                     title="年龄"
                                     x-component="Table.Column"
                                     x-component-props={{
-                                        width: 300,
                                         labelIndex: 'age',
                                     }}
                                 />

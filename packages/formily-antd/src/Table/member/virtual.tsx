@@ -298,10 +298,11 @@ function getRecursiveVirtual(
 //这样做的好处在于：
 //* 可以支持原有的Table组件特性，column的fixed，render，width，行选择的radio，支持rowSpan与colSpan
 //* 使用react-window的效率更高，但是以上所有特性都会丢失
+//* 支持recursiveRow与childrenRow
+//* 支持radio selection
 //FIXME 暂时发现的问题有：
 //* virtual暂时对checkbox的rowSelection的支持不完整，主要在于传入Table组件的数据仅仅是一小部分，一小部分点击完毕后，会误以为已经全选
 //* 对expandable的支持不太完美，在底部行进行expandable会有点小问题
-//* 对recursive的支持也不太完美
 //TODO 未来要新增的功能有：
 //* 向外部提供scroll控制，滚动到指定的位置
 let globalClassId = 10001;

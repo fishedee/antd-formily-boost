@@ -17,6 +17,13 @@ import { RecursiveIndex } from './recursiveRow';
 // * 暂时没有找到合适的解决方案，这里并没有得到实现
 //4. 选中行但是不显示rowSelection列，仅仅是显式底色，功能依然可以通过点击行来实现选择行。
 // * 返回一个新的classname
+//5. 为什么不使用React约定的办法，暴露整个selection数组给用户，而是每次从data中重新计算？
+// * 因为Table组件是支持编辑，每一行可以添加和删除，而行key是与index有关的，不是固定的key，直接暴露selection数组，会导致中删一行的时候，选择行会自动往前一行偏移
+//6. 为什么不在Virtual以后，再在有限的dataSource里面计算selection数组
+// * 因为selection的onChange中需要完整的旧selection数组来diff，计算数据
+//7. 后续的优化的办法主要是：
+// * 将checkbox与radio变为自己渲染的，而不是依赖Table组件的机制，这样需要配合在tr上添加ant-table-selection-column类名，以及行头的checkbox实现，工作量较大，而且不兼容Table组件未来对selection的新特性
+// * 监听data的变化，使用@formily/Reactive库的observe方法，对原始data监听，然后增量生成selection数组，而不是每次重新生成。这个实现的难度大一点，但工作量更少，而且兼容Table组件未来对selection的新特性
 function getRowSelection(
     data: any[],
     columns: ColumnSchema[],
