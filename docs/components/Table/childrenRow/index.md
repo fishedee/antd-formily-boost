@@ -21,4 +21,16 @@ order: 8
 -   ChildrenIndex，嵌套层的数据索引是什么。
 -   refColumnName，指向表格的是哪个顶层列。顶层列首先需要用 name 属性来命名自身，然后在 ChildrenRow 的 Column 来指向它。如果存在某个顶层列，ChildrenRow 中没有一个指向它的，那么 Table 组件在 ChildrenRow 渲染的时候忽略这个列。就如 ChildrenRow 中没有一个指向 salesOrderId 列的，那么 ChildrenRow 就会在渲染的时候忽略它。
 
-<API src="../../../../src/Table/components/ChildrenRow.tsx">ChildrenRow</API>
+## 行选择
+
+<code src="./selection.tsx"></code>
+
+Table.ChildrenRow 是可以继续嵌套 Table.ChildrenRow 的，只需要不断填充 childrenIndex 就可以了。行选择的逻辑与 RecursiveRow 的行选择的逻辑是一样的。最后，注意一下如何每个 item 的 count 是自动聚合到 product 上的
+
+## 编辑
+
+<code src="./edit.tsx"></code>
+
+ChildrenRow 是支持编辑的，和 RecursiveRow 一样
+
+<API src="../../../../src/Table/components/ChildrenRow.tsx">Table.ChildrenRow</API>

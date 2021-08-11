@@ -4,6 +4,7 @@ import { ColumnSchema } from './columnSchema';
 import { flatDataInIndex, fillDataInIndex } from '../util';
 import React from 'react';
 import { RecursiveIndex } from './recursiveRow';
+import './rowSelectionStyle.css';
 
 //rowSelection的设计的三个目标
 //1. 数组的每个元素的_rowSelected值都需要初始化为false

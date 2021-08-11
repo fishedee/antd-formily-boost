@@ -7,7 +7,7 @@ import { observable } from '@formily/reactive';
 
 type MyInputType = {
     value: string;
-    onChange: (data: value) => void;
+    onChange: (data: any) => void;
 };
 
 const MyInput = (props: MyInputType) => {

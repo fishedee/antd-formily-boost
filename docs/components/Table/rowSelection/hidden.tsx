@@ -6,9 +6,6 @@ import { Button } from 'antd';
 import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
 
-//记得包含该css文件才能生效
-import 'formily-antd/src/style.css';
-
 const SchemaField = createSchemaField({
     components: {
         FormItem,
