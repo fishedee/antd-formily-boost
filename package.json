@@ -56,19 +56,20 @@
     "umi": ">= 3.5.7"
   },
   "devDependencies": {
-    "@umijs/test": "^3.0.5",
-    "dumi": "^1.0.16",
-    "father-build": "^1.17.2",
-    "gh-pages": "^3.0.0",
-    "lint-staged": "^10.0.7",
-    "prettier": "^2.2.1",
-    "yorkie": "^2.0.0",
     "@ant-design/pro-layout": "^6.5.0",
     "@formily/antd": "^2.0.0-beta.84",
     "@formily/core": "^2.0.0-beta.84",
     "@formily/react": "^2.0.0-beta.84",
     "@formily/reactive": "^2.0.0-beta.84",
     "@formily/reactive-react": "^2.0.0-beta.84",
-    "antd": "^4.16.10"
+    "@types/underscore": "^1.11.3",
+    "@umijs/test": "^3.0.5",
+    "antd": "^4.16.10",
+    "dumi": "^1.0.16",
+    "father-build": "^1.17.2",
+    "gh-pages": "^3.0.0",
+    "lint-staged": "^10.0.7",
+    "prettier": "^2.2.1",
+    "yorkie": "^2.0.0"
   }
 }
