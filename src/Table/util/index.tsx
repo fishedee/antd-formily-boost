@@ -1,4 +1,3 @@
-import { result } from 'underscore';
 import { RecursiveIndex } from '../member/recursiveRow';
 
 function getDataInIndex(data: any[], index: string): any {
