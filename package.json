@@ -1,19 +1,74 @@
 {
-  "private": true,
-  "scripts": {},
+  "name": "formily-antd",
+  "version": "1.0.0",
+  "description": "Formily for AntDesign Table Most Easy Way To Use AntDesign Table",
+  "scripts": {
+    "start": "dumi dev",
+    "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d docs-dist",
+    "build": "father-build",
+    "deploy": "npm run docs:build && npm run docs:deploy",
+    "release": "npm run build && npm publish",
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "test": "umi-test",
+    "test:coverage": "umi-test --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fishedee/formily-antd-table.git"
+  },
+  "author": "fishedee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fishedee/formily-antd-table/issues"
+  },
+  "homepage": "https://github.com/fishedee/formily-antd-table#readme",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,less,md,json}": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
   "dependencies": {
+    "underscore": "^1.13.1"
+  },
+  "peerDependencies": {
+    "@formily/core": ">= 2.0.0-beta.84",
+    "@formily/json-schema": ">= 2.0.0-beta.84",
+    "@formily/react": ">= 2.0.0-beta.84",
+    "@formily/reactive": ">= 2.0.0-beta.84",
+    "@formily/reactive-react": ">= 2.0.0-beta.84",
+    "@formily/shared": ">= 2.0.0-beta.84",
+    "@ant-design/icons": "^4.0.0",
+    "antd": "^4.0.0",
+    "@types/react": ">=16.8.0 || >=17.0.0",
+    "@types/react-dom": ">=16.8.0 || >=17.0.0",
+    "react": ">=16.8.0 || >=17.0.0",
+    "react-dom": ">=16.8.0 || >=17.0.0",
+    "umi": ">= 3.5.7"
+  },
+  "devDependencies": {
+    "@umijs/test": "^3.0.5",
+    "dumi": "^1.0.16",
+    "father-build": "^1.17.2",
+    "gh-pages": "^3.0.0",
+    "lint-staged": "^10.0.7",
+    "prettier": "^2.2.1",
+    "yorkie": "^2.0.0",
     "@ant-design/pro-layout": "^6.5.0",
     "@formily/antd": "^2.0.0-beta.84",
     "@formily/core": "^2.0.0-beta.84",
     "@formily/react": "^2.0.0-beta.84",
     "@formily/reactive": "^2.0.0-beta.84",
     "@formily/reactive-react": "^2.0.0-beta.84",
-    "antd": "^4.16.10",
-    "react": "17.x",
-    "react-dom": "17.x"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0"
+    "antd": "^4.16.10"
   }
 }
