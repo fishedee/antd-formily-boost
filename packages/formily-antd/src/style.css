@@ -1,11 +1,19 @@
 .formily_antd_none_checkbox {
 }
 
-.formily_antd_none_checkbox .ant-table-selection-column {
+.formily_antd_selection_display_none .ant-table-selection-column {
+    display: none;
+}
+
+.formily_antd_selection_display_none .ant-table-selection-col {
+    display: none;
+}
+
+.formily_antd_selection_width_zero .ant-table-selection-column {
     width: 0px !important;
     overflow: hidden !important;
 }
 
-.formily_antd_none_checkbox .ant-table-selection-col {
+.formily_antd_selection_width_zero .ant-table-selection-col {
     width: 0px !important;
 }

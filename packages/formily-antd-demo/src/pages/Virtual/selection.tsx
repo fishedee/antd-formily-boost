@@ -74,7 +74,7 @@ export default () => {
                                 <SchemaField.Void
                                     x-component={'Table.RadioColumn'}
                                     x-component-props={{
-                                        hidden: true,
+                                        hidden: 'WidthZero',
                                         selectRowByClick: true,
                                     }}
                                 />

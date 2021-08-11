@@ -67,8 +67,8 @@ export default () => {
                                         selectedIndex: '_radio',
                                         //点击行的时候就是选择该行
                                         selectRowByClick: true,
-                                        //可隐藏该列，但是选择的样式和功能依然存在，通过点击行来实现选择行
-                                        hidden: true,
+                                        //如果Table组件有scroll的，要使用WidthZero的方式隐藏列
+                                        hidden: 'DisplayNone',
                                     }}
                                 />
                                 <SchemaField.Void

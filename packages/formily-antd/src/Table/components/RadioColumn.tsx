@@ -7,7 +7,7 @@ type RadioColumnProps = {
     fixed?: boolean;
     width?: string;
     selectRowByClick?: boolean;
-    hidden?: boolean;
+    hidden?: false | 'DisplayNone' | 'WidthZero';
 };
 
 class RadioColumnPropsKey implements KeyProps<RadioColumnProps> {

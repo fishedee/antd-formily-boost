@@ -111,8 +111,10 @@ function getRowSelection(
     }
 
     let className: string[] = [];
-    if (column.rowSelectionColumnProps?.hidden === true) {
-        className = ['formily_antd_none_checkbox'];
+    if (column.rowSelectionColumnProps?.hidden == 'DisplayNone') {
+        className = ['formily_antd_selection_display_none'];
+    } else if (column.rowSelectionColumnProps?.hidden == 'WidthZero') {
+        className = ['formily_antd_selection_width_zero'];
     }
 
     return {
