@@ -32,3 +32,5 @@ Column 组件有一个 visible 属性，当设置为 false 的时候可以消失
 <code src="./columnCombine.tsx"></code>
 
 Column 列是可以嵌套的，嵌套以后就可以实现列头嵌套的功能
+
+<API src="../../../../src/Table/components/Column.tsx">Table.Column</API>

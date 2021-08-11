@@ -1,4 +1,5 @@
 import { TablePaginationConfig } from 'antd';
+import React from 'react';
 
 export type PaginationType = {
     current: number;
@@ -56,4 +57,12 @@ function getPagination(
 
 export default getPagination;
 
-export { PaginationPropsType };
+const PaginationPropsTypeForDoc: React.FC<PaginationPropsType> = (props) => {
+    return <span />;
+};
+
+const PaginationTypeForDoc: React.FC<PaginationType> = (props) => {
+    return <span />;
+};
+
+export { PaginationPropsType, PaginationTypeForDoc, PaginationPropsTypeForDoc };

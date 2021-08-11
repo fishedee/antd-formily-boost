@@ -2,16 +2,14 @@ import React from 'react';
 import { observer, useField } from '@formily/react';
 import { useHistory } from 'umi';
 
-type LinkToProps =
-    | {
-          pathname?: string;
-          query?: object;
-          state?: object;
-      }
-    | string;
-
 type LinkProps = {
-    to: LinkToProps;
+    to:
+        | {
+              pathname?: string;
+              query?: object;
+              state?: object;
+          }
+        | string;
     onClick?: () => void;
 };
 

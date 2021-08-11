@@ -20,3 +20,7 @@ order: 3
 <code src="./hidden.tsx"></code>
 
 hidden 属性可以在不显示选择列的情况，进行选择行的操作，记得包含 formily-antd/src/style.css 的文件
+
+<API src="../../../../src/Table/components/RadioColumn.tsx">Table.RadioColumn</API>
+
+<API src="../../../../src/Table/components/CheckboxColumn.tsx">Table.CheckboxColumn</API>

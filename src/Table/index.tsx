@@ -173,3 +173,10 @@ MyTable.Addition = MyAddition;
 MyTable.SubtreeAddition = MySubtreeAddition;
 
 export default MyTable;
+
+//这段代码仅仅为为了生成API文档的
+const MyTableTypeForDoc: React.FC<PropsType> = () => {
+    return <span />;
+};
+
+export { MyTableTypeForDoc };

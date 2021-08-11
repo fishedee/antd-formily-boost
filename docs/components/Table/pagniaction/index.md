@@ -32,3 +32,9 @@ pagniaction 多一个 total 属性，就是后端分页，就这么简单。注�
 <code src="./radio.tsx"></code>
 
 前端分页下的 radio 行选择，与 checkbox 类似
+
+<API src="../../../../src/Table/index.tsx" exports='["MyTableTypeForDoc"]'>Table</API>
+
+<API src="../../../../src/Table/member/paginaction.tsx" exports='["PaginationTypeForDoc"]'>PaginationType</API>
+
+<API src="../../../../src/Table/member/paginaction.tsx" exports='["PaginationPropsTypeForDoc"]'>PaginationPropsType</API>

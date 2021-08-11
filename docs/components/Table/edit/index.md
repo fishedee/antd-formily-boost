@@ -14,3 +14,11 @@ order: 5
 <code src="./userDefine.tsx"></code>
 
 Table.MoveUp，Table.MoveDown，Table.Remove，Table.Addition 这些组件都是允许自定义样式的
+
+<API src="../../../../src/Table/components/MyIndex.tsx">Table.Index</API>
+
+<API src="../../../../src/Table/components/MyMoveUp.tsx">Table.MoveUp</API>
+
+<API src="../../../../src/Table/components/MyMoveDown.tsx">Table.MoveDown</API>
+
+<API src="../../../../src/Table/components/MyRemove.tsx">Table.Remove</API>

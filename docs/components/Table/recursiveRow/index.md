@@ -20,3 +20,5 @@ order: 7
 <code src="./edit.tsx"></code>
 
 递归行的编辑操作，也是直接加入 Table.MoveUp,Table.MoveDown 和 Table.Remove 这些操作就可以了，这些组件会自动控制行在同一层的树级别上下移动，不会跨级别上下移动的。同时，有一个额外的 Table.SubtreeAddition，专门用来处理添加下一子级数据的
+
+<API src="../../../../src/Table/components/RecursiveRow.tsx">ExpandableRow</API>
