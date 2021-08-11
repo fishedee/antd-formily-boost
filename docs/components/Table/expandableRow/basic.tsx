@@ -1,8 +1,8 @@
-import { createForm } from '@formily/core';
-import { createSchemaField, FormConsumer } from '@formily/react';
+import { createForm, onFieldReact } from '@formily/core';
+import { createSchemaField, FormConsumer, Schema } from '@formily/react';
 import { Label, Table, Link, SpaceDivider } from 'formily-antd';
-import { Form, FormItem, Input, Select } from '@formily/antd';
-import React, { useMemo } from 'react';
+import { Form, FormItem, Input, Select, Space } from '@formily/antd';
+import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
 
 const SchemaField = createSchemaField({
@@ -22,14 +22,17 @@ let lastState = observable({
         {
             name: 'fish',
             age: 123,
+            phone: 'phone-1',
         },
         {
             name: 'cat',
             age: 456,
+            phone: 'phone-2',
         },
         {
             name: 'dog',
             age: 789,
+            phone: 'phone-3',
         },
     ],
 });
@@ -43,14 +46,7 @@ export default () => {
     return (
         <Form form={form} feedbackLayout="terse">
             <SchemaField>
-                <SchemaField.Array
-                    name="data"
-                    x-component="Table"
-                    x-component-props={{
-                        //加上边框
-                        bordered: true,
-                    }}
-                >
+                <SchemaField.Array name="data" x-component="Table">
                     <SchemaField.Void>
                         <SchemaField.Void
                             title="名字"
@@ -88,19 +84,23 @@ export default () => {
                                     name="edit"
                                     title="编辑"
                                     x-component={'Link'}
-                                    x-component-props={{
-                                        to: '123',
-                                    }}
                                 />
                                 <SchemaField.Void
                                     name="delete"
                                     title="删除"
                                     x-component={'Link'}
-                                    x-component-props={{
-                                        to: '456',
-                                    }}
                                 />
                             </SchemaField.Void>
+                        </SchemaField.Void>
+                        <SchemaField.Void
+                            x-component="Table.ExpandableRow"
+                            x-component-props={{}}
+                        >
+                            <SchemaField.String
+                                name="phone"
+                                title="电话"
+                                x-component={'Label'}
+                            />
                         </SchemaField.Void>
                     </SchemaField.Void>
                 </SchemaField.Array>

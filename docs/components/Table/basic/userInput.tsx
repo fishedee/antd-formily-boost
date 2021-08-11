@@ -4,7 +4,6 @@ import { Label, Table } from 'formily-antd';
 import { Form, FormItem, Select } from '@formily/antd';
 import React, { useMemo } from 'react';
 import { observable } from '@formily/reactive';
-import 'antd/dist/antd.css';
 
 type MyInputType = {
     value: string;

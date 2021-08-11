@@ -38,37 +38,40 @@ let globalState: { data: DataType[]; paginaction: PaginationType } = observable(
     },
 );
 
-const fetch = async () => {
-    await sleep(100);
-    const total = 1000;
-    const begin =
-        (globalState.paginaction.current - 1) *
-        globalState.paginaction.pageSize;
-    const end =
-        begin + globalState.paginaction.pageSize < total
-            ? begin + globalState.paginaction.pageSize
-            : total;
-    let result: any[] = [];
-    for (var i = begin; i < end; i++) {
-        result.push({
-            name: 'fish_' + i,
-            time: new Date().toLocaleString(),
-        });
-    }
-    batch(() => {
-        //后端分页的特点是多了一个total属性，必须要设置该属性
-        //设置了paginaction的total值的都是后端分页模式
-        globalState.paginaction.total = total;
-        globalState.data = result;
-    });
-};
-
 export default observer(() => {
     const form = useMemo(() => {
         return createForm({
             values: globalState,
         });
     }, []);
+
+    const fetch = async () => {
+        const tableField = form.query('data').take();
+        tableField.componentProps.loading = true;
+        await sleep(300);
+        tableField.componentProps.loading = false;
+        const total = 1000;
+        const begin =
+            (globalState.paginaction.current - 1) *
+            globalState.paginaction.pageSize;
+        const end =
+            begin + globalState.paginaction.pageSize < total
+                ? begin + globalState.paginaction.pageSize
+                : total;
+        let result: any[] = [];
+        for (var i = begin; i < end; i++) {
+            result.push({
+                name: 'fish_' + i,
+                time: new Date().toLocaleString(),
+            });
+        }
+        batch(() => {
+            //后端分页的特点是多了一个total属性，必须要设置该属性
+            //设置了paginaction的total值的都是后端分页模式
+            globalState.paginaction.total = total;
+            globalState.data = result;
+        });
+    };
 
     //首次渲染，或者分页信息发生变化的时候重新fetch
     useEffect(() => {

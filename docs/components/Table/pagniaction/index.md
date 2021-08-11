@@ -19,7 +19,7 @@ order: 4
 
 <code src="./remotePage.tsx"></code>
 
-pagniaction 多一个 total 属性，就是后端分页，就这么简单。注意一下 paginationProps 的属性，可以自定义一些分页的功能
+pagniaction 多一个 total 属性，就是后端分页，就这么简单。注意一下 paginationProps 的属性，可以自定义一些分页的功能。注意，Table 组件上有一个 loading 属性，可以做到 loading 的效果
 
 ## 前端分页+checkbox 行选择
 

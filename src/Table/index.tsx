@@ -42,6 +42,7 @@ type PropsType = {
     virtualScroll?: VirtualScrollProps;
     size?: 'middle' | 'small';
     bordered?: boolean;
+    loading?: boolean;
 };
 
 type MyTableType = React.FC<PropsType> & {
@@ -120,6 +121,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                         row: rowSelection.rowWrapper,
                     },
                 }}
+                loading={props.loading}
                 size={props.size}
                 bordered={props.bordered}
                 onRow={virtual.onRow}

@@ -4,7 +4,7 @@ import { Label, Table } from 'formily-antd';
 import { Form, FormItem, Input, Select } from '@formily/antd';
 import React, { useMemo } from 'react';
 import { observable } from '@formily/reactive';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.compact.css';
 
 const SchemaField = createSchemaField({
     components: {

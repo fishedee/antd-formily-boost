@@ -5,6 +5,7 @@ nav:
     title: 组件
 group:
     title: Table组件
+    order: 0
 ---
 
 ## 基础使用

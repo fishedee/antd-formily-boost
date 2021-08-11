@@ -1,8 +1,9 @@
-import { createForm } from '@formily/core';
-import { createSchemaField, FormConsumer } from '@formily/react';
+import { createForm, onFieldReact } from '@formily/core';
+import { createSchemaField, FormConsumer, Schema } from '@formily/react';
 import { Label, Table, Link, SpaceDivider } from 'formily-antd';
-import { Form, FormItem, Input, Select } from '@formily/antd';
-import React, { useMemo } from 'react';
+import { Form, FormItem, Input, Select, Space } from '@formily/antd';
+import ProCard from '@ant-design/pro-card';
+import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
 
 const SchemaField = createSchemaField({
@@ -24,7 +25,7 @@ let lastState = observable({
             age: 123,
         },
         {
-            name: 'cat',
+            name: 'edit_false',
             age: 456,
         },
         {
@@ -38,19 +39,23 @@ export default () => {
     const form = useMemo(() => {
         return createForm({
             values: lastState,
+            effects: () => {
+                onFieldReact('data.*.operation.edit', (field) => {
+                    //visible与name有关
+                    field.visible =
+                        field.query('..name').value() != 'edit_false';
+                });
+                onFieldReact('data.*.operation.delete', (field) => {
+                    //在field初始化后设置为true
+                    field.visible = true;
+                });
+            },
         });
     }, []);
     return (
         <Form form={form} feedbackLayout="terse">
             <SchemaField>
-                <SchemaField.Array
-                    name="data"
-                    x-component="Table"
-                    x-component-props={{
-                        //加上边框
-                        bordered: true,
-                    }}
-                >
+                <SchemaField.Array name="data" x-component="Table">
                     <SchemaField.Void>
                         <SchemaField.Void
                             title="名字"
@@ -88,23 +93,20 @@ export default () => {
                                     name="edit"
                                     title="编辑"
                                     x-component={'Link'}
-                                    x-component-props={{
-                                        to: '123',
-                                    }}
                                 />
                                 <SchemaField.Void
                                     name="delete"
                                     title="删除"
                                     x-component={'Link'}
-                                    x-component-props={{
-                                        to: '456',
-                                    }}
+                                    //在Schema中默认填写为false
+                                    x-visible={false}
                                 />
                             </SchemaField.Void>
                         </SchemaField.Void>
                     </SchemaField.Void>
                 </SchemaField.Array>
             </SchemaField>
+
             <FormConsumer>
                 {() => <div>{JSON.stringify(form.values)}</div>}
             </FormConsumer>
