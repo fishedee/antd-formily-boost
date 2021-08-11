@@ -40,7 +40,7 @@ footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](http
 
 ## 解决
 
-```tsx
+```tsx | pure
 type DataType = {
     name: string;
     age: number;

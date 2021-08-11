@@ -122,7 +122,7 @@ Formily-Antd 从[Formily](https://v2.formilyjs.org/)的先进的 Reactive 与 Sc
 
 ## 文档
 
-文档在[这里](https://fishedee.github.io/formily-antd/)
+DEMO 与 API 文档在[这里](https://fishedee.github.io/formily-antd/)
 
 ## 使用
 
