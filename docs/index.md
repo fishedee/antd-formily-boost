@@ -4,8 +4,8 @@ hero:
     title: antd-formily-boost
     desc: 优雅，高性能，易组合地使用Antd Table
     actions:
-        - text: 开始
-          link: /components
+        - text: 快速开始
+          link: /start
 features:
     - icon: https://gw.alipayobjects.com/zos/bmw-prod/881dc458-f20b-407b-947a-95104b5ec82b/k79dm8ih_w144_h144.png
       title: 开箱即用
