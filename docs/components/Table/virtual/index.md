@@ -13,7 +13,7 @@ order: 9
 -   不支持 tree 数据
 -   不透明开关，打开虚拟列表和，不打开虚拟列表，代码差异很大，会波及其他代码都要改
 
-在目前实现的 Formily-Antd 版本中，它的特点为：
+在目前实现的 antd-formily-boost 版本中，它的特点为：
 
 -   支持 column 的 width，fixed，以及自定义嵌套组件
 -   支持 rowSelection，checkbox 在树形数据下依然有点问题，在其他情况下运行正常
@@ -21,7 +21,7 @@ order: 9
 -   支持 RecursiveRow 或 ChildrenRow 这种树形数据，但依然不支持 ExpandableRow 的任意 expand 的树形数据
 -   透明开关，打开虚拟列表和，不打开虚拟列表，仅仅是一个属性设置而已，其他代码不用改
 
-为此，Formily-Antd 的实现代价为，体验会稍差，滚动过程中有少许白屏，但至少流畅滚动，在 10 万数据下依然可用。代码仍有优化的余地，详情看一下 Table/member 下的 Virtual.tsx 文件，欢迎提出更多的优化建议
+为此，antd-formily-boost 的实现代价为，体验会稍差，滚动过程中有少许白屏，但至少流畅滚动，在 10 万数据下依然可用。代码仍有优化的余地，详情看一下 Table/member 下的 Virtual.tsx 文件，欢迎提出更多的优化建议
 
 ## 没有虚拟滚动
 

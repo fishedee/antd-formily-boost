@@ -1,6 +1,6 @@
 import { createForm } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
-import { Label, Table, Link, SpaceDivider } from 'formily-antd';
+import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import { Button } from 'antd';
 import { useMemo } from 'react';

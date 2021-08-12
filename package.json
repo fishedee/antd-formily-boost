@@ -1,7 +1,7 @@
 {
-  "name": "formily-antd",
+  "name": "antd-formily-boost",
   "version": "1.1.0",
-  "description": "Formily for AntDesign Table Most Easy Way To Use AntDesign Table",
+  "description": "AntDesign Table Boost Version，Efficent,Easyable,Combinable",
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fishedee/formily-antd-table.git"
+    "url": "git+https://github.com/fishedee/antd-formily-boost.git"
   },
   "author": "fishedee",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fishedee/formily-antd-table/issues"
+    "url": "https://github.com/fishedee/antd-formily-boost/issues"
   },
-  "homepage": "https://github.com/fishedee/formily-antd-table#readme",
+  "homepage": "https://github.com/fishedee/antd-formily-boost#readme",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",

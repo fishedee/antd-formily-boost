@@ -1,7 +1,7 @@
 import { createForm } from '@formily/core';
 import { createSchemaField, FormConsumer, observer } from '@formily/react';
-import { Label, Table, Link, SpaceDivider } from 'formily-antd';
-import { PaginationType } from 'formily-antd/Table';
+import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
+import { PaginationType } from 'antd-formily-boost/Table';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import { useMemo } from 'react';
 import { batch, observable } from '@formily/reactive';

@@ -1,6 +1,7 @@
 ---
+title: antd-formily-boost
 hero:
-    title: formily-antd
+    title: antd-formily-boost
     desc: 优雅，高性能，易组合地使用Antd Table
     actions:
         - text: 开始
@@ -40,7 +41,27 @@ footer: Open-source MIT Licensed | Copyright © 2020<br />Powered by [dumi](http
 
 ## 解决
 
-```tsx | pure
+```tsx
+import { createForm, onFieldReact } from '@formily/core';
+import { createSchemaField, FormConsumer, Schema } from '@formily/react';
+import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
+import { Form, FormItem, Input, Select, Space } from '@formily/antd';
+import React, { useMemo } from 'react';
+import { observable } from '@formily/reactive';
+import { PaginationType } from 'antd-formily-boost/Table';
+
+const SchemaField = createSchemaField({
+    components: {
+        FormItem,
+        Input,
+        Select,
+        Table,
+        Label,
+        Link,
+        SpaceDivider,
+    },
+});
+
 type DataType = {
     name: string;
     age: number;
@@ -73,6 +94,7 @@ export default () => {
                     name="data"
                     x-component="Table"
                     x-component-props={{
+                        bordered: true,
                         paginaction: lastState.pagniaction,
                         paginationProps: {
                             defaultPageSize: 10,
@@ -93,7 +115,6 @@ export default () => {
                             title="名字"
                             x-component="Table.Column"
                             x-component-props={{
-                                fixed: 'left',
                                 width: '30%',
                             }}
                         >
@@ -123,14 +144,116 @@ export default () => {
 };
 ```
 
-Formily-Antd 从[Formily](https://v2.formilyjs.org/)的先进的 Reactive 与 Schema 设计出发，大幅简化对 Table 组件的实现。它的特点是：
+antd-formily-boost 从[Formily](https://v2.formilyjs.org/)的先进的 Reactive 与 Schema 设计出发，大幅简化对 Table 组件的实现。它的特点是：
 
 -   Schema 与 Data 分离，我们能看到代码中仅仅在 Form 的顶头处传送了一次 data 以外，其他地方就没有写过关于 data 的代码。Formily 会通过 Schema 结构自动抽取正确的 Data 位置，并对这些位置的数据进行读写操作。
 -   可读性好，以上的代码同时实现了行选择，与分页功能。开发者需要的心智更少，只需要关注 Schema 的结构是如何在 XML 中表达就可以了，
 -   性能更好，Formily 机制尽可能少地触发整个 Table 的 render 操作
 -   动态性更好，基于 Formily 的实现，我们可以轻松实现任意列的动态控制显示与隐藏，同一行中不同列数据的联动，甚至直接从后端或者可视化编辑器中生成以上代码都可以。
 
-最后 Formily-Antd 的目前版本中，有开箱即用的虚拟滚动实现，让开发者无痛使用一键使用表格虚拟滚动的功能，包括有：
+```tsx
+import { createForm, onFieldReact } from '@formily/core';
+import { createSchemaField, FormConsumer, Schema } from '@formily/react';
+import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
+import { Form, FormItem, Input, Select, Space } from '@formily/antd';
+import React, { useMemo } from 'react';
+import { observable } from '@formily/reactive';
+
+const SchemaField = createSchemaField({
+    components: {
+        FormItem,
+        Input,
+        Select,
+        Table,
+        Label,
+        Link,
+        SpaceDivider,
+    },
+});
+
+type DataType = {
+    name: string;
+    age: number;
+};
+let lastState: { data: DataType[] } = observable({
+    data: [],
+});
+
+for (var i = 0; i != 10000; i++) {
+    lastState.data.push({
+        name: 'fish_' + i,
+        age: i,
+    });
+}
+
+export default () => {
+    const form = useMemo(() => {
+        return createForm({
+            values: lastState,
+        });
+    }, []);
+    return (
+        <Form form={form} feedbackLayout="terse">
+            <SchemaField>
+                <SchemaField.Array
+                    name="data"
+                    x-component="Table"
+                    x-component-props={{
+                        bordered: true,
+                        scroll: {
+                            x: 1000,
+                            y: 400,
+                        },
+                        virtualScroll: {
+                            itemHeight: {
+                                size: 'default',
+                                compact: true,
+                            },
+                        },
+                    }}
+                >
+                    <SchemaField.Void>
+                        <SchemaField.Void
+                            x-component="Table.RadioColumn"
+                            x-component-props={{
+                                dataIndex: '_checked',
+                                selectRowByClick: true,
+                            }}
+                        />
+                        <SchemaField.Void
+                            title="名字"
+                            x-component="Table.Column"
+                            x-component-props={{
+                                width: '30%',
+                            }}
+                        >
+                            <SchemaField.String
+                                name="name"
+                                x-component={'Label'}
+                            />
+                        </SchemaField.Void>
+
+                        <SchemaField.Void
+                            title="年龄"
+                            x-component="Table.Column"
+                            x-component-props={{
+                                width: '70%',
+                            }}
+                        >
+                            <SchemaField.String
+                                name="age"
+                                x-component={'Label'}
+                            />
+                        </SchemaField.Void>
+                    </SchemaField.Void>
+                </SchemaField.Array>
+            </SchemaField>
+        </Form>
+    );
+};
+```
+
+最后 antd-formily-boost 的目前版本中，有开箱即用的虚拟滚动实现，像上面这种代码，只需加入 virtualScroll 属性就能打开虚拟滚动，让开发者无痛一键使用表格虚拟滚动的功能，虚拟滚动支持的场景包括有：
 
 -   支持 column 的 width，fixed，以及自定义嵌套组件
 -   支持 rowSelection，checkbox 在树形数据下依然有点问题，在其他情况下运行正常
@@ -140,12 +263,12 @@ Formily-Antd 从[Formily](https://v2.formilyjs.org/)的先进的 Reactive 与 Sc
 
 ## 文档
 
-文档在[这里](https://fishedee.github.io/formily-antd/)
+文档在[这里](https://fishedee.github.io/antd-formily-boost/)
 
 ## 使用
 
 ```bash
-$ npm install formily-antd --save
+$ npm install antd-formily-boost  --save
 ```
 
 直接包含以上包即可

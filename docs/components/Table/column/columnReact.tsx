@@ -1,6 +1,6 @@
 import { createForm, onFieldInputValueChange } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
-import { Label, Table } from 'formily-antd';
+import { Label, Table } from 'antd-formily-boost';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 
 const form = createForm({

@@ -1,16 +1,9 @@
 import { createForm, onFieldReact } from '@formily/core';
-import {
-    createSchemaField,
-    FormConsumer,
-    observer,
-    Schema,
-} from '@formily/react';
-import { Label, Table, Link, SpaceDivider } from 'formily-antd';
+import { createSchemaField, FormConsumer, observer } from '@formily/react';
+import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
-import { Field } from '@formily/core';
-import { onFieldValueChange } from '@formily/core';
 
 const SchemaField = createSchemaField({
     components: {

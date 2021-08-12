@@ -1,6 +1,6 @@
 import { createForm, onFieldReact } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
-import { Label, Table, Link, SpaceDivider } from 'formily-antd';
+import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
 import { Form, FormItem, Input, Select } from '@formily/antd';
 import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
