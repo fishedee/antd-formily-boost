@@ -9,5 +9,12 @@ export default defineConfig({
     mode: 'site',
     publicPath: '/antd-formily-boost/',
     base: '/antd-formily-boost/',
+    navs: [
+        null, // null 值代表保留约定式生成的导航，只做增量配置
+        {
+            title: 'GitHub',
+            path: 'https://github.com/fishedee/antd-formily-boost',
+        },
+    ],
     // more config: https://d.umijs.org/config
 });
