@@ -63,6 +63,14 @@ export default () => {
                         </SchemaField.Void>
 
                         <SchemaField.Void
+                            title="名字2"
+                            x-component="Table.Column"
+                            x-component-props={{
+                                labelIndex: 'name',
+                            }}
+                        />
+
+                        <SchemaField.Void
                             title="年龄"
                             x-component="Table.Column"
                             x-component-props={{

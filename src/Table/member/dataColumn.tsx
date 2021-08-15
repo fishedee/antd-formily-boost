@@ -1,4 +1,4 @@
-import { RecursionField } from '@formily/react';
+import { observer, RecursionField } from '@formily/react';
 import { ColumnGroupType, ColumnType } from 'antd/lib/table';
 import {
     ArrayIndexContextProvider,
@@ -8,6 +8,15 @@ import { ColumnSchema } from './columnSchema';
 import React from 'react';
 import { getDataInIndex } from '../util';
 import { RecursiveIndex } from './recursiveRow';
+
+type FastLabelProps = {
+    data: any[];
+    index: string;
+};
+
+const FastLabel: React.FC<FastLabelProps> = observer((props) => {
+    return getDataInIndex(props.data, props.index);
+});
 
 function getDataColumns(
     data: any[],
@@ -51,11 +60,15 @@ function getDataColumns(
                 } else {
                     if (childRowRenderColumn.columnProps?.labelIndex) {
                         //直接返回数据，绕过field，这样做会失去effect，但是效率较高
-                        return getDataInIndex(
-                            data,
-                            record._index +
-                                '.' +
-                                childRowRenderColumn.columnProps?.labelIndex,
+                        return (
+                            <FastLabel
+                                data={data}
+                                index={
+                                    record._index +
+                                    '.' +
+                                    childRowRenderColumn.columnProps?.labelIndex
+                                }
+                            />
                         );
                     } else {
                         return (
@@ -84,9 +97,15 @@ function getDataColumns(
             ) => {
                 if (column.columnProps?.labelIndex) {
                     //直接返回数据，绕过field，这样做会失去effect，但是效率较高
-                    return getDataInIndex(
-                        data,
-                        record._index + '.' + column.columnProps?.labelIndex,
+                    return (
+                        <FastLabel
+                            data={data}
+                            index={
+                                record._index +
+                                '.' +
+                                column.columnProps?.labelIndex
+                            }
+                        />
                     );
                 } else {
                     return (

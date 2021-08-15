@@ -19,7 +19,7 @@ group:
 
 <code src="./labelIndex.tsx"></code>
 
-因为 Table 组件经常就是直接展示数据，我们可以在 Column 里面直接指定 labelIndex，就会展示对应索引下的数据了，不需要再嵌套一个 Label 组件，这样的性能要好一点，但是没有了 Formily 的 effect 功能
+因为 Table 组件经常就是直接展示数据，我们可以在 Column 里面直接指定 labelIndex，就会展示对应索引下的数据了，不需要再嵌套一个 Label 组件，这样的性能要好一点，而且 labelIndex 依然能响应数据变化的，就是没有了 Formily 的 effect 功能而已。
 
 ## 组合自己的 UI 组件
 
