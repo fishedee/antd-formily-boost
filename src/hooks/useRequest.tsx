@@ -11,7 +11,7 @@ let requestErrorHandler: ErrorHandler = (result: ResultFail) => {
     console.error(result.error);
 };
 
-export function replaceErrorHandler(handler: ErrorHandler) {
+export function setRequestErrorHandler(handler: ErrorHandler) {
     requestErrorHandler = handler;
 }
 
@@ -33,7 +33,7 @@ let requestHandler: RequestHandler = async (
     }
 };
 
-export function replaceRequestHandler(handler: RequestHandler) {
+export function setRequestHandler(handler: RequestHandler) {
     requestHandler = handler;
 }
 export type UseRequestOptions = {};

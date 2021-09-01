@@ -1,4 +1,4 @@
-import Result, { ResultFail, ResultSuccess } from '@/hooks/Result';
+import Result, { ResultFail, ResultSuccess } from './Result';
 import axios, { AxiosRequestConfig, AxiosPromise, AxiosResponse } from 'axios';
 
 const codeMessage = new Map<number, string>([
@@ -67,7 +67,7 @@ function getCookie(name: string) {
 
 let requestUrlPrefixKey = '';
 
-export function setRequestUrlPrefixKey(prefixKey: string) {
+export function setMyRequestUrlPrefixKey(prefixKey: string) {
     requestUrlPrefixKey = prefixKey;
 }
 
@@ -79,7 +79,7 @@ export type ResponseDataType = {
 
 export type RequestType = (options: AxiosRequestConfig) => Promise<Result<any>>;
 
-const request: RequestType = async (options: AxiosRequestConfig) => {
+const myRequest: RequestType = async (options: AxiosRequestConfig) => {
     if (!options.url || options.url == '') {
         return {
             status: 'fail',
@@ -146,4 +146,4 @@ const request: RequestType = async (options: AxiosRequestConfig) => {
         };
     }
 };
-export default request;
+export default myRequest;
