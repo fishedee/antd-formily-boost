@@ -4,6 +4,7 @@ import { IFormProps, onFieldInputValueChange } from '@formily/core';
 import { useMemo } from 'react';
 import { clearQueryCache } from './useQuery';
 import { throttle } from 'underscore';
+import { useCallback } from 'react';
 
 type TableBoostProps = {
     filter: any;
@@ -81,7 +82,11 @@ function useTableBoost(
             queryBoostInfo.fetch();
         }, 200);
     }, []);
-    const resetFilter = useMemo(() => {
+    const submitFilter = useCallback(() => {
+        formInfo.data.paginaction.current = 1;
+        queryBoostInfo.fetch();
+    }, []);
+    const resetFilter = useCallback(() => {
         //重置页码与filter
         formInfo.data.filter = {};
         formInfo.data.paginaction.current = 1;
@@ -91,6 +96,7 @@ function useTableBoost(
         ...formInfo,
         ...queryBoostInfo,
         fetchThrottle,
+        submitFilter,
         resetFilter,
     };
 }
