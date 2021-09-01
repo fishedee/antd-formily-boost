@@ -1,5 +1,6 @@
 import { TablePaginationConfig } from 'antd';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 export type PaginationType = {
     current: number;
@@ -30,10 +31,14 @@ function getPagination(
     if (paginaction.total !== undefined) {
         totalSize = paginaction.total;
     }
-    const maxPage = Math.ceil(totalSize / paginaction.pageSize) + 1;
-    if (paginaction.current > maxPage) {
-        paginaction.current = maxPage;
-    }
+    const maxPage = Math.ceil(totalSize / paginaction.pageSize);
+
+    useEffect(() => {
+        if (paginaction.current > maxPage) {
+            paginaction.current = maxPage;
+        }
+    }, [paginaction.current, maxPage]);
+
     let result: TablePaginationConfig = {
         current: paginaction.current,
         onChange: (current: number) => {

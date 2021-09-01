@@ -102,8 +102,6 @@ const MyTable: MyTableType = observer((props: PropsType) => {
         expandable = getExpandableRow(field.value, columnSchemas);
     }
 
-    console.log('Table Render', virtual.dataSource.length);
-
     const allClassName = [...rowSelection.className, ...virtual.className];
     return (
         <ArrayContextProvider value={field}>

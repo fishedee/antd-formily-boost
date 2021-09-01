@@ -15,7 +15,12 @@ type FastLabelProps = {
 };
 
 const FastLabel: React.FC<FastLabelProps> = observer((props) => {
-    return getDataInIndex(props.data, props.index);
+    let result = getDataInIndex(props.data, props.index);
+    if (result === undefined) {
+        return <></>;
+    } else {
+        return result;
+    }
 });
 
 function getDataColumns(
@@ -50,13 +55,13 @@ function getDataColumns(
                     level < 0 ||
                     level - 1 >= childrenRowRenders.length
                 ) {
-                    return null;
+                    return <></>;
                 }
                 const childRowRenderColumn = childrenRowRenders[level - 1];
                 const childrenIndex = recursiveIndex?.childrenIndex[level];
                 //默认没有填充，返回空数据
                 if (!childRowRenderColumn) {
-                    return null;
+                    return <></>;
                 } else {
                     if (childRowRenderColumn.columnProps?.labelIndex) {
                         //直接返回数据，绕过field，这样做会失去effect，但是效率较高
