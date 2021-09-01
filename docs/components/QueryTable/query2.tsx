@@ -189,6 +189,7 @@ const QueryList: React.FC<any> = observer((props) => {
                                 <Button
                                     onClick={() => {
                                         data.filter = {};
+                                        data.paginaction.current = 1;
                                         fetch();
                                     }}
                                 >

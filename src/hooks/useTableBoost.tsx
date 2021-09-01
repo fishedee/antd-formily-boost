@@ -26,7 +26,6 @@ function useTableBoost(
 
     //带限流的fetch
     let fetchThrottle = () => {};
-
     const formInfo = useForm(() => {
         if (options?.refreshOnFilterChange) {
             let oldEffects = form.effects ? form.effects : () => {};
@@ -76,12 +75,23 @@ function useTableBoost(
         //FIXME 不明原因
         //debounce会产生Select组件的卡顿
         //throttle的leading设置为false也会卡顿
-        return throttle(queryBoostInfo.fetch, 200);
+        return throttle(() => {
+            //重置页码
+            formInfo.data.paginaction.current = 1;
+            queryBoostInfo.fetch();
+        }, 200);
+    }, []);
+    const resetFilter = useMemo(() => {
+        //重置页码与filter
+        formInfo.data.filter = {};
+        formInfo.data.paginaction.current = 1;
+        queryBoostInfo.fetch();
     }, []);
     return {
         ...formInfo,
         ...queryBoostInfo,
         fetchThrottle,
+        resetFilter,
     };
 }
 
