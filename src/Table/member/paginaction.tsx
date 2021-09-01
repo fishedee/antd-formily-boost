@@ -31,7 +31,10 @@ function getPagination(
     if (paginaction.total !== undefined) {
         totalSize = paginaction.total;
     }
-    const maxPage = Math.ceil(totalSize / paginaction.pageSize);
+    let maxPage = Math.ceil(totalSize / paginaction.pageSize);
+    if (maxPage < 1) {
+        maxPage = 1;
+    }
 
     useEffect(() => {
         if (paginaction.current > maxPage) {
