@@ -1,6 +1,7 @@
 import Label from './Label';
 import Table from './Table';
 import Link from './Link';
+import Tree from './Tree';
 import SpaceDivider from './SpaceDivider';
 import Result, { ResultSuccess, ResultFail } from './hooks/Result';
 import useTableBoost from './hooks/useTableBoost';
@@ -24,6 +25,7 @@ export {
     Table,
     Link,
     SpaceDivider,
+    Tree,
     Result,
     ResultSuccess,
     ResultFail,
