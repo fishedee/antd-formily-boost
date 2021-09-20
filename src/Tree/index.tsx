@@ -11,6 +11,7 @@ import { Key } from 'antd/lib/table/interface';
 import { DataNode } from 'rc-tree/lib/interface';
 import React from 'react';
 import { flatDataInIndex, fillDataInIndex } from '../Table/util';
+import { TreeProps } from 'antd/lib/tree';
 
 type VirtualScrollProps = {
     itemHeight?: number;
@@ -277,35 +278,26 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
     const selectAndCheckboxAndExpandConfig =
         getSelectAndCheckboxAndExpandConfig(props, field.value, recursiveIndex);
 
+    let MyTree: React.FC<TreeProps>;
     if (props.directoryStyle) {
-        return (
-            <Tree.DirectoryTree
-                treeData={dataSource}
-                titleRender={titleRender}
-                disabled={props.disabled}
-                blockNode={props.blockNode}
-                showLine={props.showLine}
-                //虚拟滚动的配置
-                {...virutalConfig}
-                //选择等的配置
-                {...selectAndCheckboxAndExpandConfig}
-            />
-        );
+        MyTree = Tree.DirectoryTree;
     } else {
-        return (
-            <Tree
-                treeData={dataSource}
-                titleRender={titleRender}
-                disabled={props.disabled}
-                blockNode={props.blockNode}
-                showLine={props.showLine}
-                //虚拟滚动的配置
-                {...virutalConfig}
-                //选择等的配置
-                {...selectAndCheckboxAndExpandConfig}
-            />
-        );
+        MyTree = Tree;
     }
+
+    return (
+        <MyTree
+            treeData={dataSource}
+            titleRender={titleRender}
+            disabled={props.disabled}
+            blockNode={props.blockNode}
+            showLine={props.showLine}
+            //虚拟滚动的配置
+            {...virutalConfig}
+            //选择等的配置
+            {...selectAndCheckboxAndExpandConfig}
+        />
+    );
 });
 
 export default MyTree;
