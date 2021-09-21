@@ -53,16 +53,9 @@ export default () => {
                         scroll: {
                             y: 100,
                         },
-                        virtualScroll: {},
+                        labelIndex: 'title',
                     }}
-                >
-                    <SchemaField.Object>
-                        <SchemaField.String
-                            name="title"
-                            x-component={'Label'}
-                        />
-                    </SchemaField.Object>
-                </SchemaField.Array>
+                />
             </SchemaField>
         </Form>
     );

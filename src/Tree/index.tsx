@@ -50,6 +50,7 @@ type PropsType = {
     select?: SelectProps;
     checkbox?: CheckboxProps;
     expand?: ExpandProps;
+    labelIndex?: string;
 };
 
 type MyTreeType = React.FC<PropsType>;
@@ -64,6 +65,7 @@ type DataSourceType = {
 function getDataSourceRecursive(
     form: Form,
     basePath: string,
+    lableIndex: string,
     preIndex: string,
     currentLevel: number,
     data: any[],
@@ -74,7 +76,7 @@ function getDataSourceRecursive(
         var single: DataSourceType = {
             key: preIndex != '' ? preIndex + '.' + i : i + '',
             currentLevel: currentLevel,
-            title: '',
+            title: lableIndex != '' ? data[i][lableIndex] : '',
             children: [],
         };
         let children = data[i][recursiveIndex];
@@ -86,6 +88,7 @@ function getDataSourceRecursive(
             single.children = getDataSourceRecursive(
                 form,
                 basePath,
+                lableIndex,
                 single.key + '.' + recursiveIndex,
                 currentLevel + 1,
                 children,
@@ -108,13 +111,9 @@ function getVirtualConfig(props: PropsType): VirtualConfig {
     if (props.scroll && props.scroll.y) {
         result.height = props.scroll.y;
     }
-    if (props.virtualScroll) {
-        result.virtual = true;
-        if (props.virtualScroll.itemHeight) {
-            result.itemHeight = props.virtualScroll.itemHeight;
-        }
-    } else {
-        result.virtual = false;
+    result.virtual = true;
+    if (props.virtualScroll?.itemHeight) {
+        result.itemHeight = props.virtualScroll?.itemHeight;
     }
     return result;
 }
@@ -226,7 +225,7 @@ function getSelectAndCheckboxAndExpandConfig(
             recursiveIndex: recursiveIndex,
             childrenIndex: [],
         },
-        false,
+        true,
     );
 
     result.onExpand = (expandedKeys: Key[]) => {
@@ -242,11 +241,8 @@ function getSelectAndCheckboxAndExpandConfig(
 
     return result;
 }
-const MyTree: MyTreeType = observer((props: PropsType) => {
-    const field = useField<ArrayField>();
-    const form = useForm();
-    const basePath = field.address.toString();
 
+function getSchema() {
     //获取schema
     const schema = useFieldSchema();
     const itemsSchema: Schema['items'] = schema.items;
@@ -262,6 +258,13 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
     } else {
         itemSchema = itemsSchema;
     }
+    return itemSchema;
+}
+
+const MyTree: MyTreeType = observer((props: PropsType) => {
+    const field = useField<ArrayField>();
+    const form = useForm();
+    const basePath = field.address.toString();
 
     //获取递归的字段名
     let recursiveIndex = props.recursiveIndex;
@@ -270,9 +273,11 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
     }
 
     //拉取数据
+    const labelIndex = props.labelIndex || '';
     let dataSource: DataSourceType[] = getDataSourceRecursive(
         form,
         basePath,
+        labelIndex,
         '',
         0,
         field.value,
@@ -280,10 +285,16 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
     );
 
     //渲染方式
-    const titleRender = (node: DataNode) => {
-        const index = node.key as string;
-        return <RecursionField schema={itemSchema} name={index} />;
-    };
+    let titleRender: ((node: DataNode) => React.ReactNode) | undefined;
+    if (labelIndex == '') {
+        const itemSchema = getSchema();
+        titleRender = (node: DataNode) => {
+            const index = node.key as string;
+            return <RecursionField schema={itemSchema} name={index} />;
+        };
+    } else {
+        titleRender = undefined;
+    }
 
     //获取虚拟滚动方式
     const virutalConfig = getVirtualConfig(props);
@@ -298,6 +309,8 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
     } else {
         MyTree = Tree;
     }
+
+    console.log('virutalConfig', virutalConfig);
 
     return (
         <MyTree
