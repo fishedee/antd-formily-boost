@@ -213,6 +213,8 @@ function getSelectAndCheckboxAndExpandConfig(
         };
     }
 
+    //为什么要将expand属性放在字段上，而不是使用默认的设置
+    //因为这样的defaultExpand较为严格，antd的defaultExpandAll仅仅在第一次挂起组件的时候生效，后续刷新数据，或者添加数据以后，defaultExpandAll不起作用
     //提取expand属性
     result.autoExpandParent = props.expand?.autoExpandParent || false;
     let defaultExpand: boolean = !!props.expand?.defaultExpand;
