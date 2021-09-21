@@ -1,3 +1,4 @@
+import { Form } from '@formily/core';
 import { TableProps as RcTableProps } from 'rc-table/lib/Table';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { any, throttle } from 'underscore';
@@ -31,6 +32,8 @@ type DataSourceType = {
 };
 
 function getDataSourceRecursive(
+    form: Form,
+    basePath: string,
     preIndex: string,
     currentLevel: number,
     data: any[],
@@ -50,7 +53,13 @@ function getDataSourceRecursive(
             }
             let children = data[i][recursiveIndexName];
             if (children && children.length != 0) {
+                form.createArrayField({
+                    name: single._index + '.' + recursiveIndexName,
+                    basePath: basePath,
+                });
                 single._children = getDataSourceRecursive(
+                    form,
+                    basePath,
                     single._index + '.' + recursiveIndexName,
                     currentLevel + 1,
                     children,
@@ -67,10 +76,19 @@ function getDataSourceRecursive(
 }
 
 function getNoVirtual(
+    form: Form,
+    basePath: string,
     data: any[],
     recursiveIndex?: RecursiveIndex,
 ): { dataSource: DataSourceType[]; onRow: any } {
-    let dataSource = getDataSourceRecursive('', 0, data, recursiveIndex);
+    let dataSource = getDataSourceRecursive(
+        form,
+        basePath,
+        '',
+        0,
+        data,
+        recursiveIndex,
+    );
     return {
         dataSource: dataSource,
         onRow: undefined,
@@ -123,6 +141,8 @@ type VirtualRecursivePropsType = {
 
 //计算每行占用的高度
 function getRecursiveHeightDataSource(
+    form: Form,
+    basePath: string,
     prevHeight: number,
     preIndex: string,
     currentLevel: number,
@@ -151,7 +171,13 @@ function getRecursiveHeightDataSource(
         let childrenData: DataSourceType[] = [];
         let totalChildrenCount = 0;
         if (children && children.length != 0 && isExpand) {
+            form.createArrayField({
+                name: single._index + '.' + recursiveIndexName,
+                basePath: basePath,
+            });
             [childrenData, totalChildrenCount] = getRecursiveHeightDataSource(
+                form,
+                basePath,
                 prevHeight + config.itemHeight,
                 single._index + '.' + recursiveIndexName,
                 currentLevel + 1,
@@ -269,11 +295,15 @@ function getRecursiveVirtualDataSource(
 //这里的时间不是极限的，还可以进一步提升，
 //高度不是每次render的时候重新计算，而是缓存一个本地数据，然后当data变化的时候，track同步来计算新数据。最后使用线段树来优化区间和操作
 function getRecursiveVirtual(
+    form: Form,
+    basePath: string,
     data: any[],
     config: VirtualConfig,
     virtualRecursiveProps: VirtualRecursivePropsType,
 ): { dataSource: DataSourceType[]; onRow: any } {
     let [dataSourceHeight, childrenCount] = getRecursiveHeightDataSource(
+        form,
+        basePath,
         0,
         '',
         0,
@@ -364,6 +394,8 @@ function getVirtualConfig(
 }
 
 function getVirtual(
+    form: Form,
+    basePath: string,
     data: any[],
     scroll?: RcTableProps<any>['scroll'],
     virtualScroll?: VirtualScrollProps,
@@ -373,7 +405,12 @@ function getVirtual(
     if (!scroll || !virtualScroll) {
         return {
             className: [],
-            ...getNoVirtual(data, virtualRecursiveProps?.recursiveIndex),
+            ...getNoVirtual(
+                form,
+                basePath,
+                data,
+                virtualRecursiveProps?.recursiveIndex,
+            ),
         };
     }
     if (!scroll.y || typeof scroll.y != 'number') {
@@ -382,7 +419,12 @@ function getVirtual(
         );
         return {
             className: [],
-            ...getNoVirtual(data, virtualRecursiveProps?.recursiveIndex),
+            ...getNoVirtual(
+                form,
+                basePath,
+                data,
+                virtualRecursiveProps?.recursiveIndex,
+            ),
         };
     }
 
@@ -395,6 +437,8 @@ function getVirtual(
     } else {
         //树形数据虚拟滚动
         virtual = getRecursiveVirtual(
+            form,
+            basePath,
             data,
             virtualConfig,
             virtualRecursiveProps,

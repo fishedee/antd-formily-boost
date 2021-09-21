@@ -1,6 +1,6 @@
 {
   "name": "antd-formily-boost",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "AntDesign Table Boost Version，Efficent,Easyable,Combinable",
   "scripts": {
     "start": "dumi dev",
@@ -58,11 +58,11 @@
   },
   "devDependencies": {
     "@ant-design/pro-layout": "^6.5.0",
-    "@formily/antd": "2.0.0-rc.1",
-    "@formily/core": "2.0.0-rc.1",
-    "@formily/react": "2.0.0-rc.1",
-    "@formily/reactive": "2.0.0-rc.1",
-    "@formily/reactive-react": "2.0.0-rc.1",
+    "@formily/antd": "^2.0.0-rc.9",
+    "@formily/core": "^2.0.0-rc.9",
+    "@formily/react": "^2.0.0-rc.9",
+    "@formily/reactive": "^2.0.0-rc.9",
+    "@formily/reactive-react": "^2.0.0-rc.9",
     "@types/underscore": "^1.11.3",
     "@umijs/test": "^3.0.5",
     "antd": "^4.16.10",

@@ -1,9 +1,10 @@
-import { ArrayField, Field } from '@formily/core';
+import { ArrayField, Field, Form } from '@formily/core';
 import {
     useField,
     RecursionField,
     useFieldSchema,
     Schema,
+    useForm,
 } from '@formily/react';
 import { observer } from '@formily/reactive-react';
 import { Tree } from 'antd';
@@ -60,6 +61,8 @@ type DataSourceType = {
 };
 
 function getDataSourceRecursive(
+    form: Form,
+    basePath: string,
     preIndex: string,
     currentLevel: number,
     data: any[],
@@ -75,7 +78,13 @@ function getDataSourceRecursive(
         };
         let children = data[i][recursiveIndex];
         if (children && children.length != 0) {
+            form.createArrayField({
+                name: single.key + '.' + recursiveIndex,
+                basePath: basePath,
+            });
             single.children = getDataSourceRecursive(
+                form,
+                basePath,
                 single.key + '.' + recursiveIndex,
                 currentLevel + 1,
                 children,
@@ -234,6 +243,8 @@ function getSelectAndCheckboxAndExpandConfig(
 }
 const MyTree: MyTreeType = observer((props: PropsType) => {
     const field = useField<ArrayField>();
+    const form = useForm();
+    const basePath = field.address.toString();
 
     //获取schema
     const schema = useFieldSchema();
@@ -259,6 +270,8 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
 
     //拉取数据
     let dataSource: DataSourceType[] = getDataSourceRecursive(
+        form,
+        basePath,
         '',
         0,
         field.value,

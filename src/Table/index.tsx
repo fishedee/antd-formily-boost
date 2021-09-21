@@ -1,5 +1,10 @@
 import { ArrayField } from '@formily/core';
-import { RecursionField, useField, useFieldSchema } from '@formily/react';
+import {
+    RecursionField,
+    useField,
+    useFieldSchema,
+    useForm,
+} from '@formily/react';
 import { observer } from '@formily/reactive-react';
 import React from 'react';
 import { Table } from 'antd';
@@ -62,6 +67,8 @@ type MyTableType = React.FC<PropsType> & {
 
 const MyTable: MyTableType = observer((props: PropsType) => {
     const field = useField<ArrayField>();
+    const form = useForm();
+    const basePath = field.address.toString();
     const fieldSchema = useFieldSchema();
     const columnSchemas = getColumnSchema(fieldSchema);
 
@@ -88,6 +95,8 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const scroll = getScroll(props.scroll);
 
     const virtual = getVirtual(
+        form,
+        basePath,
         field.value,
         props.scroll,
         props.virtualScroll,

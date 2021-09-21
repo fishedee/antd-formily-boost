@@ -10,6 +10,7 @@ type TreeSelectProps = {
     directoryStyle?: boolean;
     height?: number;
     blockNode?: boolean;
+    showLine?: boolean | { showLeafIcon: boolean };
     multiple?: boolean;
     defaultExpandAll?: boolean;
     defaultExpandParent?: boolean;
@@ -93,6 +94,7 @@ const TreeSelect: React.FC<TreeSelectProps> = observer((props) => {
             height={props.height}
             blockNode={props.blockNode}
             multiple={props.multiple}
+            showLine={props.showLine}
             selectedKeys={selectKeys}
             defaultExpandAll={props.defaultExpandAll}
             defaultExpandParent={props.defaultExpandParent}
