@@ -2,7 +2,7 @@ import { Field } from '@formily/core';
 import { useField } from '@formily/react';
 import { observer } from '@formily/reactive-react';
 import { Tree } from 'antd';
-import { Key } from 'antd/lib/table/interface';
+import { Key, EventDataNode, DataNode } from 'rc-tree/lib/interface';
 import React from 'react';
 import { TreeProps } from 'antd/lib/tree';
 
@@ -14,9 +14,10 @@ type TreeSelectProps = {
     multiple?: boolean;
     defaultExpandAll?: boolean;
     defaultExpandParent?: boolean;
-    style?: object;
+    style?: React.CSSProperties;
+    className?: string;
     value?: any;
-    onChange?: (data: any) => void;
+    onChange?: (data: any, nodes: any) => void;
 };
 
 type DataSourceType = {
@@ -28,17 +29,26 @@ type DataSourceType = {
 function getDataSourceRecursive(
     data: any[],
     recursiveIndex: string,
+    sourceMap: Map<any, any>,
 ): DataSourceType[] {
     let result: DataSourceType[] = [];
+    if (data === undefined || data instanceof Array == false) {
+        return result;
+    }
     for (var i = 0; i != data.length; i++) {
         var single: DataSourceType = {
             key: data[i].value,
             children: [],
             title: data[i].label,
         };
+        sourceMap.set(data[i].value, data[i]);
         let children = data[i][recursiveIndex];
-        if (children && children.length != 0) {
-            single.children = getDataSourceRecursive(children, recursiveIndex);
+        if (children && children instanceof Array && children.length != 0) {
+            single.children = getDataSourceRecursive(
+                children,
+                recursiveIndex,
+                sourceMap,
+            );
         }
         result.push(single);
     }
@@ -48,11 +58,21 @@ function getDataSourceRecursive(
 const TreeSelect: React.FC<TreeSelectProps> = observer((props) => {
     const field = useField() as Field;
     const dataSource = field.dataSource;
-    const treeData = getDataSourceRecursive(dataSource, 'children');
+    const sourceMap = new Map<any, any>();
+    const treeData = getDataSourceRecursive(dataSource, 'children', sourceMap);
     const value = props.value;
 
     let selectKeys: string[] = [];
-    let onSelect: (selectedKeys: Key[]) => void = () => {};
+    let onSelect: (
+        selectedKeys: Key[],
+        info: {
+            event: 'select';
+            selected: boolean;
+            node: EventDataNode;
+            selectedNodes: DataNode[];
+            nativeEvent: MouseEvent;
+        },
+    ) => void = () => {};
 
     if (props.multiple) {
         if (
@@ -65,7 +85,10 @@ const TreeSelect: React.FC<TreeSelectProps> = observer((props) => {
             selectKeys = value;
         }
         onSelect = (selectedKeys) => {
-            props.onChange!(selectedKeys);
+            const nodes = selectedKeys.map((single) => {
+                return sourceMap.get(single);
+            });
+            props.onChange!(selectedKeys, nodes);
         };
     } else {
         if (value === undefined || value === null) {
@@ -75,9 +98,12 @@ const TreeSelect: React.FC<TreeSelectProps> = observer((props) => {
         }
         onSelect = (selectedKeys) => {
             if (selectedKeys.length == 0) {
-                props.onChange!(undefined);
+                props.onChange!(undefined, undefined);
             } else {
-                props.onChange!(selectedKeys[0]);
+                props.onChange!(
+                    selectedKeys[0],
+                    sourceMap.get(selectedKeys[0]),
+                );
             }
         };
     }
@@ -90,6 +116,7 @@ const TreeSelect: React.FC<TreeSelectProps> = observer((props) => {
     return (
         <MyTree
             style={props.style}
+            className={props.className}
             treeData={treeData}
             height={props.height}
             blockNode={props.blockNode}

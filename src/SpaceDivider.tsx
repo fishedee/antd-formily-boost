@@ -6,6 +6,8 @@ import React, { Children, Fragment } from 'react';
 
 type SpaceDividerProps = {
     type?: 'vertical' | 'horizontal';
+    style?: React.CSSProperties;
+    className?: string;
 };
 
 type Column = {
@@ -66,7 +68,11 @@ const SpaceDivider: React.FC<SpaceDividerProps> = observer((props) => {
             />,
         );
     }
-    return <Fragment>{result}</Fragment>;
+    return (
+        <div style={props.style} className={props.className}>
+            {result}
+        </div>
+    );
 });
 
 export default SpaceDivider;

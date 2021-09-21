@@ -48,6 +48,8 @@ type PropsType = {
     size?: 'middle' | 'small';
     bordered?: boolean;
     loading?: boolean;
+    style?: React.CSSProperties;
+    className?: string;
 };
 
 type MyTableType = React.FC<PropsType> & {
@@ -115,7 +117,8 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     return (
         <ArrayContextProvider value={field}>
             <Table
-                className={allClassName.join(' ')}
+                style={props.style}
+                className={allClassName.join(' ') + ' ' + props.className}
                 rowKey="_index"
                 columns={dataColumns}
                 dataSource={virtual.dataSource}

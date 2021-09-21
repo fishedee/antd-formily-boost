@@ -3,13 +3,19 @@ import React, { createContext, useContext, useState } from 'react';
 const HoverableContext = createContext(false);
 
 type HoverablePropsType = {
-    style: object;
-    className: string;
+    style?: React.CSSProperties;
+    className?: string;
 };
 
-type EnterPropsType = {};
+type EnterPropsType = {
+    style?: React.CSSProperties;
+    className?: string;
+};
 
-type LeavePropsType = {};
+type LeavePropsType = {
+    style?: React.CSSProperties;
+    className?: string;
+};
 
 type HoverableType = React.FC<HoverablePropsType> & {
     Enter: React.FC<EnterPropsType>;
@@ -27,15 +33,15 @@ const Hoverable: HoverableType = (props) => {
         setIsEnter(false);
     };
 
-    const { children, ...resetProps } = props;
     return (
         <HoverableContext.Provider value={isEnter}>
             <div
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
-                {...resetProps}
+                style={props.style}
+                className={props.className}
             >
-                {children}
+                {props.children}
             </div>
         </HoverableContext.Provider>
     );
@@ -43,20 +49,28 @@ const Hoverable: HoverableType = (props) => {
 
 Hoverable.Enter = (props) => {
     const hoverableContext = useContext(HoverableContext);
-    if (hoverableContext) {
-        return <>{props.children}</>;
-    } else {
-        return <></>;
+    let myStyle: React.CSSProperties = {};
+    if (!hoverableContext) {
+        myStyle.display = 'none';
     }
+    return (
+        <div style={{ ...props.style, ...myStyle }} className={props.className}>
+            {props.children}
+        </div>
+    );
 };
 
 Hoverable.Leave = (props) => {
     const hoverableContext = useContext(HoverableContext);
-    if (!hoverableContext) {
-        return <>{props.children}</>;
-    } else {
-        return <></>;
+    let myStyle: React.CSSProperties = {};
+    if (hoverableContext) {
+        myStyle.display = 'none';
     }
+    return (
+        <div style={{ ...props.style, ...myStyle }} className={props.className}>
+            {props.children}
+        </div>
+    );
 };
 
 export default Hoverable;

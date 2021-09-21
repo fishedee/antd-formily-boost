@@ -39,7 +39,8 @@ type ExpandProps = {
 };
 
 type PropsType = {
-    style?: object;
+    style?: React.CSSProperties;
+    className?: string;
     recursiveIndex?: string;
     directoryStyle?: boolean;
     scroll?: ScrollProps;
@@ -72,6 +73,9 @@ function getDataSourceRecursive(
     recursiveIndex: string,
 ): DataSourceType[] {
     let result: DataSourceType[] = [];
+    if (data === undefined || data instanceof Array == false) {
+        return result;
+    }
     for (var i = 0; i != data.length; i++) {
         var single: DataSourceType = {
             key: preIndex != '' ? preIndex + '.' + i : i + '',
@@ -80,7 +84,7 @@ function getDataSourceRecursive(
             children: [],
         };
         let children = data[i][recursiveIndex];
-        if (children && children.length != 0) {
+        if (children && children instanceof Array && children.length != 0) {
             form.createArrayField({
                 name: single.key + '.' + recursiveIndex,
                 basePath: basePath,
@@ -310,13 +314,12 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
         MyTree = Tree;
     }
 
-    console.log('virutalConfig', virutalConfig);
-
     return (
         <MyTree
             treeData={dataSource}
             titleRender={titleRender}
             style={props.style}
+            className={props.className}
             disabled={props.disabled}
             blockNode={props.blockNode}
             showLine={props.showLine}

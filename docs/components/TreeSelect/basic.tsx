@@ -7,7 +7,7 @@ import {
     onFieldInputValueChange,
     onFieldReact,
 } from '@formily/core';
-import { FormProvider, createSchemaField } from '@formily/react';
+import { FormProvider, createSchemaField, FormConsumer } from '@formily/react';
 
 const SchemaField = createSchemaField({
     components: {
@@ -17,16 +17,7 @@ const SchemaField = createSchemaField({
     },
 });
 
-const form = createForm({
-    effects: () => {
-        onFieldReact('result', (field) => {
-            const field2 = field as Field;
-            const selectValue = field.query('.select').value();
-            console.log('value', selectValue);
-            field2.setValue(selectValue);
-        });
-    },
-});
+const form = createForm({});
 
 export default () => (
     <FormProvider form={form}>
@@ -81,12 +72,9 @@ export default () => (
                     defaultExpandAll: true,
                 }}
             />
-            <SchemaField.String
-                name="result"
-                title="结果"
-                x-decorator={'FormItem'}
-                x-component="Label"
-            />
         </SchemaField>
+        <FormConsumer>
+            {() => <div>{JSON.stringify(form.values)}</div>}
+        </FormConsumer>
     </FormProvider>
 );
