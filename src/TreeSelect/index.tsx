@@ -103,3 +103,10 @@ const TreeSelect: React.FC<TreeSelectProps> = observer((props) => {
     );
 });
 export default TreeSelect;
+
+//这段代码仅仅为为了生成API文档的
+const MyTreeSelectFocDoc: React.FC<TreeSelectProps> = () => {
+    return <span />;
+};
+
+export { MyTreeSelectFocDoc };

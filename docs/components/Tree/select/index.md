@@ -27,3 +27,5 @@ group:
 <code src="./expand.tsx"></code>
 
 选择行，注意数据中的 myExpand 字段，autoExpandParent 字段，会使得子级打开的时候，父级会自动打开。所以，要收起父级的时候，子级都需要全部收起
+
+<!--<API src="../../../../src/Tree/index.tsx" exports='["MyTreeTypeForDoc"]'>Tree</API>-->

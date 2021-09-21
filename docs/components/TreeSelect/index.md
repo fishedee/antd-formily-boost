@@ -15,3 +15,5 @@ group:
 <code src="./multiple.tsx"></code>
 
 多选，以及设置样式
+
+<!--<API src="../../../src/TreeSelect/index.tsx" exports='["MyTreeSelectTypeForDoc"]'>TreeSelect</API>-->

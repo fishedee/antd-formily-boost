@@ -1,11 +1,11 @@
 ---
 title: 查询列表
-order: 6
+order: 0
 nav:
     title: 组件
 group:
     title: 查询列表
-    order: 1
+    order: 7
 ---
 
 ## 基础使用

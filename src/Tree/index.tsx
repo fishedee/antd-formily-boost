@@ -39,6 +39,7 @@ type ExpandProps = {
 };
 
 type PropsType = {
+    style?: object;
     recursiveIndex?: string;
     directoryStyle?: boolean;
     scroll?: ScrollProps;
@@ -302,6 +303,7 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
         <MyTree
             treeData={dataSource}
             titleRender={titleRender}
+            style={props.style}
             disabled={props.disabled}
             blockNode={props.blockNode}
             showLine={props.showLine}
@@ -314,3 +316,10 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
 });
 
 export default MyTree;
+
+//这段代码仅仅为为了生成API文档的
+const MyTreeTypeFocDoc: React.FC<PropsType> = () => {
+    return <span />;
+};
+
+export { MyTreeTypeFocDoc };

@@ -1,6 +1,6 @@
 import { createForm, onFieldMount, onFieldReact } from '@formily/core';
 import { createSchemaField, FormConsumer } from '@formily/react';
-import { Label, Tree, Link } from 'antd-formily-boost';
+import { Label, Tree, Link, Hoverable } from 'antd-formily-boost';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import React, { useMemo } from 'react';
 import { observable } from '@formily/reactive';
@@ -15,6 +15,7 @@ const SchemaField = createSchemaField({
         Label,
         Space,
         Link,
+        Hoverable,
     },
 });
 
@@ -94,7 +95,7 @@ export default () => {
                     }}
                 >
                     <SchemaField.Object
-                        x-decorator={'Space'}
+                        x-decorator={'Hoverable'}
                         x-decorator-props={{
                             style: {
                                 display: 'flex',
@@ -109,6 +110,7 @@ export default () => {
                         <SchemaField.Void
                             name="del"
                             title="删除"
+                            x-decorator={'Hoverable.Enter'}
                             x-component={'Link'}
                         />
                     </SchemaField.Object>

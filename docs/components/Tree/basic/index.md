@@ -23,3 +23,5 @@ group:
 <code src="./virtual.tsx"></code>
 
 打开虚拟滚动
+
+<!--<API src="../../../../src/Tree/index.tsx" exports='["MyTreeTypeForDoc"]'>Tree</API>-->

@@ -4,6 +4,7 @@ import Link from './Link';
 import Tree from './Tree';
 import TreeSelect from './TreeSelect';
 import SpaceDivider from './SpaceDivider';
+import Hoverable from './Hoverable';
 import Result, { ResultSuccess, ResultFail } from './hooks/Result';
 import useTableBoost from './hooks/useTableBoost';
 import useQuery, {
@@ -28,6 +29,7 @@ export {
     SpaceDivider,
     Tree,
     TreeSelect,
+    Hoverable,
     Result,
     ResultSuccess,
     ResultFail,
