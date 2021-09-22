@@ -64,8 +64,6 @@ type DataSourceType = {
 };
 
 function getDataSourceRecursive(
-    form: Form,
-    basePath: string,
     lableIndex: string,
     preIndex: string,
     currentLevel: number,
@@ -85,13 +83,7 @@ function getDataSourceRecursive(
         };
         let children = data[i][recursiveIndex];
         if (children && children instanceof Array && children.length != 0) {
-            form.createArrayField({
-                name: single.key + '.' + recursiveIndex,
-                basePath: basePath,
-            });
             single.children = getDataSourceRecursive(
-                form,
-                basePath,
                 lableIndex,
                 single.key + '.' + recursiveIndex,
                 currentLevel + 1,
@@ -269,8 +261,6 @@ function getSchema() {
 
 const MyTree: MyTreeType = observer((props: PropsType) => {
     const field = useField<ArrayField>();
-    const form = useForm();
-    const basePath = field.address.toString();
 
     //获取递归的字段名
     let recursiveIndex = props.recursiveIndex;
@@ -281,8 +271,6 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
     //拉取数据
     const labelIndex = props.labelIndex || '';
     let dataSource: DataSourceType[] = getDataSourceRecursive(
-        form,
-        basePath,
         labelIndex,
         '',
         0,
