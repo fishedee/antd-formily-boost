@@ -39,6 +39,7 @@ import MySubtreeAddition, {
 } from './components/MySubtreeAddition';
 import { ExpandableConfig } from 'antd/lib/table/interface';
 import ChildrenRow, { ChildrenRowProps } from './components/ChildrenRow';
+import './index.css';
 
 type PropsType = {
     paginaction?: PaginationType;
@@ -109,7 +110,11 @@ const MyTable: MyTableType = observer((props: PropsType) => {
         expandable = getExpandableRow(field.value, columnSchemas);
     }
 
-    const allClassName = [...rowSelection.className, ...virtual.className];
+    const allClassName = [
+        'antd_formily_table_boost',
+        ...rowSelection.className,
+        ...virtual.className,
+    ];
     return (
         <ArrayContextProvider value={field}>
             <Table
