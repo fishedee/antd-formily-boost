@@ -20,4 +20,8 @@ group:
 
 自定义扩展 TreeSelect，以接收多个字段
 
+<code src="./none.tsx"></code>
+
+初始值安全地设置为 undefined
+
 <!--<API src="../../../src/TreeSelect/index.tsx" exports='["MyTreeSelectTypeForDoc"]'>TreeSelect</API>-->

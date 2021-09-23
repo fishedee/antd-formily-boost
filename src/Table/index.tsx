@@ -72,23 +72,26 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const field = useField<ArrayField>();
     const fieldSchema = useFieldSchema();
     const columnSchemas = getColumnSchema(fieldSchema);
-
-    const recursiveRow = getRecursiveRow(field.value, columnSchemas);
+    let value = field.value;
+    if (value === undefined || value instanceof Array == false) {
+        value = [];
+    }
+    const recursiveRow = getRecursiveRow(value, columnSchemas);
 
     const dataColumns = getDataColumns(
-        field.value,
+        value,
         columnSchemas,
         recursiveRow?.recursiveIndex,
     );
 
     const rowSelection = getRowSelection(
-        field.value,
+        value,
         columnSchemas,
         recursiveRow?.recursiveIndex,
     );
 
     const pagination = getPagination(
-        field.value.length,
+        value.length,
         props.paginaction,
         props.paginationProps,
     );
@@ -96,7 +99,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     const scroll = getScroll(props.scroll);
 
     const virtual = getVirtual(
-        field.value,
+        value,
         props.scroll,
         props.virtualScroll,
         recursiveRow,
@@ -107,7 +110,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     if (recursiveRow) {
         expandable = recursiveRow.expandedProps;
     } else {
-        expandable = getExpandableRow(field.value, columnSchemas);
+        expandable = getExpandableRow(value, columnSchemas);
     }
 
     const allClassName = [

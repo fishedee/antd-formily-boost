@@ -261,6 +261,10 @@ function getSchema() {
 
 const MyTree: MyTreeType = observer((props: PropsType) => {
     const field = useField<ArrayField>();
+    let value = field.value;
+    if (value === undefined || value instanceof Array == false) {
+        value = [];
+    }
 
     //获取递归的字段名
     let recursiveIndex = props.recursiveIndex;
@@ -274,7 +278,7 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
         labelIndex,
         '',
         0,
-        field.value,
+        value,
         recursiveIndex,
     );
 
@@ -295,7 +299,7 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
 
     //获取选择方式
     const selectAndCheckboxAndExpandConfig =
-        getSelectAndCheckboxAndExpandConfig(props, field.value, recursiveIndex);
+        getSelectAndCheckboxAndExpandConfig(props, value, recursiveIndex);
 
     let MyTree: React.FC<TreeProps>;
     if (props.directoryStyle) {
