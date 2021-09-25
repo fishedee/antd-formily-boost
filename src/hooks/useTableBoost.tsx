@@ -1,8 +1,7 @@
-import useForm, { createFormProps } from './useForm';
-import useQuery from './useQuery';
 import { IFormProps, onFieldInputValueChange } from '@formily/core';
 import { useMemo } from 'react';
-import { clearQueryCache } from './useQuery';
+import useForm, { createFormProps } from './useForm';
+import useQuery from './useQuery';
 import { throttle } from 'underscore';
 import { useCallback } from 'react';
 import { batch } from '@formily/reactive';
@@ -15,17 +14,15 @@ type TableBoostProps = {
 
 type TableBoostOptions = {
     refreshOnFilterChange?: boolean;
+    firstDidNotRefresh?: boolean;
+    cacheKey?: string;
+    cacheTime?: number;
 };
 function useTableBoost(
     ajaxUrl: string,
     form: IFormProps<TableBoostProps> = {},
     options?: TableBoostOptions,
 ) {
-    useMemo(() => {
-        //每个页面的queryCache都要清空
-        clearQueryCache();
-    }, []);
-
     //带限流的fetch
     let fetchThrottle = () => {};
     const formInfo = useForm(() => {
@@ -83,6 +80,9 @@ function useTableBoost(
                 formInfo.data.paginaction.current,
                 formInfo.data.paginaction.pageSize,
             ],
+            firstDidNotRefresh: options?.firstDidNotRefresh,
+            cacheKey: options?.cacheKey,
+            cacheTime: options?.cacheTime,
         },
     );
     //提交的时候，要做两件事

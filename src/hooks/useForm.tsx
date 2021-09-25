@@ -6,7 +6,7 @@ let formCache = new Map<string, object>();
 
 export function invalidFormCacheByKey(prefixKey: string) {
     let cacheKeys = formCache.keys();
-    for (let key in cacheKeys) {
+    for (let key of cacheKeys) {
         if (key.startsWith(prefixKey)) {
             formCache.delete(key);
         }
