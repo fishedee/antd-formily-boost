@@ -10,6 +10,7 @@ import useTableBoost from './hooks/useTableBoost';
 import useQuery, {
     clearQueryCache,
     invalidQueryCacheByKey,
+    setDefaultQueryCacheTime,
 } from './hooks/useQuery';
 import useForm, {
     invalidFormCacheByKey,
@@ -37,6 +38,7 @@ export {
     useQuery,
     clearQueryCache,
     invalidQueryCacheByKey,
+    setDefaultQueryCacheTime,
     useForm,
     invalidFormCacheByKey,
     clearFormCache,

@@ -26,7 +26,7 @@ export function invalidQueryCacheByKey(prefixKey: string) {
 
 let defaultCacheTimeInMilliSeconds = 30 * 60 * 1000;
 
-export function setDefaultCacheTime(milliSeconds: number) {
+export function setDefaultQueryCacheTime(milliSeconds: number) {
     defaultCacheTimeInMilliSeconds = milliSeconds;
 }
 
