@@ -1,6 +1,6 @@
 ---
 title: 查询列表
-order: 0
+order: 7
 nav:
     title: 组件
 group:

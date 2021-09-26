@@ -1,4 +1,8 @@
-import { createForm } from '@formily/core';
+import {
+    createForm,
+    onFieldInputValueChange,
+    onFormMount,
+} from '@formily/core';
 import { createSchemaField, FormConsumer, observer } from '@formily/react';
 import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
 import { PaginationType } from 'antd-formily-boost/Table';
@@ -38,13 +42,7 @@ let globalState: { data: DataType[]; paginaction: PaginationType } = observable(
     },
 );
 
-export default observer(() => {
-    const form = useMemo(() => {
-        return createForm({
-            values: globalState,
-        });
-    }, []);
-
+export default () => {
     const fetch = async () => {
         const tableField = form.query('data').take();
         tableField.componentProps.loading = true;
@@ -72,11 +70,24 @@ export default observer(() => {
             globalState.data = result;
         });
     };
+    const form = useMemo(() => {
+        return createForm({
+            values: globalState,
+            effects: () => {
+                onFieldInputValueChange(
+                    'paginaction.*(current,pageSize)',
+                    () => {
+                        fetch();
+                    },
+                );
+            },
+        });
+    }, []);
 
-    //首次渲染，或者分页信息发生变化的时候重新fetch
     useEffect(() => {
         fetch();
-    }, [globalState.paginaction.current, globalState.paginaction.pageSize]);
+    }, []);
+
     return (
         <Form form={form} feedbackLayout="terse">
             <SchemaField>
@@ -84,7 +95,7 @@ export default observer(() => {
                     name="data"
                     x-component="Table"
                     x-component-props={{
-                        paginaction: globalState.paginaction,
+                        paginaction: '.paginaction',
                         paginationProps: {
                             //默认的分页数量
                             defaultPageSize: 10,
@@ -125,4 +136,4 @@ export default observer(() => {
             </FormConsumer>
         </Form>
     );
-});
+};

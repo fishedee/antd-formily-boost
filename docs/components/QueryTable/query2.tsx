@@ -110,7 +110,7 @@ const QueryList: React.FC<any> = observer((props) => {
                 x-component="Table"
                 x-component-props={{
                     //传入分页信息
-                    paginaction: data.paginaction,
+                    paginaction: '.paginaction',
                     paginationProps: {
                         showQuickJumper: true,
                         showSizeChanger: true,

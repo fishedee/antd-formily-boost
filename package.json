@@ -1,6 +1,6 @@
 {
   "name": "antd-formily-boost",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "AntDesign Table Boost Version，Efficent,Easyable,Combinable",
   "scripts": {
     "start": "dumi dev",

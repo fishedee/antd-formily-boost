@@ -50,7 +50,7 @@ export default () => {
                     name="data"
                     x-component="Table"
                     x-component-props={{
-                        paginaction: lastState.paginaction,
+                        paginaction: '.paginaction',
                         paginationProps: {
                             defaultPageSize: 10,
                             showQuickJumper: true,
@@ -62,7 +62,7 @@ export default () => {
                         <SchemaField.Void
                             x-component="Table.CheckboxColumn"
                             x-component-props={{
-                                dataIndex: '_checked',
+                                selectedIndex: '_checked',
                                 selectRowByClick: true,
                             }}
                         />

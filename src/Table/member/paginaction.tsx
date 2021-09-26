@@ -1,8 +1,11 @@
+import { useField } from '@formily/react';
 import { TablePaginationConfig } from 'antd';
+import { useForm } from '@formily/react';
 import React, { useEffect } from 'react';
-import { useLayoutEffect } from 'react';
 
-export type PaginationType = {
+export type PaginationType = string;
+
+export type PaginationTypeInner = {
     current: number;
     pageSize: number;
     total?: number;
@@ -16,6 +19,15 @@ type PaginationPropsType = {
     pageSizeOptions?: string[];
 };
 
+function getFieldParentAddress(address: string) {
+    let lastDotIndex = address.lastIndexOf('.');
+    if (lastDotIndex > 0) {
+        return address.substring(0, lastDotIndex);
+    } else {
+        return '';
+    }
+}
+
 function getPagination(
     totalSize: number,
     paginaction?: PaginationType,
@@ -24,35 +36,89 @@ function getPagination(
     if (!paginaction) {
         return false;
     }
+    const form = useForm();
+    const field = useField();
+    const fieldParentAddress = getFieldParentAddress(field.address.toString());
+    const paginactionWrapper = {
+        setCurrent: (current: number) => {
+            const field = form.createField({
+                name: fieldParentAddress + paginaction + '.current',
+            });
+            if (field) {
+                field.onInput(current);
+            }
+        },
+        setPageSize: (pageSize: number) => {
+            const field = form.createField({
+                name: fieldParentAddress + paginaction + '.pageSize',
+            });
+            if (field) {
+                field.onInput(pageSize);
+            }
+        },
+        getCurrent: (): number => {
+            const field = form.createField({
+                name: fieldParentAddress + paginaction + '.current',
+            });
+            if (field.value) {
+                return field.value;
+            } else {
+                return 1;
+            }
+        },
+        getPageSize: (): number => {
+            const field = form.createField({
+                name: fieldParentAddress + paginaction + '.pageSize',
+            });
+            if (field.value) {
+                return field.value;
+            } else {
+                return paginationProps?.defaultPageSize || 10;
+            }
+        },
+        getTotal: (): number | undefined => {
+            const field = form.createField({
+                name: fieldParentAddress + paginaction + '.total',
+            });
+            return field?.value;
+        },
+    };
     //重新当前页
-    if (paginaction.current < 1) {
-        paginaction.current = 1;
+    const paginactionResult: PaginationTypeInner = {
+        current: paginactionWrapper.getCurrent(),
+        pageSize: paginactionWrapper.getPageSize(),
+        total: paginactionWrapper.getTotal(),
+    };
+    if (paginactionResult.current < 1) {
+        paginactionResult.current = 1;
     }
-    if (paginaction.total !== undefined) {
-        totalSize = paginaction.total;
+    if (paginactionResult.total == undefined) {
+        paginactionResult.total = totalSize;
     }
-    let maxPage = Math.ceil(totalSize / paginaction.pageSize);
+    let maxPage = Math.ceil(
+        paginactionResult.total / paginactionResult.pageSize,
+    );
     if (maxPage < 1) {
         maxPage = 1;
     }
 
     useEffect(() => {
-        if (paginaction.current > maxPage) {
-            paginaction.current = maxPage;
+        if (paginactionResult.current > maxPage) {
+            paginactionWrapper.setCurrent(maxPage);
         }
-    }, [paginaction.current, maxPage]);
+    }, [paginactionResult.current, maxPage]);
 
     let result: TablePaginationConfig = {
-        current: paginaction.current,
+        current: paginactionResult.current,
         onChange: (current: number) => {
-            paginaction.current = current;
+            paginactionWrapper.setCurrent(current);
         },
-        pageSize: paginaction.pageSize,
+        pageSize: paginactionResult.pageSize,
         onShowSizeChange: (current: number, pageSize: number) => {
-            paginaction.current = current;
-            paginaction.pageSize = pageSize;
+            paginactionWrapper.setCurrent(current);
+            paginactionWrapper.setPageSize(pageSize);
         },
-        total: paginaction.total,
+        total: paginactionResult.total,
         showQuickJumper: paginationProps?.showQuickJumper,
         showSizeChanger: paginationProps?.showSizeChanger,
         pageSizeOptions: paginationProps?.pageSizeOptions,

@@ -104,7 +104,7 @@ const QueryList: React.FC<any> = observer((props) => {
                 x-component="Table"
                 x-component-props={{
                     //传入分页信息
-                    paginaction: data.paginaction,
+                    paginaction: '.paginaction',
                     paginationProps: {
                         showQuickJumper: true,
                         showSizeChanger: true,
@@ -144,10 +144,7 @@ const QueryList: React.FC<any> = observer((props) => {
                                 name="del"
                                 title="删除"
                                 x-component="Link"
-                                x-component-props={{
-                                    danger: true,
-                                    dangerTitle: '确定删除该行?',
-                                }}
+                                x-component-props={{}}
                             />
                         </SchemaField.Void>
                     </SchemaField.Void>
