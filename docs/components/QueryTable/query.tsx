@@ -39,7 +39,7 @@ const model = new Model(1000);
 
 const QueryList: React.FC<any> = observer((props) => {
     let fetchTrigger = () => {};
-    const { form, data } = useForm({
+    const { form } = useForm({
         values: {
             //current设置为0，也会被自动调整
             paginaction: { current: 0, pageSize: 10, total: 0 },
@@ -57,23 +57,23 @@ const QueryList: React.FC<any> = observer((props) => {
                     fetchTrigger();
                 };
             });
+            onFieldInputValueChange('paginaction.*(current,pageSize)', () => {
+                fetch();
+            });
         },
     });
-    const { fetch, loading } = useQuery(
-        async (axios) => {
-            await delay(10);
-            //正常是用useQuery传入的axios参数拉代码
-            //let data = axios({});
-            //我们这里用自己的数据
-            let result = model.findData(data.filter, data.paginaction);
-            data.list = result.data;
-            data.paginaction.total = result.count;
-        },
-        {
-            //当页码变化时，自动刷新
-            refreshDeps: [data.paginaction.current, data.paginaction.pageSize],
-        },
-    );
+    const { fetch, loading } = useQuery(async (axios) => {
+        await delay(10);
+        //正常是用useQuery传入的axios参数拉代码
+        //let data = axios({});
+        //我们这里用自己的数据
+        let result = model.findData(
+            form.values.filter,
+            form.values.paginaction,
+        );
+        form.values.list = result.data;
+        form.values.paginaction.total = result.count;
+    });
     fetchTrigger = fetch;
     const querySchema = (
         <SchemaField>
