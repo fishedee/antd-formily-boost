@@ -1,5 +1,6 @@
 import { createForm, Form, IFormProps } from '@formily/core';
-import { observable } from '@formily/reactive';
+import { observable, toJS } from '@formily/reactive';
+import { useEffect } from 'react';
 import { useMemo } from 'react';
 
 let formCache = new Map<string, object>();
@@ -40,8 +41,8 @@ export function createFormProps<T extends object = any>(
 function useForm<T extends object = any>(
     formProps: FormPropsAll<T>,
     options?: useFormOption,
-): { form: Form<T>; data: T; isCacheData: boolean } {
-    return useMemo(() => {
+): { form: Form<T>; isCacheData: boolean } {
+    let result = useMemo(() => {
         let initialValue: object | undefined;
         let isCacheData = false;
         //先尝试从cacheKey拿
@@ -58,7 +59,7 @@ function useForm<T extends object = any>(
             formValue = formProps;
         }
         if (!initialValue) {
-            initialValue = observable(formValue.values);
+            initialValue = formValue.values;
             if (options?.cacheKey) {
                 //写入到cache里面
                 formCache.set(options?.cacheKey, initialValue);
@@ -67,10 +68,21 @@ function useForm<T extends object = any>(
         formValue.values = initialValue;
         return {
             form: createForm(formValue),
-            data: initialValue as T, //FIXME，暂时这里只能用强制类型转换，但是是安全的
-            isCacheData: false,
+            isCacheData: isCacheData,
         };
     }, []);
+
+    useEffect(() => {
+        return () => {
+            //当前页面退出的时候，自动写入到缓存中
+            if (options?.cacheKey) {
+                let originData = toJS(result.form.values);
+                formCache.set(options?.cacheKey, originData);
+            }
+        };
+    }, []);
+
+    return result;
 }
 
 export default useForm;

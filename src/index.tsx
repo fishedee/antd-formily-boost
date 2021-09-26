@@ -6,7 +6,15 @@ import TreeSelect from './TreeSelect';
 import SpaceDivider from './SpaceDivider';
 import Hoverable from './Hoverable';
 import Result, { ResultSuccess, ResultFail } from './hooks/Result';
-import useTableBoost from './hooks/useTableBoost';
+import useQueryTable, {
+    UseQueryTableOptions,
+    UseQueryTableProps,
+} from './hooks/useQueryTable';
+import useQueryTableBoost from './hooks/useQueryTableBoost';
+import useQueryDetail, {
+    UseQueryDetailOptions,
+    UseQueryDetailProps,
+} from './hooks/useQueryDetail';
 import useQuery, {
     clearQueryCache,
     invalidQueryCacheByKey,
@@ -34,7 +42,13 @@ export {
     Result,
     ResultSuccess,
     ResultFail,
-    useTableBoost,
+    useQueryDetail,
+    UseQueryDetailOptions,
+    UseQueryDetailProps,
+    useQueryTableBoost,
+    useQueryTable,
+    UseQueryTableOptions,
+    UseQueryTableProps,
     useQuery,
     clearQueryCache,
     invalidQueryCacheByKey,

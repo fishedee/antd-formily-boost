@@ -41,7 +41,6 @@ export type UseQueryRequest = (
 export type UseQueryFetch = (data: UseQueryRequest) => Promise<void> | void;
 
 export type UseQueryOptions = {
-    refreshDeps?: any[];
     firstDidNotRefresh?: boolean;
     cacheKey?: string;
     cacheTime?: number;
@@ -61,8 +60,8 @@ interface IDispose {
  * 局部刷新，与ahooks，react-query等普通hook库不同的是，我们拿到ajax的数据以后，不希望以react的方式刷新页面（全页刷新），而是通过赋值到响应式数据到刷新页面（局部刷新）。
  *      与此同时，我们不希望用户传入具体的响应式数据来帮他赋值，所以，目前的接口设计是让用户传入闭包，自己拉了数据以后，自己去赋值到响应式数据。但是由于要配合冲突检查，所以ajax接口必须是useQuery提供axios接口
  * 首次刷新，我们可以通过传入firstDidNotRefresh，来控制首次是否触发refresh
- * 数据变更自动刷新，页码变化，左侧树选择时，我们需要重新拉ajax。这种场景下，直接传数据自身，会自动检查数据是否变更了，来触发refresh。
- *      与react的不同，这里的数据检查同时支持了基础数据检查，与复杂数据检查。复杂数据的检查应该使用onFieldInputValueChange的做法
+ * 数据变更自动刷新，反模式，我们不能由useQuery的通过React的方式检查deps的变化来触发自动触发fetch，这样是不对的。
+ *      因为不仅用户的交互会让数据变化，从而触发fetch。开发者对数据的赋值也会让数据变化，从而触发fetch，这样会产生隐晦的错误。
  * 按钮刷新，其他场景，通过onClick等方式的刷新，所以我们对外提供了fetch接口，onClick直接绑定到这个fetch接口上就可以了
  * 缓存，1.缓存是为了解决同一个页面的多个相同类型的component的数据问题，注意与useForm的缓存的不同。这里的难点在于，同一个cacheKey的多个请求可能同时发生的，需要合并请求
  *      2.缓存，是需要一个cacheKey的，也可以使用默认的cacheKey为空，与url拼接作为key
@@ -75,26 +74,6 @@ function useQuery(fetch: UseQueryFetch, options?: UseQueryOptions) {
     const ref = useRef(0);
 
     const firstRender = useRef(true);
-
-    const deps = (function () {
-        let basicDeps = [];
-        let otherDeps = [];
-        if (options?.refreshDeps) {
-            for (let i = 0; i != options.refreshDeps.length; i++) {
-                let singleDep = options.refreshDeps[i];
-                if (
-                    typeof singleDep == 'number' ||
-                    typeof singleDep == 'string' ||
-                    typeof singleDep == 'boolean'
-                ) {
-                    basicDeps.push(singleDep);
-                } else {
-                    otherDeps.push(singleDep);
-                }
-            }
-        }
-        return { basicDeps, otherDeps };
-    })();
 
     let request = useRequest();
 
@@ -175,7 +154,6 @@ function useQuery(fetch: UseQueryFetch, options?: UseQueryOptions) {
             let current = ref.current;
             setLoading(true);
             let result = await cacheRequest(config);
-            setLoading(false);
             if (current != ref.current) {
                 return {
                     status: 'fail',
@@ -183,6 +161,7 @@ function useQuery(fetch: UseQueryFetch, options?: UseQueryOptions) {
                     error: new Error('Conflit Error'),
                 };
             }
+            setLoading(false);
             return result;
         };
         await fetch(newRequest);
@@ -206,8 +185,7 @@ function useQuery(fetch: UseQueryFetch, options?: UseQueryOptions) {
             //当页面重刷的时候，标记以前请求失败
             ref.current++;
         };
-        //基础对象，使用React的方法来监听
-    }, deps.basicDeps);
+    }, []);
 
     return { fetch: manualFetch, loading };
 }
