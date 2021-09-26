@@ -50,7 +50,7 @@ export default () => {
                     name="data"
                     x-component="Table"
                     x-component-props={{
-                        paginaction: '.paginaction',
+                        paginaction: 'paginaction',
                         paginationProps: {
                             defaultPageSize: 10,
                             showQuickJumper: true,

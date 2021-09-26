@@ -18,7 +18,7 @@ import {
 } from '@formily/antd';
 import { Field, onFieldReact, onFieldInputValueChange } from '@formily/core';
 import { Card, Spin } from 'antd';
-import Model, { delay } from './model';
+import Model, { delay, User } from './model';
 
 const SchemaField = createSchemaField({
     components: {
@@ -42,8 +42,9 @@ const QueryList: React.FC<any> = observer((props) => {
     const { form, data } = useForm(
         {
             values: {
-                paginaction: { current: 0, pageSize: 10, total: 0 },
-                list: [],
+                //在删除了最后一页数据后，会自动回跳
+                paginaction: { current: 1, pageSize: 10, total: 0 },
+                list: [] as User[],
                 filter: {},
             },
             effects: () => {
@@ -110,7 +111,7 @@ const QueryList: React.FC<any> = observer((props) => {
                 x-component="Table"
                 x-component-props={{
                     //传入分页信息
-                    paginaction: '.paginaction',
+                    paginaction: 'paginaction',
                     paginationProps: {
                         showQuickJumper: true,
                         showSizeChanger: true,

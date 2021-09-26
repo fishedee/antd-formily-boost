@@ -95,7 +95,7 @@ export default () => {
                     name="data"
                     x-component="Table"
                     x-component-props={{
-                        paginaction: '.paginaction',
+                        paginaction: 'paginaction',
                         paginationProps: {
                             //默认的分页数量
                             defaultPageSize: 10,

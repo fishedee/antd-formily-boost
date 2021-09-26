@@ -52,7 +52,7 @@ export default () => {
                     x-component="Table"
                     x-component-props={{
                         //传递paginaction进去，注意，该数据要用observable包装的
-                        paginaction: '.paginaction',
+                        paginaction: 'paginaction',
                         paginationProps: {},
                     }}
                 >

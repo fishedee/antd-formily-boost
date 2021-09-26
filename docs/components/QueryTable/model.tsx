@@ -1,5 +1,5 @@
 import { range } from 'underscore';
-type User = {
+export type User = {
     id: number;
     name: string;
     age: number;

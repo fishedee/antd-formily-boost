@@ -19,12 +19,12 @@ type PaginationPropsType = {
     pageSizeOptions?: string[];
 };
 
-function getFieldParentAddress(address: string) {
+function getFieldNeighborAddress(address: string, fieldName: string) {
     let lastDotIndex = address.lastIndexOf('.');
     if (lastDotIndex > 0) {
-        return address.substring(0, lastDotIndex);
+        return address.substring(0, lastDotIndex) + '.' + fieldName;
     } else {
-        return '';
+        return fieldName;
     }
 }
 
@@ -38,11 +38,14 @@ function getPagination(
     }
     const form = useForm();
     const field = useField();
-    const fieldParentAddress = getFieldParentAddress(field.address.toString());
+    const address = field.address.toString();
     const paginactionWrapper = {
         setCurrent: (current: number) => {
             const field = form.createField({
-                name: fieldParentAddress + paginaction + '.current',
+                name: getFieldNeighborAddress(
+                    address,
+                    paginaction + '.current',
+                ),
             });
             if (field) {
                 field.onInput(current);
@@ -50,7 +53,10 @@ function getPagination(
         },
         setPageSize: (pageSize: number) => {
             const field = form.createField({
-                name: fieldParentAddress + paginaction + '.pageSize',
+                name: getFieldNeighborAddress(
+                    address,
+                    paginaction + '.pageSize',
+                ),
             });
             if (field) {
                 field.onInput(pageSize);
@@ -58,34 +64,41 @@ function getPagination(
         },
         getCurrent: (): number => {
             const field = form.createField({
-                name: fieldParentAddress + paginaction + '.current',
+                name: getFieldNeighborAddress(
+                    address,
+                    paginaction + '.current',
+                ),
             });
-            if (field.value) {
-                return field.value;
-            } else {
+            if (field.value == undefined) {
                 return 1;
+            } else {
+                return field.value;
             }
         },
         getPageSize: (): number => {
             const field = form.createField({
-                name: fieldParentAddress + paginaction + '.pageSize',
+                name: getFieldNeighborAddress(
+                    address,
+                    paginaction + '.pageSize',
+                ),
             });
-            if (field.value) {
-                return field.value;
-            } else {
+            if (field.value == undefined) {
                 return paginationProps?.defaultPageSize || 10;
+            } else {
+                return field.value;
             }
         },
         getTotal: (): number | undefined => {
             const field = form.createField({
-                name: fieldParentAddress + paginaction + '.total',
+                name: getFieldNeighborAddress(address, paginaction + '.total'),
             });
             return field?.value;
         },
     };
     //重新当前页
+    const oldCurrent = paginactionWrapper.getCurrent();
     const paginactionResult: PaginationTypeInner = {
-        current: paginactionWrapper.getCurrent(),
+        current: oldCurrent,
         pageSize: paginactionWrapper.getPageSize(),
         total: paginactionWrapper.getTotal(),
     };
@@ -103,10 +116,13 @@ function getPagination(
     }
 
     useEffect(() => {
-        if (paginactionResult.current > maxPage) {
+        if (oldCurrent < 1) {
+            paginactionWrapper.setCurrent(1);
+        }
+        if (oldCurrent > maxPage) {
             paginactionWrapper.setCurrent(maxPage);
         }
-    }, [paginactionResult.current, maxPage]);
+    }, [oldCurrent, maxPage]);
 
     let result: TablePaginationConfig = {
         current: paginactionResult.current,
