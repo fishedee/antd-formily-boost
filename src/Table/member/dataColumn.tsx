@@ -8,6 +8,7 @@ import { ColumnSchema } from './columnSchema';
 import React from 'react';
 import { getDataInIndex } from '../util';
 import { RecursiveIndex } from './recursiveRow';
+import { ColumnPropsKeys } from '../components/Column';
 
 type FastLabelProps = {
     data: any[];
@@ -29,6 +30,15 @@ function getDataColumns(
     recursiveIndex?: RecursiveIndex,
 ): (ColumnGroupType<object> | ColumnType<object>)[] {
     const convertColumn = (column: ColumnSchema) => {
+        const rowSpan = column.columnProps?.rowSpan;
+        const colSpan = column.columnProps?.colSpan;
+        const resetColumnProps: any = {};
+        for (let key in new ColumnPropsKeys()) {
+            if (key == 'rowSpan' || key == 'colSpan') {
+                continue;
+            }
+            resetColumnProps[key] = (column.columnProps as any)[key];
+        }
         if (
             column.columnProps &&
             column.columnProps.children &&
@@ -36,7 +46,7 @@ function getDataColumns(
         ) {
             let single: ColumnGroupType<object> = {
                 ...column,
-                ...column.columnProps,
+                ...resetColumnProps,
                 children: column.columnProps.children
                     .filter((column) => {
                         return column.type == 'column';
@@ -128,7 +138,7 @@ function getDataColumns(
             };
             let single: ColumnType<object> = {
                 ...column,
-                ...column.columnProps,
+                ...resetColumnProps,
                 render: (value: any, record: any, index: number) => {
                     if (
                         record.hasOwnProperty('_currentLevel') == false ||

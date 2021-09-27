@@ -8,10 +8,14 @@ type ColumnProps = {
     fixed?: 'left' | 'right';
     labelIndex?: string;
     refColumnName?: string;
+    rowSpan?: (row: any) => number;
+    colSpan?: (row: any) => number;
 };
 
 //运行时类型信息
 class ColumnPropsKeys implements KeyProps<ColumnProps> {
+    rowSpan = true;
+    colSpan = true;
     refColumnName = true;
     width = true;
     ellipsis = true;
