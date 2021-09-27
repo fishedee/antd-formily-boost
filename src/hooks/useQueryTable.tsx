@@ -53,7 +53,6 @@ function useQueryTable(
 
     const queryBoostInfo = useQuery(
         async (request) => {
-            console.log('fetch', form.values.paginaction);
             let result = await request({
                 url: ajaxUrl,
                 method: 'GET',
