@@ -26,6 +26,10 @@ function isChildrenRowType(name?: string) {
     return name && name.endsWith('.ChildrenRow');
 }
 
+function isSplitRowType(name?: string) {
+    return name && name.endsWith('.SplitRow');
+}
+
 export {
     isColumnType,
     isCheckboxColumnType,
@@ -34,4 +38,5 @@ export {
     isExpandableRowType,
     isRecursiveRowType,
     isChildrenRowType,
+    isSplitRowType,
 };

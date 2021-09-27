@@ -5,6 +5,7 @@ import {
     isExpandableRowType,
     isRecursiveRowType,
     isChildrenRowType,
+    isSplitRowType,
 } from '../components/IsType';
 
 import { Schema, useField, useForm } from '@formily/react';
@@ -26,6 +27,7 @@ import {
     ChildrenRowProps,
     ChildrenRowPropsKey,
 } from '../components/ChildrenRow';
+import { SplitRowProps, SplitRowPropsKey } from '../components/SplitRow';
 
 //ChildrenRowRender有两种方法
 //根据ColumnSchema渲染子数据
@@ -42,8 +44,10 @@ type ColumnSchema = {
         | 'rowSelectionColumn'
         | 'expandableRow'
         | 'recursiveRow'
-        | 'childrenRow';
+        | 'childrenRow'
+        | 'splitRow';
     columnProps?: ColumnProps & {
+        splitLevel: number[];
         childrenRowRender: ChildrenRowRenderType[];
         children: ColumnSchema[];
     };
@@ -55,6 +59,11 @@ type ColumnSchema = {
     childrenProps?: ChildrenRowProps & {
         children: ColumnSchema[];
         allChildrenIndex: string[];
+    };
+    splitProps?: SplitRowProps & {
+        children: ColumnSchema[];
+        startSplitLevel: number;
+        allSplitIndex: string[];
     };
 };
 
@@ -94,6 +103,7 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
                     type: 'column',
                     columnProps: {
                         children: reduceProperties(schema),
+                        splitLevel: [],
                         childrenRowRender: [],
                         ...config,
                     },
@@ -196,6 +206,25 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
                     childrenProps: {
                         ...config,
                         children: reduceProperties(schema),
+                    },
+                },
+            ];
+        } else if (isSplitRowType(component)) {
+            const config: any = {};
+            for (let key in new SplitRowPropsKey()) {
+                config[key] = columnField
+                    ? columnField.componentProps?.[key]
+                    : schema['x-component-props']?.[key];
+            }
+            return [
+                {
+                    ...columnBase,
+                    type: 'splitRow',
+                    splitProps: {
+                        ...config,
+                        children: reduceProperties(schema),
+                        startSplitLevel: 0,
+                        allSplitIndex: [],
                     },
                 },
             ];
@@ -351,6 +380,7 @@ function combineChildrenRowSchema(
 }
 function getColumnSchema(schema: Schema): ColumnSchema[] {
     let columnSchema: ColumnSchema[] = getColumnSchemaInner(schema);
+    checkSplitRowSchema(columnSchema);
     let combineColumnSchema: ColumnSchema[] =
         combineChildrenRowSchema(columnSchema);
     return combineColumnSchema;

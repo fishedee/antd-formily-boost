@@ -39,6 +39,7 @@ import MySubtreeAddition, {
 } from './components/MySubtreeAddition';
 import { ExpandableConfig } from 'antd/lib/table/interface';
 import ChildrenRow, { ChildrenRowProps } from './components/ChildrenRow';
+import SplitRow, { SplitRowProps } from './components/SplitRow';
 import './index.css';
 
 type PropsType = {
@@ -60,6 +61,7 @@ type MyTableType = React.FC<PropsType> & {
     ExpandableRow?: React.FC<ExpandableRowProps>;
     RecursiveRow?: React.FC<RecursiveRowProps>;
     ChildrenRow?: React.FC<ChildrenRowProps>;
+    SplitRow?: React.FC<SplitRowProps>;
     Index?: React.FC<MyIndexProps>;
     Remove?: React.FC<MyRemoveProps>;
     MoveUp?: React.FC<MyMoveUpProps>;
@@ -173,6 +175,8 @@ MyTable.ExpandableRow = ExpandableRow;
 MyTable.RecursiveRow = RecursiveRow;
 
 MyTable.ChildrenRow = ChildrenRow;
+
+MyTable.SplitRow = SplitRow;
 
 MyTable.Index = MyIndex;
 
