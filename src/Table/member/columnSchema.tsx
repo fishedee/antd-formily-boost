@@ -32,7 +32,53 @@ import { SplitRowProps, SplitRowPropsKey } from '../components/SplitRow';
 //ChildrenRowRender有两种方法
 //根据ColumnSchema渲染子数据
 //或者就是空的不渲染
-type ChildrenRowRenderType = ColumnSchema | undefined;
+type ChildrenRowRenderType = { type: 'children'; schema: ColumnSchema };
+
+type SplitRowRenderType = {
+    type: 'splitRow';
+    schema: ColumnSchema;
+    level: number;
+};
+
+type NormalRenderType = { type: 'normal' };
+
+type NoneRowRenderType = { type: 'none' };
+
+type RowRenderType =
+    | NormalRenderType
+    | NoneRowRenderType
+    | ChildrenRowRenderType
+    | SplitRowRenderType;
+
+type SplitRowChildrenType = ColumnSchema & {
+    splitLevel: string[];
+};
+
+type SplitRowConvertType = {
+    type: 'split';
+    splitIndex: string[];
+};
+
+type NormalConverType = {
+    type: 'normal';
+};
+
+type RecursiveConvertType = {
+    type: 'recursive';
+    dataIndex: string;
+};
+
+type ChildrenConverType = {
+    type: 'children';
+    dataIndex: string;
+    children: ChildrenConverType | SplitRowConvertType;
+};
+
+type DataConvertType =
+    | NormalConverType
+    | SplitRowConvertType
+    | RecursiveConvertType
+    | ChildrenConverType;
 
 type ColumnSchema = {
     title: string;
@@ -45,10 +91,10 @@ type ColumnSchema = {
         | 'expandableRow'
         | 'recursiveRow'
         | 'childrenRow'
-        | 'splitRow';
+        | 'splitRow'
+        | 'dataConvert';
     columnProps?: ColumnProps & {
-        splitLevel: number[];
-        childrenRowRender: ChildrenRowRenderType[];
+        rowRender: RowRenderType[];
         children: ColumnSchema[];
     };
     rowSelectionColumnProps?: {
@@ -58,13 +104,11 @@ type ColumnSchema = {
     recursiveProps?: RecursiveRowProps;
     childrenProps?: ChildrenRowProps & {
         children: ColumnSchema[];
-        allChildrenIndex: string[];
     };
     splitProps?: SplitRowProps & {
-        children: ColumnSchema[];
-        startSplitLevel: number;
-        allSplitIndex: string[];
+        children: SplitRowChildrenType[];
     };
+    dataConvertProps?: DataConvertType;
 };
 
 function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
@@ -284,35 +328,71 @@ function getAllNormalColumn(
     return result;
 }
 
-type ChildrenRowColumn = {
-    childrenIndex: string;
-    allChildrenIndex: string[];
-    refColumns: Map<string, ColumnSchema>;
-    children?: ChildrenRowColumn;
+type RowRenderTreeType = {
+    renderType: Map<string, RowRenderType>;
+    children?: RowRenderTreeType;
 };
+
+function getSplitRowRender(
+    columnSchema: ColumnSchema[],
+    rowRenderTree: RowRenderTreeType,
+) {
+    let splitRowColumnList = columnSchema.filter((column) => {
+        return column.type == 'splitRow';
+    });
+    if (splitRowColumnList.length == 0) {
+        return;
+    }
+    let splitRowColumn = splitRowColumnList[0];
+    splitRowColumn.splitProps!.allSplitChildren.forEach((single) => {
+        rowRenderTree.renderType.set(single.columnProps!.refColumnName!, {
+            type: 'splitRow',
+            schema: single,
+            level: single.splitLevel.length,
+        });
+    });
+    return;
+}
 
 function getAllChildrenRowColumn(
     childrenRowSchema: ColumnSchema,
-): ChildrenRowColumn {
+    rowRenderTree: RowRenderTreeType,
+): string[] {
     let childrenSchema = childrenRowSchema.childrenProps?.children;
-    let nestedChildren: ChildrenRowColumn | undefined;
 
-    //获取子ChildrenRowSchema
+    //获取子层的RowRenderType
+    let nestedChildrenIndex: string[] = [];
     if (childrenSchema && childrenSchema.length != 0) {
         let nestedChildrenRowSchema = childrenSchema.filter((column) => {
             return column.type == 'childrenRow';
         });
         if (nestedChildrenRowSchema.length != 0) {
-            nestedChildren = getAllChildrenRowColumn(
+            rowRenderTree.children = {
+                renderType: new Map<string, RowRenderType>(),
+            };
+            nestedChildrenIndex = getAllChildrenRowColumn(
                 nestedChildrenRowSchema[0],
+                rowRenderTree.children,
             );
         }
     }
 
-    //获取普通的Schema
-    let refColumns = new Map<string, ColumnSchema>();
+    //获取本层的RowRenderType
     if (childrenSchema && childrenSchema.length != 0) {
-        refColumns = getAllNormalColumn(childrenSchema, true);
+        //获取SplitRow
+        getSplitRowRender(childrenSchema, rowRenderTree);
+
+        //获取普通列
+        let refColumns: Map<string, ColumnSchema> = getAllNormalColumn(
+            childrenSchema,
+            true,
+        );
+        refColumns.forEach((value, key) => {
+            rowRenderTree.renderType.set(key, {
+                type: 'children',
+                schema: value,
+            });
+        });
     }
 
     let childrenIndex = childrenRowSchema.childrenProps?.childrenIndex;
@@ -320,45 +400,49 @@ function getAllChildrenRowColumn(
         throw new Error(childrenRowSchema + '的childrenIndex为空!');
     }
 
-    let allChildrenIndex: string[] = [childrenIndex];
-    if (nestedChildren) {
-        allChildrenIndex = allChildrenIndex.concat(
-            nestedChildren.allChildrenIndex,
-        );
-    }
-
-    return {
-        childrenIndex: childrenIndex,
-        allChildrenIndex: allChildrenIndex,
-        refColumns: refColumns,
-        children: nestedChildren,
-    };
+    return [childrenIndex, ...nestedChildrenIndex];
 }
 
-function fillChildrenRowColumnToNormalColumn(
-    parent: ChildrenRowColumn,
+function fillRowRenderTreeToNormalColumn(
+    rowRenderTree: RowRenderTreeType,
     normalColumn: Map<string, ColumnSchema>,
+    currentLevel: number,
 ) {
     normalColumn.forEach((value, key) => {
-        const hasColumnRewrite = parent.refColumns.has(key);
+        const hasColumnRewrite = rowRenderTree.renderType.has(key);
         if (hasColumnRewrite == false) {
-            //没有该数据的时候，填充undefined，不渲染
-            value.columnProps?.childrenRowRender.push(undefined);
+            //没有RenderType
+            if (currentLevel == 0) {
+                //首层
+                value.columnProps?.rowRender.push({
+                    type: 'normal',
+                });
+            } else {
+                //非首层
+                value.columnProps?.rowRender.push({
+                    type: 'none',
+                });
+            }
         } else {
-            //有该数据的时候，填充Schema进去
-            const currentChildrenRender = parent.refColumns.get(key);
-            value.columnProps?.childrenRowRender.push(currentChildrenRender);
+            //有RenderType
+            const currentChildrenRender = rowRenderTree.renderType.get(key);
+            value.columnProps?.rowRender.push(currentChildrenRender!);
         }
     });
     //进一步渲染下一级的数据
-    if (parent.children) {
-        fillChildrenRowColumnToNormalColumn(parent.children, normalColumn);
+    if (rowRenderTree.children) {
+        fillRowRenderTreeToNormalColumn(
+            rowRenderTree.children,
+            normalColumn,
+            currentLevel + 1,
+        );
     }
 }
 
-function combineChildrenRowSchema(
+function getAllChildrenRowRender(
     columnSchema: ColumnSchema[],
-): ColumnSchema[] {
+    rowRenderTree: RowRenderTreeType,
+) {
     let childrenColumns = columnSchema.filter((column) => {
         return column.type == 'childrenRow';
     });
@@ -367,17 +451,163 @@ function combineChildrenRowSchema(
         return columnSchema;
     }
     let childrenColumn = childrenColumns[0];
-    let allNormalColumn = getAllNormalColumn(columnSchema);
-    let allChildrenRowColumn = getAllChildrenRowColumn(childrenColumn);
-    //将childrenRowColumn的信息填充进去
-    fillChildrenRowColumnToNormalColumn(allChildrenRowColumn, allNormalColumn);
+
+    rowRenderTree.children = {
+        renderType: new Map<string, RowRenderType>(),
+    };
+
+    let allChildrenIndex = getAllChildrenRowColumn(
+        childrenColumn,
+        rowRenderTree.children,
+    );
+
     //设置顶层的allChildrenIndex
-    childrenColumn.childrenProps!.allChildrenIndex =
-        allChildrenRowColumn.allChildrenIndex;
+    childrenColumn.childrenProps!.allChildrenIndex = allChildrenIndex;
+}
+
+function combineChildrenRowSchema(
+    columnSchema: ColumnSchema[],
+): ColumnSchema[] {
+    //获取普通列
+    let allNormalColumn = getAllNormalColumn(columnSchema);
+
+    let rowRenderTree: RowRenderTreeType = {
+        renderType: new Map<string, RowRenderType>(),
+    };
+
+    //获取首层的SplitRow的RowRender
+    getSplitRowRender(columnSchema, rowRenderTree);
+
+    //获取ChildrenRow，以及包含其中的RowRender，及其嵌套以下的RowRender
+    getAllChildrenRowRender(columnSchema, rowRenderTree);
+
+    //将所有RowRender合并到现有的normalColumn上面去
+    fillRowRenderTreeToNormalColumn(rowRenderTree, allNormalColumn, 0);
 
     //原样返回，但是内部数据已经被修改过了
     return columnSchema;
 }
+
+//在已知存在外部SplitRow的情况下，校验
+function checkSplitRowSchemaInner(
+    columnSchema: SplitRowChildrenType[],
+    splitLevel: string[],
+    allSplitChildren: SplitRowChildrenType[],
+) {
+    let hasChildrenColumn: boolean = false;
+    let hasRecursiveColumn: boolean = false;
+    let hasExpandableColumn: boolean = false;
+
+    let splitColumns: SplitRowChildrenType[] = [];
+    let normalColumn: SplitRowChildrenType[] = [];
+
+    columnSchema.forEach((column) => {
+        if (column.type == 'childrenRow') {
+            hasChildrenColumn = true;
+        } else if (column.type == 'recursiveRow') {
+            hasRecursiveColumn = true;
+        } else if (column.type == 'expandableRow') {
+            hasExpandableColumn = true;
+        } else if (column.type == 'splitRow') {
+            splitColumns.push(column);
+        } else if (column.type == 'column') {
+            normalColumn.push(column);
+        }
+    });
+    for (let i = 0; i != normalColumn.length; i++) {
+        normalColumn[i].splitLevel = splitLevel;
+        allSplitChildren.push(normalColumn[i]);
+    }
+
+    if (hasChildrenColumn) {
+        throw new Error('SplitRow 内部不能包含ChildrenRow');
+    }
+
+    if (hasRecursiveColumn) {
+        throw new Error('SplitRow 内部不能包含RecursiveRow');
+    }
+
+    if (hasExpandableColumn) {
+        throw new Error('SplitRow 内部不能包含ExpandableRow');
+    }
+
+    if (splitColumns.length > 1) {
+        throw new Error('SplitRow 在同一层级只能有一个');
+    }
+
+    checkSplitRowSchemaInner(
+        splitColumns[0].splitProps!.children,
+        [...splitLevel, splitColumns[0].splitProps!.splitIndex],
+        allSplitChildren,
+    );
+    return;
+}
+
+//在未知是否存在外部SplitRow的情况下，校验
+function checkSplitRowSchema(columnSchema: ColumnSchema[]) {
+    let hasChildrenColumn: boolean = false;
+    let hasRecursiveColumn: boolean = false;
+    let hasExpandableColumn: boolean = false;
+
+    let childrenColumns: ColumnSchema[] = [];
+    let splitColumns: ColumnSchema[] = [];
+
+    columnSchema.forEach((column) => {
+        if (column.type == 'childrenRow') {
+            hasChildrenColumn = true;
+            childrenColumns.push(column);
+        } else if (column.type == 'recursiveRow') {
+            hasRecursiveColumn = true;
+        } else if (column.type == 'expandableRow') {
+            hasExpandableColumn = true;
+        } else if (column.type == 'splitRow') {
+            splitColumns.push(column);
+        }
+    });
+    if (splitColumns.length != 0) {
+        let allSplitChildren: SplitRowChildrenType[] = [];
+        //有SplitRow的情况
+        if (hasChildrenColumn) {
+            throw new Error('SplitRow 与ChildrenRow不能在同一层级');
+        }
+
+        if (hasRecursiveColumn) {
+            throw new Error('SplitRow 与RecursiveRow不能在同一层级');
+        }
+
+        if (hasExpandableColumn) {
+            throw new Error('SplitRow 与ExpandableRow不能在同一层级');
+        }
+        if (splitColumns.length > 1) {
+            throw new Error('SplitRow在同一层级只能有一个');
+        }
+        checkSplitRowSchemaInner(
+            splitColumns[0].splitProps!.children,
+            [splitColumns[0].splitProps!.splitIndex],
+            allSplitChildren,
+        );
+
+        //顶层SplitRow的赋值
+        let allSplitLevel: string[] = [];
+        for (let i = 0; i != allSplitChildren.length; i++) {
+            if (allSplitChildren[i].splitLevel.length > allSplitLevel.length) {
+                allSplitLevel = allSplitChildren[i].splitLevel;
+            }
+        }
+
+        splitColumns[0].splitProps!.allSplitChildren = allSplitChildren;
+        splitColumns[0].splitProps!.allSplitLevel = allSplitLevel;
+    } else {
+        //没有SplitRow的情况
+        if (childrenColumns.length != 0) {
+            //且递归检查ChildrenRow的内部
+            checkSplitRowSchema(childrenColumns[0].childrenProps!.children);
+        }
+    }
+
+    return;
+}
+
 function getColumnSchema(schema: Schema): ColumnSchema[] {
     let columnSchema: ColumnSchema[] = getColumnSchemaInner(schema);
     checkSplitRowSchema(columnSchema);
