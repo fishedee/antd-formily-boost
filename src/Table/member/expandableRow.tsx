@@ -1,39 +1,36 @@
 import { RecursionField } from '@formily/react';
 import { ExpandableConfig } from 'antd/lib/table/interface';
 import { ArrayIndexContextProvider } from '../components/Context';
-import { ColumnSchema } from './columnSchema';
+import { TableConfig } from './config';
 import { flatDataInIndex, fillDataInIndex } from '../util';
 import React from 'react';
 
 function getExpandableRow(
     data: any[],
-    tableColumns: ColumnSchema[],
+    tableConfig: TableConfig,
 ): ExpandableConfig<any> | undefined {
-    const columns = tableColumns.filter(
-        (column) => column.type == 'expandableRow',
-    );
-    if (columns.length == 0) {
-        return undefined;
+    if (!tableConfig.expandableColumn) {
+        return;
     }
-    let expandableRow = columns[0];
+    let expandableColumn = tableConfig.expandableColumn;
     const expandedRowRender = (record: any, index: number) => {
         return (
             <ArrayIndexContextProvider value={record._index}>
                 <RecursionField
                     name={record._index}
-                    schema={expandableRow.schema}
+                    schema={expandableColumn.schema}
                     onlyRenderProperties
                 />
             </ArrayIndexContextProvider>
         );
     };
-    const expandedIndex = expandableRow.expandableRrops?.expandedIndex!;
+    const expandedIndex = expandableColumn.expandableRrops?.expandedIndex!;
     const expandedRowKeys = flatDataInIndex(
         data,
         expandedIndex,
         '',
         0,
-        !!expandableRow.expandableRrops?.defaultExpand,
+        !!expandableColumn.expandableRrops?.defaultExpand,
     );
     const onExpandedRowsChange = (newExpandedRowKeys: any) => {
         fillDataInIndex(
@@ -47,7 +44,7 @@ function getExpandableRow(
         expandedRowRender: expandedRowRender,
         onExpandedRowsChange: onExpandedRowsChange,
         expandedRowKeys: expandedRowKeys,
-        ...expandableRow.expandableRrops,
+        ...expandableColumn.expandableRrops,
     };
 }
 

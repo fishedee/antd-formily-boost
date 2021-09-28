@@ -1,4 +1,4 @@
-import { RecursiveIndex } from '../member/recursiveRow';
+import { DataConvertType } from '../member/config';
 
 function getDataInIndex(data: any[], index: string): any {
     const indexArray = index.split('.');
@@ -64,7 +64,7 @@ function flatDataInIndex(
     prevIndex: string,
     currentLevel: number,
     defaultValue: boolean,
-    recursiveIndex?: RecursiveIndex,
+    dataConvert?: DataConvertType,
     isEarilerStop?: boolean,
 ): string[] {
     let result: string[] = [];
@@ -78,26 +78,32 @@ function flatDataInIndex(
         if (single[dataIndex]) {
             result.push(currentIndex);
         }
-        if (recursiveIndex) {
+        if (
+            dataConvert &&
+            (dataConvert.type == 'recursive' || dataConvert.type == 'children')
+        ) {
             //当上下级关联的时候，提前终止
             if (isEarilerStop && !single[dataIndex]) {
                 continue;
             }
-            let recursiveIndexName: string;
-            if (recursiveIndex.type == 'recursive') {
-                recursiveIndexName = recursiveIndex.recursiveIndex;
+            let childDataConvert: DataConvertType | undefined;
+            let childIndex: string;
+            if (dataConvert.type == 'recursive') {
+                childIndex = dataConvert.dataIndex;
+                childDataConvert = dataConvert;
             } else {
-                recursiveIndexName = recursiveIndex.childrenIndex[currentLevel];
+                childIndex = dataConvert.dataIndex[currentLevel];
+                childDataConvert = dataConvert.children;
             }
-            let children = single[recursiveIndexName];
+            let children = single[childIndex];
             if (children && children.length != 0) {
                 let result2 = flatDataInIndex(
                     children,
                     dataIndex,
-                    currentIndex + '.' + recursiveIndexName,
+                    currentIndex + '.' + childIndex,
                     currentLevel + 1,
                     defaultValue,
-                    recursiveIndex,
+                    childDataConvert,
                     isEarilerStop,
                 );
                 result = result.concat(result2);

@@ -1,9 +1,8 @@
 import { Table } from 'antd';
 import { TableRowSelection } from 'antd/lib/table/interface';
-import { ColumnSchema } from './columnSchema';
+import { ColumnSchema, TableConfig } from './config';
 import { flatDataInIndex, fillDataInIndex } from '../util';
 import React from 'react';
-import { RecursiveIndex } from './recursiveRow';
 import './rowSelectionStyle.css';
 
 //rowSelection的设计的三个目标
@@ -27,39 +26,37 @@ import './rowSelectionStyle.css';
 // * 监听data的变化，使用@formily/Reactive库的observe方法，对原始data监听，然后增量生成selection数组，而不是每次重新生成。这个实现的难度大一点，但工作量更少，而且兼容Table组件未来对selection的新特性
 function getRowSelection(
     data: any[],
-    columns: ColumnSchema[],
-    recursiveIndex?: RecursiveIndex,
+    tableConfig: TableConfig,
 ): {
     selection: TableRowSelection<any> | undefined;
     rowWrapper: React.FC<any> | undefined;
     className: string[];
 } {
-    let rowSelectionColumns = columns.filter((column) => {
-        return column.type == 'rowSelectionColumn';
-    });
-    let column: ColumnSchema;
-    if (rowSelectionColumns.length <= 0) {
+    if (!tableConfig.rowSelectionColumn) {
         return { selection: undefined, rowWrapper: undefined, className: [] };
     }
-    column = rowSelectionColumns[0];
-    const selectedIndex = column.rowSelectionColumnProps!.selectedIndex!;
+    let rowSelectionColumnProps =
+        tableConfig.rowSelectionColumn.rowSelectionColumnProps!;
+
+    const selectedIndex = rowSelectionColumnProps!.selectedIndex;
+
     let selectedRowKeys: string[] = flatDataInIndex(
         data,
         selectedIndex,
         '',
         0,
         false,
-        recursiveIndex,
+        tableConfig.dataConvertProps.tree,
         false, //不能提前终止对checkbox的检查
     );
 
     const rowSelection: TableRowSelection<any> = {
-        type: column.rowSelectionColumnProps!.type,
-        fixed: column.rowSelectionColumnProps!.fixed,
-        columnTitle: column.title,
-        columnWidth: column.rowSelectionColumnProps!.width,
+        type: rowSelectionColumnProps!.type,
+        fixed: rowSelectionColumnProps!.fixed,
+        columnTitle: tableConfig.rowSelectionColumn.title,
+        columnWidth: rowSelectionColumnProps!.width,
         selectedRowKeys: selectedRowKeys,
-        checkStrictly: column.rowSelectionColumnProps?.checkStrictly,
+        checkStrictly: rowSelectionColumnProps?.checkStrictly,
         onChange: (newSelectedRowKeys: React.Key[], selectedRows: any[]) => {
             fillDataInIndex(
                 data,
@@ -100,7 +97,7 @@ function getRowSelection(
         }
     };
     let rowWrapper: React.FC<any> | undefined;
-    if (column.rowSelectionColumnProps?.selectRowByClick) {
+    if (rowSelectionColumnProps?.selectRowByClick) {
         rowWrapper = (props) => {
             const rowKey = props['data-row-key'];
             return (
@@ -112,9 +109,9 @@ function getRowSelection(
     }
 
     let className: string[] = [];
-    if (column.rowSelectionColumnProps?.hidden == 'DisplayNone') {
+    if (rowSelectionColumnProps?.hidden == 'DisplayNone') {
         className = ['formily_antd_selection_display_none'];
-    } else if (column.rowSelectionColumnProps?.hidden == 'WidthZero') {
+    } else if (rowSelectionColumnProps?.hidden == 'WidthZero') {
         className = ['formily_antd_selection_width_zero'];
     }
 

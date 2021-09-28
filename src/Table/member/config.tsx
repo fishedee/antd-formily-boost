@@ -28,43 +28,44 @@ import {
     ChildrenRowPropsKey,
 } from '../components/ChildrenRow';
 import { SplitRowProps, SplitRowPropsKey } from '../components/SplitRow';
+import { ExpandableConfig } from 'rc-table/lib/interface';
 
-//ChildrenRowRender有两种方法
-//根据ColumnSchema渲染子数据
-//或者就是空的不渲染
-type SplitRowRenderType = {
+export type SplitRowRenderType = {
     type: 'splitRow';
     schema: ColumnSchema;
     level: number;
 };
 
-type NormalRenderType = { type: 'normal'; schema: ColumnSchema };
+export type NormalRenderType = { type: 'normal'; schema: ColumnSchema };
 
-type NoneRowRenderType = { type: 'none' };
+export type NoneRowRenderType = { type: 'none' };
 
-type RowRenderType = NormalRenderType | NoneRowRenderType | SplitRowRenderType;
+export type RowRenderType =
+    | NormalRenderType
+    | NoneRowRenderType
+    | SplitRowRenderType;
 
-type SplitRowConvertType = {
+export type SplitRowConvertType = {
     type: 'split';
     splitIndex: string[];
 };
 
-type NormalConverType = {
+export type NormalConverType = {
     type: 'normal';
 };
 
-type RecursiveConvertType = {
+export type RecursiveConvertType = {
     type: 'recursive';
     dataIndex: string;
 };
 
-type ChildrenConverType = {
+export type ChildrenConverType = {
     type: 'children';
     dataIndex: string;
     children?: ChildrenConverType | SplitRowConvertType;
 };
 
-type DataConvertType =
+export type DataConvertType =
     | NormalConverType
     | SplitRowConvertType
     | RecursiveConvertType
@@ -98,7 +99,10 @@ type ColumnSchema = {
     splitProps?: SplitRowProps & {
         children: ColumnSchema[];
     };
-    dataConvertProps?: DataConvertType;
+    dataConvertProps?: {
+        tree: DataConvertType;
+        list: string[];
+    };
 };
 
 function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
@@ -440,7 +444,6 @@ function getSingleChildrenRowRender(childrenRowSchema: ColumnSchema): {
 function fillRowRenderTreeToNormalColumn(
     rowRenderTree: RowRenderTreeType,
     normalColumn: Map<string, ColumnSchema>,
-    currentLevel: number,
 ) {
     normalColumn.forEach((value, key) => {
         const hasColumnRewrite = rowRenderTree.renderType.has(key);
@@ -456,11 +459,7 @@ function fillRowRenderTreeToNormalColumn(
     });
     //进一步渲染下一级的数据
     if (rowRenderTree.children) {
-        fillRowRenderTreeToNormalColumn(
-            rowRenderTree.children,
-            normalColumn,
-            currentLevel + 1,
-        );
+        fillRowRenderTreeToNormalColumn(rowRenderTree.children, normalColumn);
     }
 }
 
@@ -511,6 +510,18 @@ function getAllRecursiveRowRender(
     }
 }
 
+function convertDataConvertTreeToList(dataConvert: DataConvertType): string[] {
+    if (dataConvert.type == 'children') {
+        let childrenIndex: string[] = [];
+        if (dataConvert.children) {
+            childrenIndex = convertDataConvertTreeToList(dataConvert.children);
+        }
+        return dataConvert.dataIndex, [...childrenIndex];
+    } else {
+        return [];
+    }
+}
+
 function calculateRowRenderAndDataConvert(
     columnSchema: ColumnSchema[],
 ): ColumnSchema[] {
@@ -538,7 +549,6 @@ function calculateRowRenderAndDataConvert(
     fillRowRenderTreeToNormalColumn(
         rowRenderAndDataConvert3.rowRenderTree,
         allNormalColumn,
-        0,
     );
 
     columnSchema.push({
@@ -547,7 +557,12 @@ function calculateRowRenderAndDataConvert(
         key: '',
         dataIndex: '',
         schema: new Schema({}),
-        dataConvertProps: rowRenderAndDataConvert3.dataConvert,
+        dataConvertProps: {
+            tree: rowRenderAndDataConvert3.dataConvert,
+            list: convertDataConvertTreeToList(
+                rowRenderAndDataConvert3.dataConvert,
+            ),
+        },
     });
 
     //原样返回，但是内部数据已经被修改过了
@@ -644,14 +659,79 @@ function checkSplitRowSchema(columnSchema: ColumnSchema[]) {
     return;
 }
 
-function getColumnSchema(schema: Schema): ColumnSchema[] {
+type CommonExpandedProps = {
+    expandedIndex: string;
+    defaultExpand: boolean;
+    expandedConfig: ExpandableConfig<any>;
+};
+export type TableConfig = {
+    allColumn: ColumnSchema[];
+    renderColumn: ColumnSchema[];
+    dataConvertProps: {
+        tree: DataConvertType;
+        list: string[];
+    };
+    commonExpandedProps?: CommonExpandedProps;
+    rowSelectionColumn?: ColumnSchema;
+    expandableColumn?: ColumnSchema;
+    recursiveColumn?: ColumnSchema;
+    childrenColumn?: ColumnSchema;
+};
+
+function convertToTableConfig(columnSchema: ColumnSchema[]): TableConfig {
+    let result: TableConfig = {
+        allColumn: [],
+        renderColumn: [],
+        dataConvertProps: {
+            tree: { type: 'normal' },
+            list: [],
+        },
+    };
+    columnSchema.forEach((column) => {
+        if (column.type == 'childrenRow') {
+            result.childrenColumn = column;
+        } else if (column.type == 'recursiveRow') {
+            result.recursiveColumn = column;
+        } else if (column.type == 'expandableRow') {
+            result.expandableColumn = column;
+        } else if (column.type == 'dataConvert') {
+            result.dataConvertProps = column.dataConvertProps!;
+        } else if (column.type == 'rowSelectionColumn') {
+            result.rowSelectionColumn = column;
+        } else if (column.type == 'column') {
+            result.renderColumn.push(column);
+        }
+        result.allColumn.push(column);
+    });
+    if (result.childrenColumn) {
+        result.commonExpandedProps = {
+            expandedIndex: result.childrenColumn.childrenProps!.expandedIndex!,
+            defaultExpand: result.childrenColumn.childrenProps!.defaultExpand!,
+            expandedConfig: result.childrenColumn.childrenProps!,
+        };
+    }
+    if (result.recursiveColumn) {
+        result.commonExpandedProps = {
+            expandedIndex:
+                result.recursiveColumn.recursiveProps!.expandedIndex!,
+            defaultExpand:
+                result.recursiveColumn.recursiveProps!.defaultExpand!,
+            expandedConfig: result.recursiveColumn.recursiveProps!,
+        };
+    }
+    return result;
+}
+
+function getTableConfig(schema: Schema): TableConfig {
     let columnSchema: ColumnSchema[] = getColumnSchemaInner(schema);
     checkSplitRowSchema(columnSchema);
     let combineColumnSchema: ColumnSchema[] =
         calculateRowRenderAndDataConvert(columnSchema);
-    return combineColumnSchema;
+
+    let config: TableConfig = convertToTableConfig(combineColumnSchema);
+    return config;
 }
 
-export default getColumnSchema;
+export default getTableConfig;
 
 export { ColumnSchema };

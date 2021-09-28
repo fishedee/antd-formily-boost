@@ -28,7 +28,7 @@ import getPagination, {
     PaginationType,
 } from './member/paginaction';
 import getVirtual, { VirtualScrollProps } from './member/virtual';
-import getColumnSchema from './member/columnSchema';
+import getTableConfig from './member/config';
 import getRecursiveRow from './member/recursiveRow';
 import getDataColumns from './member/dataColumn';
 import getRowSelection from './member/rowSelection';
@@ -73,24 +73,16 @@ type MyTableType = React.FC<PropsType> & {
 const MyTable: MyTableType = observer((props: PropsType) => {
     const field = useField<ArrayField>();
     const fieldSchema = useFieldSchema();
-    const columnSchemas = getColumnSchema(fieldSchema);
+    const tableConfig = getTableConfig(fieldSchema);
     let value = field.value;
     if (value === undefined || value instanceof Array == false) {
         value = [];
     }
-    const recursiveRow = getRecursiveRow(value, columnSchemas);
+    const recursiveRow = getRecursiveRow(value, tableConfig);
 
-    const dataColumns = getDataColumns(
-        value,
-        columnSchemas,
-        recursiveRow?.recursiveIndex,
-    );
+    const dataColumns = getDataColumns(value, tableConfig);
 
-    const rowSelection = getRowSelection(
-        value,
-        columnSchemas,
-        recursiveRow?.recursiveIndex,
-    );
+    const rowSelection = getRowSelection(value, tableConfig);
 
     const pagination = getPagination(
         value.length,
@@ -104,15 +96,15 @@ const MyTable: MyTableType = observer((props: PropsType) => {
         value,
         props.scroll,
         props.virtualScroll,
-        recursiveRow,
+        tableConfig,
     );
 
     //递归行，与展开行，只能二选一
     let expandable: ExpandableConfig<any> | undefined;
-    if (recursiveRow) {
-        expandable = recursiveRow.expandedProps;
+    if (tableConfig.commonExpandedProps) {
+        expandable = tableConfig.commonExpandedProps.expandedConfig;
     } else {
-        expandable = getExpandableRow(value, columnSchemas);
+        expandable = getExpandableRow(value, tableConfig);
     }
 
     const allClassName = [
@@ -143,7 +135,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                 onRow={virtual.onRow}
                 childrenColumnName={recursiveRow ? '_children' : undefined}
             />
-            {columnSchemas.map((column) => {
+            {tableConfig.allColumn.map((column) => {
                 //这里实际渲染每个Column，以保证Column能接收到Reaction
                 //注意要使用onlyRenderSelf
                 return (

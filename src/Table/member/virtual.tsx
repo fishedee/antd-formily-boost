@@ -2,7 +2,7 @@ import { Form } from '@formily/core';
 import { TableProps as RcTableProps } from 'rc-table/lib/Table';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { any, throttle } from 'underscore';
-import { RecursiveIndex } from './recursiveRow';
+import { DataConvertType, TableConfig } from './config';
 
 type VirtualScrollSizeProps = {
     size: 'default' | 'middle' | 'small';
@@ -35,31 +35,35 @@ function getDataSourceRecursive(
     preIndex: string,
     currentLevel: number,
     data: any[],
-    recursiveIndex?: RecursiveIndex,
+    dataConvert?: DataConvertType,
 ): DataSourceType[] {
     let result: DataSourceType[] = [];
     for (var i = 0; i != data.length; i++) {
         var single: DataSourceType = {
             _index: preIndex != '' ? preIndex + '.' + i : i + '',
+            _currentLevel: currentLevel,
         };
-        if (recursiveIndex) {
-            let recursiveIndexName: string;
-            if (recursiveIndex.type == 'recursive') {
-                recursiveIndexName = recursiveIndex.recursiveIndex;
+        if (
+            dataConvert &&
+            (dataConvert.type == 'children' || dataConvert.type == 'recursive')
+        ) {
+            let childIndex: string;
+            let childDataConvert: DataConvertType | undefined;
+            if (dataConvert.type == 'recursive') {
+                childIndex = dataConvert.dataIndex;
+                childDataConvert = dataConvert;
             } else {
-                recursiveIndexName = recursiveIndex.childrenIndex[currentLevel];
+                childIndex = dataConvert.dataIndex;
+                childDataConvert = dataConvert.children;
             }
-            let children = data[i][recursiveIndexName];
+            let children = data[i][childIndex];
             if (children && children.length != 0) {
                 single._children = getDataSourceRecursive(
-                    single._index + '.' + recursiveIndexName,
+                    single._index + '.' + childIndex,
                     currentLevel + 1,
                     children,
-                    recursiveIndex,
+                    childDataConvert,
                 );
-            }
-            if (recursiveIndex.type == 'children') {
-                single._currentLevel = currentLevel;
             }
         }
         result.push(single);
@@ -69,9 +73,9 @@ function getDataSourceRecursive(
 
 function getNoVirtual(
     data: any[],
-    recursiveIndex?: RecursiveIndex,
+    dataConvert: DataConvertType,
 ): { dataSource: DataSourceType[]; onRow: any } {
-    let dataSource = getDataSourceRecursive('', 0, data, recursiveIndex);
+    let dataSource = getDataSourceRecursive('', 0, data, dataConvert);
     return {
         dataSource: dataSource,
         onRow: undefined,
@@ -108,6 +112,7 @@ function getNormalVirtual(
         }
         visibleData.push({
             _index: i + '',
+            _currentLevel: 0,
             _style: _style,
         });
     }
@@ -118,7 +123,7 @@ function getNormalVirtual(
 }
 
 type VirtualRecursivePropsType = {
-    recursiveIndex: RecursiveIndex;
+    dataConvert: DataConvertType;
     expandedIndex: string;
 };
 
@@ -132,7 +137,7 @@ function getRecursiveHeightDataSource(
     virtualRecursiveProps: VirtualRecursivePropsType,
 ): [DataSourceType[], number] {
     let dataSource: DataSourceType[] = [];
-    const recursiveIndex = virtualRecursiveProps.recursiveIndex;
+    const dataConvert = virtualRecursiveProps.dataConvert;
     const expandedIndex = virtualRecursiveProps.expandedIndex;
     let allTotalChildrenCount = 0;
     for (var i = 0; i != data.length; i++) {
@@ -141,13 +146,16 @@ function getRecursiveHeightDataSource(
             _index: preIndex != '' ? preIndex + '.' + i : i + '',
         };
         single._begin = prevHeight;
-        let recursiveIndexName: string;
-        if (recursiveIndex.type == 'recursive') {
-            recursiveIndexName = recursiveIndex.recursiveIndex;
-        } else {
-            recursiveIndexName = recursiveIndex.childrenIndex[currentLevel];
+        let childIndex: string;
+        let childDataConvert: DataConvertType | undefined;
+        if (dataConvert.type == 'recursive') {
+            childIndex = dataConvert.dataIndex;
+            childDataConvert = dataConvert;
+        } else if (dataConvert.type == 'children') {
+            childIndex = dataConvert.dataIndex;
+            childDataConvert = dataConvert.children;
         }
-        let children = singleData[recursiveIndexName];
+        let children = singleData[childIndex];
         let isExpand = singleData[expandedIndex];
         let childrenData: DataSourceType[] = [];
         let totalChildrenCount = 0;
@@ -271,8 +279,8 @@ function getRecursiveVirtualDataSource(
 //高度不是每次render的时候重新计算，而是缓存一个本地数据，然后当data变化的时候，track同步来计算新数据。最后使用线段树来优化区间和操作
 function getRecursiveVirtual(
     data: any[],
-    config: VirtualConfig,
     virtualRecursiveProps: VirtualRecursivePropsType,
+    config: VirtualConfig,
 ): { dataSource: DataSourceType[]; onRow: any } {
     let [dataSourceHeight, childrenCount] = getRecursiveHeightDataSource(
         0,
@@ -366,15 +374,15 @@ function getVirtualConfig(
 
 function getVirtual(
     data: any[],
+    tableConfig: TableConfig,
     scroll?: RcTableProps<any>['scroll'],
     virtualScroll?: VirtualScrollProps,
-    virtualRecursiveProps?: VirtualRecursivePropsType,
 ): { className: string[]; dataSource: DataSourceType[]; onRow: any } {
     //不打开虚拟滚动
     if (!scroll || !virtualScroll) {
         return {
             className: [],
-            ...getNoVirtual(data, virtualRecursiveProps?.recursiveIndex),
+            ...getNoVirtual(data, tableConfig.dataConvertProps.tree),
         };
     }
     if (!scroll.y || typeof scroll.y != 'number') {
@@ -383,22 +391,25 @@ function getVirtual(
         );
         return {
             className: [],
-            ...getNoVirtual(data, virtualRecursiveProps?.recursiveIndex),
+            ...getNoVirtual(data, tableConfig.dataConvertProps.tree),
         };
     }
 
     //打开虚拟滚动
     const virtualConfig = getVirtualConfig(scroll, virtualScroll);
     let virtual: { dataSource: DataSourceType[]; onRow: any };
-    if (!virtualRecursiveProps) {
+    if (!tableConfig.commonExpandedProps?.expandedIndex) {
         //普通列表虚拟滚动
         virtual = getNormalVirtual(data, virtualConfig);
     } else {
         //树形数据虚拟滚动
         virtual = getRecursiveVirtual(
             data,
+            {
+                dataConvert: tableConfig.dataConvertProps.tree,
+                expandedIndex: tableConfig.commonExpandedProps?.expandedIndex,
+            },
             virtualConfig,
-            virtualRecursiveProps,
         );
     }
     return {
