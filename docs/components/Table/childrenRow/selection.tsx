@@ -5,6 +5,7 @@ import { Form, FormItem, Input, Select } from '@formily/antd';
 import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
 import { Field } from '@formily/core';
+import React from 'react';
 
 const SchemaField = createSchemaField({
     components: {

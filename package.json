@@ -63,6 +63,8 @@
     "@formily/react": "^2.0.0-rc.10",
     "@formily/reactive": "^2.0.0-rc.10",
     "@formily/reactive-react": "^2.0.0-rc.10",
+    "@testing-library/react": "^12.1.1",
+    "@types/jest": "^27.0.2",
     "@types/underscore": "^1.11.3",
     "@umijs/test": "^3.0.5",
     "antd": "^4.16.10",

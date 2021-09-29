@@ -7,6 +7,7 @@ import { createSchemaField, FormConsumer } from '@formily/react';
 import { Label, Table } from 'antd-formily-boost';
 import { Button } from 'antd';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
+import React from 'react';
 
 const form = createForm({
     initialValues: {

@@ -10,6 +10,7 @@ import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import { useMemo } from 'react';
 import { batch, observable } from '@formily/reactive';
 import { useEffect } from 'react';
+import React from 'react';
 
 const SchemaField = createSchemaField({
     components: {

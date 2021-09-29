@@ -4,6 +4,7 @@ import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
 import { Form, FormItem, Input, Select, Space } from '@formily/antd';
 import { useMemo } from 'react';
 import { observable } from '@formily/reactive';
+import React from 'react';
 
 const SchemaField = createSchemaField({
     components: {

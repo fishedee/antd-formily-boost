@@ -1,0 +1,703 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Basic 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-table-wrapper antd_formily_table_boost undefined"
+      >
+        <div
+          class="ant-spin-nested-loading"
+        >
+          <div
+            class="ant-spin-container"
+          >
+            <div
+              class="ant-table ant-table-bordered"
+            >
+              <div
+                class="ant-table-container"
+              >
+                <div
+                  class="ant-table-content"
+                >
+                  <table
+                    style="table-layout: auto;"
+                  >
+                    <colgroup />
+                    <thead
+                      class="ant-table-thead"
+                    >
+                      <tr>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          名字
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          年龄
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="ant-table-tbody"
+                    >
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="0"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="fish"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          123
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="1"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="cat"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          456
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="2"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="dog"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          789
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {"data":[{"name":"fish","age":123},{"name":"cat","age":456},{"name":"dog","age":789}]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`None 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-table-wrapper antd_formily_table_boost undefined"
+      >
+        <div
+          class="ant-spin-nested-loading"
+        >
+          <div
+            class="ant-spin-container"
+          >
+            <div
+              class="ant-table ant-table-bordered ant-table-empty"
+            >
+              <div
+                class="ant-table-container"
+              >
+                <div
+                  class="ant-table-content"
+                >
+                  <table
+                    style="table-layout: auto;"
+                  >
+                    <colgroup />
+                    <thead
+                      class="ant-table-thead"
+                    >
+                      <tr>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          名字
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          年龄
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="ant-table-tbody"
+                    >
+                      <tr
+                        class="ant-table-placeholder"
+                      >
+                        <td
+                          class="ant-table-cell"
+                          colspan="2"
+                        >
+                          <div
+                            class="ant-empty ant-empty-normal"
+                          >
+                            <div
+                              class="ant-empty-image"
+                            >
+                              <svg
+                                class="ant-empty-img-simple"
+                                height="41"
+                                viewBox="0 0 64 41"
+                                width="64"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <g
+                                  fill="none"
+                                  fill-rule="evenodd"
+                                  transform="translate(0 1)"
+                                >
+                                  <ellipse
+                                    class="ant-empty-img-simple-ellipse"
+                                    cx="32"
+                                    cy="33"
+                                    rx="32"
+                                    ry="7"
+                                  />
+                                  <g
+                                    class="ant-empty-img-simple-g"
+                                    fill-rule="nonzero"
+                                  >
+                                    <path
+                                      d="M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
+                                    />
+                                    <path
+                                      class="ant-empty-img-simple-path"
+                                      d="M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z"
+                                    />
+                                  </g>
+                                </g>
+                              </svg>
+                            </div>
+                            <div
+                              class="ant-empty-description"
+                            >
+                              No Data
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {"data":[]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Style 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-table-wrapper antd_formily_table_boost undefined"
+      >
+        <div
+          class="ant-spin-nested-loading"
+        >
+          <div
+            class="ant-spin-container"
+          >
+            <div
+              class="ant-table ant-table-bordered"
+            >
+              <div
+                class="ant-table-container"
+              >
+                <div
+                  class="ant-table-content"
+                >
+                  <table
+                    style="table-layout: auto;"
+                  >
+                    <colgroup />
+                    <thead
+                      class="ant-table-thead"
+                    >
+                      <tr>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          名字
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          名字2
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          年龄
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="ant-table-tbody"
+                    >
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="0"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="fish"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          fish
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          123
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="1"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="cat"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          cat
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          456
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="2"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="dog"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          dog
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          789
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {"data":[{"name":"fish","age":123},{"name":"cat","age":456},{"name":"dog","age":789}]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`UserInput 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-table-wrapper antd_formily_table_boost undefined"
+      >
+        <div
+          class="ant-spin-nested-loading"
+        >
+          <div
+            class="ant-spin-container"
+          >
+            <div
+              class="ant-table ant-table-bordered"
+            >
+              <div
+                class="ant-table-container"
+              >
+                <div
+                  class="ant-table-content"
+                >
+                  <table
+                    style="table-layout: auto;"
+                  >
+                    <colgroup />
+                    <thead
+                      class="ant-table-thead"
+                    >
+                      <tr>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          名字
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          年龄
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="ant-table-tbody"
+                    >
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="0"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <input
+                                    style="color: red; background: none; outline: none; width: 100%; border: 1px solid grey;"
+                                    value="fish"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          123
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="1"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <input
+                                    style="color: red; background: none; outline: none; width: 100%; border: 1px solid grey;"
+                                    value="cat"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          456
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="2"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <input
+                                    style="color: red; background: none; outline: none; width: 100%; border: 1px solid grey;"
+                                    value="dog"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          789
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {"data":[{"name":"fish","age":123},{"name":"cat","age":456},{"name":"dog","age":789}]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;

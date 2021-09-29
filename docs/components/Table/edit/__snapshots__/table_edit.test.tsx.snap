@@ -1,0 +1,1056 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Edit 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-table-wrapper antd_formily_table_boost undefined"
+      >
+        <div
+          class="ant-spin-nested-loading"
+        >
+          <div
+            class="ant-spin-container"
+          >
+            <div
+              class="ant-table"
+            >
+              <div
+                class="ant-table-container"
+              >
+                <div
+                  class="ant-table-content"
+                >
+                  <table
+                    style="table-layout: auto;"
+                  >
+                    <colgroup />
+                    <thead
+                      class="ant-table-thead"
+                    >
+                      <tr>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          序号
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          名字
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          年龄
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          操作
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="ant-table-tbody"
+                    >
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="0"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          1
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="fish"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="123"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div>
+                            <a>
+                              <span
+                                aria-label="arrow-up"
+                                class="anticon anticon-arrow-up"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-up"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M868 545.5L536.1 163a31.96 31.96 0 00-48.3 0L156 545.5a7.97 7.97 0 006 13.2h81c4.6 0 9-2 12.1-5.5L474 300.9V864c0 4.4 3.6 8 8 8h60c4.4 0 8-3.6 8-8V300.9l218.9 252.3c3 3.5 7.4 5.5 12.1 5.5h81c6.8 0 10.5-8 6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="arrow-down"
+                                class="anticon anticon-arrow-down"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-down"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M862 465.3h-81c-4.6 0-9 2-12.1 5.5L550 723.1V160c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v563.1L255.1 470.8c-3-3.5-7.4-5.5-12.1-5.5h-81c-6.8 0-10.5 8.1-6 13.2L487.9 861a31.96 31.96 0 0048.3 0L868 478.5c4.5-5.2.8-13.2-6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="delete"
+                                class="anticon anticon-delete"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="delete"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="1"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          2
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="edit_false"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="456"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div>
+                            <a>
+                              <span
+                                aria-label="arrow-up"
+                                class="anticon anticon-arrow-up"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-up"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M868 545.5L536.1 163a31.96 31.96 0 00-48.3 0L156 545.5a7.97 7.97 0 006 13.2h81c4.6 0 9-2 12.1-5.5L474 300.9V864c0 4.4 3.6 8 8 8h60c4.4 0 8-3.6 8-8V300.9l218.9 252.3c3 3.5 7.4 5.5 12.1 5.5h81c6.8 0 10.5-8 6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="arrow-down"
+                                class="anticon anticon-arrow-down"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-down"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M862 465.3h-81c-4.6 0-9 2-12.1 5.5L550 723.1V160c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v563.1L255.1 470.8c-3-3.5-7.4-5.5-12.1-5.5h-81c-6.8 0-10.5 8.1-6 13.2L487.9 861a31.96 31.96 0 0048.3 0L868 478.5c4.5-5.2.8-13.2-6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="delete"
+                                class="anticon anticon-delete"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="delete"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="2"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          3
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="dog"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="789"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div>
+                            <a>
+                              <span
+                                aria-label="arrow-up"
+                                class="anticon anticon-arrow-up"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-up"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M868 545.5L536.1 163a31.96 31.96 0 00-48.3 0L156 545.5a7.97 7.97 0 006 13.2h81c4.6 0 9-2 12.1-5.5L474 300.9V864c0 4.4 3.6 8 8 8h60c4.4 0 8-3.6 8-8V300.9l218.9 252.3c3 3.5 7.4 5.5 12.1 5.5h81c6.8 0 10.5-8 6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="arrow-down"
+                                class="anticon anticon-arrow-down"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-down"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M862 465.3h-81c-4.6 0-9 2-12.1 5.5L550 723.1V160c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v563.1L255.1 470.8c-3-3.5-7.4-5.5-12.1-5.5h-81c-6.8 0-10.5 8.1-6 13.2L487.9 861a31.96 31.96 0 0048.3 0L868 478.5c4.5-5.2.8-13.2-6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="delete"
+                                class="anticon anticon-delete"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="delete"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"
+                                  />
+                                </svg>
+                              </span>
+                               
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="ant-btn ant-btn-dashed ant-btn-round"
+        style="display: block; width: 100%; margin-top: 10px;"
+        type="button"
+      >
+        <span
+          aria-label="plus"
+          class="anticon anticon-plus"
+          role="img"
+          style="font-size: 12px;"
+        >
+          <svg
+            aria-hidden="true"
+            data-icon="plus"
+            fill="currentColor"
+            focusable="false"
+            height="1em"
+            viewBox="64 64 896 896"
+            width="1em"
+          >
+            <defs>
+              <style />
+            </defs>
+            <path
+              d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8z"
+            />
+            <path
+              d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8z"
+            />
+          </svg>
+        </span>
+        <span>
+          添加
+        </span>
+      </button>
+      <div>
+        {"data":[{"name":"fish","age":123},{"name":"edit_false","age":456},{"name":"dog","age":789}]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`UserDefine 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-table-wrapper antd_formily_table_boost undefined"
+      >
+        <div
+          class="ant-spin-nested-loading"
+        >
+          <div
+            class="ant-spin-container"
+          >
+            <div
+              class="ant-table"
+            >
+              <div
+                class="ant-table-container"
+              >
+                <div
+                  class="ant-table-content"
+                >
+                  <table
+                    style="table-layout: auto;"
+                  >
+                    <colgroup />
+                    <thead
+                      class="ant-table-thead"
+                    >
+                      <tr>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          序号
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          名字
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          年龄
+                        </th>
+                        <th
+                          class="ant-table-cell"
+                        >
+                          操作
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody
+                      class="ant-table-tbody"
+                    >
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="0"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          1
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="fish"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="123"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div>
+                            <a>
+                              <span />
+                               上移
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="arrow-down"
+                                class="anticon anticon-arrow-down"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-down"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M862 465.3h-81c-4.6 0-9 2-12.1 5.5L550 723.1V160c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v563.1L255.1 470.8c-3-3.5-7.4-5.5-12.1-5.5h-81c-6.8 0-10.5 8.1-6 13.2L487.9 861a31.96 31.96 0 0048.3 0L868 478.5c4.5-5.2.8-13.2-6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               下移
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span />
+                               删除
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="1"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          2
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="edit_false"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="456"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div>
+                            <a>
+                              <span />
+                               上移
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="arrow-down"
+                                class="anticon anticon-arrow-down"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-down"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M862 465.3h-81c-4.6 0-9 2-12.1 5.5L550 723.1V160c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v563.1L255.1 470.8c-3-3.5-7.4-5.5-12.1-5.5h-81c-6.8 0-10.5 8.1-6 13.2L487.9 861a31.96 31.96 0 0048.3 0L868 478.5c4.5-5.2.8-13.2-6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               下移
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span />
+                               删除
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr
+                        class="ant-table-row ant-table-row-level-0"
+                        data-row-key="2"
+                      >
+                        <td
+                          class="ant-table-cell"
+                        >
+                          3
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="dog"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="789"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          class="ant-table-cell"
+                        >
+                          <div>
+                            <a>
+                              <span />
+                               上移
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span
+                                aria-label="arrow-down"
+                                class="anticon anticon-arrow-down"
+                                role="img"
+                                style="font-size: 16px;"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  data-icon="arrow-down"
+                                  fill="currentColor"
+                                  focusable="false"
+                                  height="1em"
+                                  viewBox="64 64 896 896"
+                                  width="1em"
+                                >
+                                  <path
+                                    d="M862 465.3h-81c-4.6 0-9 2-12.1 5.5L550 723.1V160c0-4.4-3.6-8-8-8h-60c-4.4 0-8 3.6-8 8v563.1L255.1 470.8c-3-3.5-7.4-5.5-12.1-5.5h-81c-6.8 0-10.5 8.1-6 13.2L487.9 861a31.96 31.96 0 0048.3 0L868 478.5c4.5-5.2.8-13.2-6-13.2z"
+                                  />
+                                </svg>
+                              </span>
+                               下移
+                            </a>
+                            <div
+                              class="ant-divider ant-divider-vertical"
+                              role="separator"
+                            />
+                            <a>
+                              <span />
+                               删除
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        class="ant-btn ant-btn-dashed ant-btn-round"
+        style="display: block; width: 100%; margin-top: 10px;"
+        type="button"
+      >
+        <span />
+        <span>
+          我要添加
+        </span>
+      </button>
+      <div>
+        {"data":[{"name":"fish","age":123},{"name":"edit_false","age":456},{"name":"dog","age":789}]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;

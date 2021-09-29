@@ -1,0 +1,868 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Basic 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-tree ant-tree-icon-hide"
+      >
+        <div
+          role="tree"
+        >
+          <input
+            style="width: 0px; height: 0px; display: flex; overflow: hidden; opacity: 0; border: 0px; padding: 0px; margin: 0px;"
+            tabindex="0"
+            value=""
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          class="ant-tree-treenode"
+          style="position: absolute; pointer-events: none; visibility: hidden; height: 0px; overflow: hidden;"
+        >
+          <div
+            class="ant-tree-indent"
+          >
+            <div
+              class="ant-tree-indent-unit"
+            />
+          </div>
+        </div>
+        <div
+          class="ant-tree-list"
+          style="position: relative;"
+        >
+          <div
+            class="ant-tree-list-holder"
+          >
+            <div>
+              <div
+                class="ant-tree-list-holder-inner"
+                style="display: flex; flex-direction: column;"
+              >
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title=""
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      parent 1
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close ant-tree-treenode-leaf-last"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title=""
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      parent 2
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {"data":[{"title":"parent 1","children":[{"title":"parent 1-0","children":[{"title":"leaf"},{"title":"leaf"}]},{"title":"parent 1-1","children":[{"title":"sss"}]}],"_expanded":false},{"title":"parent 2","children":[{"title":"parent 2-0","children":[{"title":"kk"}]}],"_expanded":false}]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`None 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-tree ant-tree-icon-hide"
+      >
+        <div
+          role="tree"
+        >
+          <input
+            style="width: 0px; height: 0px; display: flex; overflow: hidden; opacity: 0; border: 0px; padding: 0px; margin: 0px;"
+            tabindex="0"
+            value=""
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          class="ant-tree-treenode"
+          style="position: absolute; pointer-events: none; visibility: hidden; height: 0px; overflow: hidden;"
+        >
+          <div
+            class="ant-tree-indent"
+          >
+            <div
+              class="ant-tree-indent-unit"
+            />
+          </div>
+        </div>
+        <div
+          class="ant-tree-list"
+          style="position: relative;"
+        >
+          <div
+            class="ant-tree-list-holder"
+          >
+            <div>
+              <div
+                class="ant-tree-list-holder-inner"
+                style="display: flex; flex-direction: column;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {"data":[]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Style 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-tree ant-tree-icon-hide ant-tree-block-node ant-tree-show-line"
+      >
+        <div
+          role="tree"
+        >
+          <input
+            style="width: 0px; height: 0px; display: flex; overflow: hidden; opacity: 0; border: 0px; padding: 0px; margin: 0px;"
+            tabindex="0"
+            value=""
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          class="ant-tree-treenode"
+          style="position: absolute; pointer-events: none; visibility: hidden; height: 0px; overflow: hidden;"
+        >
+          <div
+            class="ant-tree-indent"
+          >
+            <div
+              class="ant-tree-indent-unit"
+            />
+          </div>
+        </div>
+        <div
+          class="ant-tree-list"
+          style="position: relative;"
+        >
+          <div
+            class="ant-tree-list-holder"
+          >
+            <div>
+              <div
+                class="ant-tree-list-holder-inner"
+                style="display: flex; flex-direction: column;"
+              >
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="plus-square"
+                      class="anticon anticon-plus-square ant-tree-switcher-line-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="plus-square"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="64 64 896 896"
+                        width="1em"
+                      >
+                        <path
+                          d="M328 544h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8z"
+                        />
+                        <path
+                          d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title=""
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      parent 1
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close ant-tree-treenode-leaf-last"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="plus-square"
+                      class="anticon anticon-plus-square ant-tree-switcher-line-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="plus-square"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="64 64 896 896"
+                        width="1em"
+                      >
+                        <path
+                          d="M328 544h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8z"
+                        />
+                        <path
+                          d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title=""
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      parent 2
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {"data":[{"title":"parent 1","children":[{"title":"parent 1-0","children":[{"title":"leaf"},{"title":"leaf"}]},{"title":"parent 1-1","children":[{"title":"sss"}]}],"_expanded":false},{"title":"parent 2","children":[{"title":"parent 2-0","children":[{"title":"kk"}]}],"_expanded":false}]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`User 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-tree ant-tree-icon-hide ant-tree-block-node ant-tree-show-line"
+      >
+        <div
+          role="tree"
+        >
+          <input
+            style="width: 0px; height: 0px; display: flex; overflow: hidden; opacity: 0; border: 0px; padding: 0px; margin: 0px;"
+            tabindex="0"
+            value=""
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          class="ant-tree-treenode"
+          style="position: absolute; pointer-events: none; visibility: hidden; height: 0px; overflow: hidden;"
+        >
+          <div
+            class="ant-tree-indent"
+          >
+            <div
+              class="ant-tree-indent-unit"
+            />
+          </div>
+        </div>
+        <div
+          class="ant-tree-list"
+          style="width: 200px; position: relative;"
+        >
+          <div
+            class="ant-tree-list-holder"
+          >
+            <div>
+              <div
+                class="ant-tree-list-holder-inner"
+                style="display: flex; flex-direction: column;"
+              >
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="plus-square"
+                      class="anticon anticon-plus-square ant-tree-switcher-line-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="plus-square"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="64 64 896 896"
+                        width="1em"
+                      >
+                        <path
+                          d="M328 544h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8z"
+                        />
+                        <path
+                          d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title=""
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      <div
+                        class="ant-space ant-space-horizontal ant-space-align-center"
+                        style="display: flex; justify-content: space-between;"
+                      >
+                        <div
+                          class="ant-space-item"
+                          style="margin-right: 8px;"
+                        >
+                          parent 1
+                        </div>
+                        <div
+                          class="ant-space-item"
+                        >
+                          <a>
+                            删除
+                          </a>
+                        </div>
+                      </div>
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close ant-tree-treenode-leaf-last"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="plus-square"
+                      class="anticon anticon-plus-square ant-tree-switcher-line-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="plus-square"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="64 64 896 896"
+                        width="1em"
+                      >
+                        <path
+                          d="M328 544h152v152c0 4.4 3.6 8 8 8h48c4.4 0 8-3.6 8-8V544h152c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H544V328c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v152H328c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8z"
+                        />
+                        <path
+                          d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zm-40 728H184V184h656v656z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title=""
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      <div
+                        class="ant-space ant-space-horizontal ant-space-align-center"
+                        style="display: flex; justify-content: space-between;"
+                      >
+                        <div
+                          class="ant-space-item"
+                          style="margin-right: 8px;"
+                        >
+                          parent 2
+                        </div>
+                        <div
+                          class="ant-space-item"
+                        >
+                          <a>
+                            删除
+                          </a>
+                        </div>
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        {"data":[{"title":"parent 1","children":[{"title":"parent 1-0","children":[{"title":"leaf"},{"title":"leaf"}]},{"title":"parent 1-1","children":[{"title":"sss"}]}],"_expanded":false},{"title":"parent 2","children":[{"title":"parent 2-0","children":[{"title":"kk"}]}],"_expanded":false}]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Virtual 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div
+        class="ant-tree ant-tree-icon-hide"
+      >
+        <div
+          role="tree"
+        >
+          <input
+            style="width: 0px; height: 0px; display: flex; overflow: hidden; opacity: 0; border: 0px; padding: 0px; margin: 0px;"
+            tabindex="0"
+            value=""
+          />
+        </div>
+        <div
+          aria-hidden="true"
+          class="ant-tree-treenode"
+          style="position: absolute; pointer-events: none; visibility: hidden; height: 0px; overflow: hidden;"
+        >
+          <div
+            class="ant-tree-indent"
+          >
+            <div
+              class="ant-tree-indent-unit"
+            />
+          </div>
+        </div>
+        <div
+          class="ant-tree-list"
+          style="position: relative;"
+        >
+          <div
+            class="ant-tree-list-holder"
+            style="max-height: 100px; overflow-y: hidden;"
+          >
+            <div
+              style="height: 200px; position: relative; overflow: hidden;"
+            >
+              <div
+                class="ant-tree-list-holder-inner"
+                style="display: flex; flex-direction: column; transform: translateY(0px); position: absolute; left: 0px; right: 0px; top: 0px;"
+              >
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title="0-0"
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      0-0
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title="0-1"
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      0-1
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title="0-2"
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      0-2
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title="0-3"
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      0-3
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title="0-4"
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      0-4
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title="0-5"
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      0-5
+                    </span>
+                  </span>
+                </div>
+                <div
+                  class="ant-tree-treenode ant-tree-treenode-switcher-close"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="ant-tree-indent"
+                  />
+                  <span
+                    class="ant-tree-switcher ant-tree-switcher_close"
+                  >
+                    <span
+                      aria-label="caret-down"
+                      class="anticon anticon-caret-down ant-tree-switcher-icon"
+                      role="img"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        data-icon="caret-down"
+                        fill="currentColor"
+                        focusable="false"
+                        height="1em"
+                        viewBox="0 0 1024 1024"
+                        width="1em"
+                      >
+                        <path
+                          d="M840.4 300H183.6c-19.7 0-30.7 20.8-18.5 35l328.4 380.8c9.4 10.9 27.5 10.9 37 0L858.9 335c12.2-14.2 1.2-35-18.5-35z"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                  <span
+                    class="ant-tree-node-content-wrapper ant-tree-node-content-wrapper-close"
+                    title="0-6"
+                  >
+                    <span
+                      class="ant-tree-title"
+                    >
+                      0-6
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="ant-tree-list-scrollbar ant-tree-list-scrollbar-show"
+            style="width: 8px; top: 0px; bottom: 0px; right: 0px; position: absolute; display: none;"
+          >
+            <div
+              class="ant-tree-list-scrollbar-thumb"
+              style="width: 100%; height: 50px; top: 0px; left: 0px; position: absolute; background: rgba(0, 0, 0, 0.5); border-radius: 99px; cursor: pointer; user-select: none;"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;
