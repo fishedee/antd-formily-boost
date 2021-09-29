@@ -64,7 +64,7 @@ function flatDataInIndex(
     prevIndex: string,
     currentLevel: number,
     defaultValue: boolean,
-    dataConvert?: DataConvertType,
+    dataConvert: DataConvertType,
     isEarilerStop?: boolean,
 ): string[] {
     let result: string[] = [];
@@ -78,15 +78,12 @@ function flatDataInIndex(
         if (single[dataIndex]) {
             result.push(currentIndex);
         }
-        if (
-            dataConvert &&
-            (dataConvert.type == 'recursive' || dataConvert.type == 'children')
-        ) {
+        if (dataConvert.type == 'recursive' || dataConvert.type == 'children') {
             //当上下级关联的时候，提前终止
             if (isEarilerStop && !single[dataIndex]) {
                 continue;
             }
-            let childDataConvert: DataConvertType | undefined;
+            let childDataConvert: DataConvertType;
             let childIndex: string;
             if (dataConvert.type == 'recursive') {
                 childIndex = dataConvert.dataIndex;

@@ -31,6 +31,7 @@ function getExpandableRow(
         '',
         0,
         !!expandableColumn.expandableRrops?.defaultExpand,
+        tableConfig.dataConvertProps.tree,
     );
     const onExpandedRowsChange = (newExpandedRowKeys: any) => {
         fillDataInIndex(

@@ -94,9 +94,9 @@ const MyTable: MyTableType = observer((props: PropsType) => {
 
     const virtual = getVirtual(
         value,
+        tableConfig,
         props.scroll,
         props.virtualScroll,
-        tableConfig,
     );
 
     //递归行，与展开行，只能二选一

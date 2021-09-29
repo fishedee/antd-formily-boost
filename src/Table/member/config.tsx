@@ -62,7 +62,7 @@ export type RecursiveConvertType = {
 export type ChildrenConverType = {
     type: 'children';
     dataIndex: string;
-    children?: ChildrenConverType | SplitRowConvertType;
+    children: ChildrenConverType | SplitRowConvertType | NormalConverType;
 };
 
 export type DataConvertType =
@@ -412,17 +412,18 @@ function getSingleChildrenRowRender(childrenRowSchema: ColumnSchema): {
     }
 
     //获取本层的RowRender与DataConvert
-    let dataConvert: DataConvertType = {
-        type: 'children',
-        dataIndex: childrenIndex,
-    };
+    let dataConvert: DataConvertType;
 
     let currentLevelInfo = getSplitRowRender(childrenSchema, false, 0);
 
     let rowRenderTree = currentLevelInfo.rowRenderTree;
     if (currentLevelInfo.dataConvert.type == 'split') {
         //本层含有SplitRow的，立即返回
-        dataConvert.children = currentLevelInfo.dataConvert;
+        dataConvert = {
+            type: 'children',
+            dataIndex: childrenIndex,
+            children: currentLevelInfo.dataConvert,
+        };
         return { rowRenderTree, dataConvert };
     }
 
@@ -435,7 +436,19 @@ function getSingleChildrenRowRender(childrenRowSchema: ColumnSchema): {
             nestedChildrenRowSchema[0],
         );
         rowRenderTree.children = nestedLevelInfo.rowRenderTree;
-        dataConvert.children = nestedLevelInfo.dataConvert;
+        dataConvert = {
+            type: 'children',
+            dataIndex: childrenIndex,
+            children: nestedLevelInfo.dataConvert,
+        };
+    } else {
+        dataConvert = {
+            type: 'children',
+            dataIndex: childrenIndex,
+            children: {
+                type: 'normal',
+            },
+        };
     }
 
     return { rowRenderTree, dataConvert };

@@ -35,7 +35,7 @@ function getDataSourceRecursive(
     preIndex: string,
     currentLevel: number,
     data: any[],
-    dataConvert?: DataConvertType,
+    dataConvert: DataConvertType,
 ): DataSourceType[] {
     let result: DataSourceType[] = [];
     for (var i = 0; i != data.length; i++) {
@@ -43,12 +43,9 @@ function getDataSourceRecursive(
             _index: preIndex != '' ? preIndex + '.' + i : i + '',
             _currentLevel: currentLevel,
         };
-        if (
-            dataConvert &&
-            (dataConvert.type == 'children' || dataConvert.type == 'recursive')
-        ) {
+        if (dataConvert.type == 'children' || dataConvert.type == 'recursive') {
             let childIndex: string;
-            let childDataConvert: DataConvertType | undefined;
+            let childDataConvert: DataConvertType;
             if (dataConvert.type == 'recursive') {
                 childIndex = dataConvert.dataIndex;
                 childDataConvert = dataConvert;
@@ -146,41 +143,46 @@ function getRecursiveHeightDataSource(
             _index: preIndex != '' ? preIndex + '.' + i : i + '',
         };
         single._begin = prevHeight;
-        let childIndex: string;
-        let childDataConvert: DataConvertType | undefined;
-        if (dataConvert.type == 'recursive') {
-            childIndex = dataConvert.dataIndex;
-            childDataConvert = dataConvert;
-        } else if (dataConvert.type == 'children') {
-            childIndex = dataConvert.dataIndex;
-            childDataConvert = dataConvert.children;
-        }
-        let children = singleData[childIndex];
-        let isExpand = singleData[expandedIndex];
-        let childrenData: DataSourceType[] = [];
         let totalChildrenCount = 0;
-        if (children && children.length != 0 && isExpand) {
-            [childrenData, totalChildrenCount] = getRecursiveHeightDataSource(
-                prevHeight + config.itemHeight,
-                single._index + '.' + recursiveIndexName,
-                currentLevel + 1,
-                children,
-                config,
-                virtualRecursiveProps,
-            );
+        if (dataConvert.type == 'children' || dataConvert.type == 'recursive') {
+            let childIndex: string = '';
+            let childDataConvert: DataConvertType;
+            if (dataConvert.type == 'recursive') {
+                childIndex = dataConvert.dataIndex;
+                childDataConvert = dataConvert;
+            } else {
+                childIndex = dataConvert.dataIndex;
+                childDataConvert = dataConvert.children;
+            }
+            let children = singleData[childIndex];
+            let isExpand = singleData[expandedIndex];
+            let childrenData: DataSourceType[] = [];
+            if (children && children.length != 0 && isExpand) {
+                [childrenData, totalChildrenCount] =
+                    getRecursiveHeightDataSource(
+                        prevHeight + config.itemHeight,
+                        single._index + '.' + childIndex,
+                        currentLevel + 1,
+                        children,
+                        config,
+                        {
+                            dataConvert: childDataConvert,
+                            expandedIndex: virtualRecursiveProps.expandedIndex,
+                        },
+                    );
+            }
+
+            //末端高度为，自身高度，以及所有子children的高度相加
+            if (childrenData.length != 0) {
+                single._children = childrenData;
+            } else if (children && children.length != 0) {
+                //对于原数据含有子数据的，我们也要填充一个空数组进去，以显示expand图标
+                single._children = [];
+            }
         }
 
-        //末端高度为，自身高度，以及所有子children的高度相加
-        if (childrenData.length != 0) {
-            single._children = childrenData;
-        } else if (children && children.length != 0) {
-            //对于原数据含有子数据的，我们也要填充一个空数组进去，以显示expand图标
-            single._children = [];
-        }
         //写入当前的level
-        if (recursiveIndex.type == 'children') {
-            single._currentLevel = currentLevel;
-        }
+        single._currentLevel = currentLevel;
         single._end =
             single._begin! + config.itemHeight * (totalChildrenCount + 1);
         prevHeight = single._end;

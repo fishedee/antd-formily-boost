@@ -152,8 +152,7 @@ function getSelectAndCheckboxAndExpandConfig(
             false,
             {
                 type: 'recursive',
-                recursiveIndex: recursiveIndex,
-                childrenIndex: [],
+                dataIndex: recursiveIndex,
             },
             false,
         );
@@ -189,8 +188,7 @@ function getSelectAndCheckboxAndExpandConfig(
             false,
             {
                 type: 'recursive',
-                recursiveIndex: recursiveIndex,
-                childrenIndex: [],
+                dataIndex: recursiveIndex,
             },
             false,
         );
@@ -220,8 +218,7 @@ function getSelectAndCheckboxAndExpandConfig(
         defaultExpand,
         {
             type: 'recursive',
-            recursiveIndex: recursiveIndex,
-            childrenIndex: [],
+            dataIndex: recursiveIndex,
         },
         true,
     );
