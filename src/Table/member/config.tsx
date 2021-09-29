@@ -140,10 +140,9 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
                     ...columnBase,
                     type: 'column',
                     columnProps: {
-                        children: reduceProperties(schema),
-                        splitLevel: [],
-                        childrenRowRender: [],
                         ...config,
+                        rowRender: [],
+                        children: reduceProperties(schema),
                     },
                 },
             ];
@@ -309,7 +308,7 @@ function getAllNormalColumn(
             } else {
                 //非叶子节点
                 let childMapColumns = getAllNormalColumn(
-                    column.childrenProps!.children,
+                    column.columnProps.children,
                 );
                 childMapColumns.forEach((value, key) => {
                     result.set(key, column);
