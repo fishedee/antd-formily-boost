@@ -23,7 +23,7 @@ const SchemaField = createSchemaField({
     },
 });
 
-let lastState = {
+let lastState = observable({
     data: [
         {
             salesOrderId: 10001,
@@ -32,7 +32,7 @@ let lastState = {
             productors: [
                 {
                     productorName: 'company_1',
-                    count: 30,
+                    count: 0,
                     items: [
                         {
                             productId: 20001,
@@ -87,7 +87,7 @@ let lastState = {
                 },
                 {
                     productorName: 'company_4',
-                    count: 150,
+                    count: 130,
                     items: [
                         {
                             productId: 20001,
@@ -104,7 +104,7 @@ let lastState = {
             ],
         },
     ],
-};
+});
 
 const itemsChildrenRow = (
     <SchemaField.Void
@@ -117,8 +117,8 @@ const itemsChildrenRow = (
         <SchemaField.Void
             x-component="Table.Column"
             x-component-props={{
-                //指向productName列
-                refColumnName: 'productName',
+                //指向name列
+                refColumnName: 'item',
                 labelIndex: 'productName',
             }}
         />
@@ -126,7 +126,7 @@ const itemsChildrenRow = (
             x-component="Table.Column"
             x-component-props={{
                 //指向name列
-                refColumnName: 'amount',
+                refColumnName: 'count',
             }}
         >
             <SchemaField.String
@@ -143,30 +143,56 @@ const itemsChildrenRow = (
 
 const productsChildrenRow = (
     <SchemaField.Void
-        x-component="Table.SplitRow"
+        x-component="Table.ExpandableRow"
         x-component-props={{
-            //递归的字段名
-            splitIndex: 'productors',
+            //展开的字段名
+            defaultExpand: true,
         }}
     >
-        <SchemaField.Void
-            x-component="Table.Column"
+        <SchemaField.Array
+            name={'productors'}
+            x-component="Table"
             x-component-props={{
-                //指向productorName列
-                refColumnName: 'productorName',
-                labelIndex: 'productorName',
-            }}
-        />
-        <SchemaField.Void
-            x-component="Table.Column"
-            x-component-props={{
-                //指向total列
-                refColumnName: 'total',
+                bordered: true,
             }}
         >
-            <SchemaField.String name="count" x-component="Label" />
-        </SchemaField.Void>
-        {itemsChildrenRow}
+            <SchemaField.Void>
+                <SchemaField.Void
+                    title={'生厂商'}
+                    name={'productorName'}
+                    x-component="Table.Column"
+                    x-component-props={{
+                        //指向id列
+                        labelIndex: 'productorName',
+                    }}
+                />
+                <SchemaField.Void
+                    title={'产品'}
+                    name={'item'}
+                    x-component="Table.Column"
+                />
+                <SchemaField.Void
+                    title={'数量'}
+                    name={'count'}
+                    x-component="Table.Column"
+                />
+                <SchemaField.Void
+                    title={'总数'}
+                    name={'total'}
+                    x-component="Table.Column"
+                >
+                    <SchemaField.Number
+                        //这个列不能用labelIndex，因为有effects
+                        default={0}
+                        required={true}
+                        name="count"
+                        x-component="Label"
+                        x-decorator="FormItem"
+                    />
+                </SchemaField.Void>
+                {itemsChildrenRow}
+            </SchemaField.Void>
+        </SchemaField.Array>
     </SchemaField.Void>
 );
 export default observer(() => {
@@ -199,28 +225,19 @@ export default observer(() => {
                     x-component="Table"
                     x-component-props={{
                         bordered: true,
-                        scroll: {
-                            x: 1200,
-                        },
                     }}
                 >
                     <SchemaField.Void>
                         <SchemaField.Void
                             x-component="Table.CheckboxColumn"
                             x-component-props={{
-                                fixed: true,
                                 selectedIndex: '_checkbox',
-                                width: '50px',
                             }}
                         />
                         <SchemaField.Void
                             name="id"
                             title="序号"
                             x-component="Table.Column"
-                            x-component-props={{
-                                fixed: 'left',
-                                width: 50,
-                            }}
                         >
                             <SchemaField.Void x-component={'Table.Index'} />
                         </SchemaField.Void>
@@ -228,10 +245,6 @@ export default observer(() => {
                             name="salesOrderId"
                             title="销售ID"
                             x-component="Table.Column"
-                            x-component-props={{
-                                fixed: 'left',
-                                width: 150,
-                            }}
                         >
                             <SchemaField.Number
                                 name="salesOrderId"
@@ -240,15 +253,13 @@ export default observer(() => {
                                 x-decorator={'FormItem'}
                             />
                         </SchemaField.Void>
+
                         <SchemaField.Void
                             name="name"
-                            title="名称"
+                            title="客户"
                             x-component="Table.Column"
-                            x-component-props={{
-                                width: 150,
-                            }}
                         >
-                            <SchemaField.Number
+                            <SchemaField.String
                                 name="name"
                                 required={true}
                                 x-component="Input"
@@ -259,55 +270,14 @@ export default observer(() => {
                             name="address"
                             title="地址"
                             x-component="Table.Column"
-                            x-component-props={{
-                                width: 150,
-                            }}
                         >
-                            <SchemaField.Number
+                            <SchemaField.String
                                 name="address"
+                                required={true}
                                 x-component="Input"
                                 x-decorator={'FormItem'}
                             />
                         </SchemaField.Void>
-                        <SchemaField.Void
-                            name="productorName"
-                            title="生产商"
-                            x-component="Table.Column"
-                            x-component-props={{
-                                width: 150,
-                            }}
-                        />
-                        <SchemaField.Void
-                            title="商品信息"
-                            x-component="Table.Column"
-                        >
-                            <SchemaField.Void
-                                name="productName"
-                                title="商品名称"
-                                x-component="Table.Column"
-                                x-component-props={{
-                                    width: 150,
-                                }}
-                            />
-
-                            <SchemaField.Void
-                                name="amount"
-                                title="数量"
-                                x-component="Table.Column"
-                                x-component-props={{
-                                    width: 150,
-                                }}
-                            />
-                        </SchemaField.Void>
-                        <SchemaField.Void
-                            name="total"
-                            title="合计"
-                            x-component="Table.Column"
-                            x-component-props={{
-                                fixed: 'right',
-                                width: 150,
-                            }}
-                        />
                         {productsChildrenRow}
                     </SchemaField.Void>
                     <SchemaField.Void x-component={'Table.Addition'} />

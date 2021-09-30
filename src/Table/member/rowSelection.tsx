@@ -1,11 +1,49 @@
 import { Table } from 'antd';
 import { TableRowSelection } from 'antd/lib/table/interface';
-import { ColumnSchema, TableConfig } from './config';
+import {
+    ChildrenConverType,
+    ColumnSchema,
+    DataConvertType,
+    TableConfig,
+} from './config';
 import { flatDataInIndex, fillDataInIndex } from '../util';
 import React from 'react';
 import './rowSelectionStyle.css';
 import { batch } from '@formily/reactive';
 
+//将SplitRow转换为DataConvert，放入到flatDataIndex里面
+function convertSelectionDataConvert(
+    dataConvert: DataConvertType,
+): DataConvertType {
+    if (dataConvert.type == 'children') {
+        return {
+            type: 'children',
+            dataIndex: dataConvert.dataIndex,
+            children: convertSelectionDataConvert(
+                dataConvert.children,
+            ) as ChildrenConverType,
+        };
+    } else if (dataConvert.type == 'split') {
+        let newDataConvert: DataConvertType = {
+            type: 'normal',
+        };
+        for (let i = dataConvert.splitIndex.length - 1; i >= 0; i--) {
+            newDataConvert = {
+                type: 'children',
+                dataIndex: dataConvert.splitIndex[i],
+                children: newDataConvert,
+            };
+        }
+        return newDataConvert;
+    } else {
+        let oldDataConvert: any = dataConvert;
+        let newDataConvert: any = {};
+        for (let i in oldDataConvert) {
+            newDataConvert[i] = oldDataConvert[i];
+        }
+        return newDataConvert as DataConvertType;
+    }
+}
 //rowSelection的设计的三个目标
 //1. 数组的每个元素的_rowSelected值都需要初始化为false
 // * 使用renderCell里面的createField每个元素是不行的，因为在Table分页的时候有些元素的ReactNode根本就没有创建出来
@@ -47,7 +85,7 @@ function getRowSelection(
         '',
         0,
         false,
-        tableConfig.dataConvertProps.tree,
+        convertSelectionDataConvert(tableConfig.dataConvertProps.tree),
         false, //不能提前终止对checkbox的检查
     );
 

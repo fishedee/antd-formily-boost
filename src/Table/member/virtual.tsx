@@ -69,14 +69,17 @@ function convertSplitDataSourceTypeInner(
             //中间端
             let oldSize = result.length;
             let childIndex = splitLevel[currentSplitLevel];
-            convertSplitDataSourceTypeInner(
-                result,
-                data[i][childIndex],
-                index + '.' + childIndex,
-                currentLevel,
-                currentSplitLevel + 1,
-                splitLevel,
-            );
+            let child = data[i][childIndex];
+            if (child && Array.isArray(child) && child.length != 0) {
+                convertSplitDataSourceTypeInner(
+                    result,
+                    child,
+                    index + '.' + childIndex,
+                    currentLevel,
+                    currentSplitLevel + 1,
+                    splitLevel,
+                );
+            }
             let newSize = result.length;
             if (newSize - oldSize > 0) {
                 result[oldSize]!._rowSpan![currentSplitLevel] =
