@@ -47,7 +47,7 @@ function getDataColumns(
             let single: ColumnType<object> = {
                 ...column,
                 ...column.columnProps,
-                render: (value: any, record: DataSourceType, index: number) => {
+                render: (value: any, record: any, index: number) => {
                     let level: number;
                     if (record._isRecursive) {
                         level = 0;

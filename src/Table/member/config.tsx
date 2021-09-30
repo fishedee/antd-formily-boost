@@ -682,6 +682,7 @@ function checkSplitRowSchema(columnSchema: ColumnSchema[]) {
 }
 
 type CommonExpandedProps = {
+    indentSize: number;
     expandedIndex: string;
     defaultExpand: boolean;
     expandedConfig: ExpandableConfig<any>;
@@ -730,6 +731,7 @@ function convertToTableConfig(columnSchema: ColumnSchema[]): TableConfig {
     });
     if (result.childrenColumn) {
         result.commonExpandedProps = {
+            indentSize: result.childrenColumn.childrenProps!.indentSize!,
             expandedIndex: result.childrenColumn.childrenProps!.expandedIndex!,
             defaultExpand: result.childrenColumn.childrenProps!.defaultExpand!,
             expandedConfig: result.childrenColumn.childrenProps!,
@@ -737,6 +739,7 @@ function convertToTableConfig(columnSchema: ColumnSchema[]): TableConfig {
     }
     if (result.recursiveColumn) {
         result.commonExpandedProps = {
+            indentSize: result.recursiveColumn.recursiveProps!.indentSize!,
             expandedIndex:
                 result.recursiveColumn.recursiveProps!.expandedIndex!,
             defaultExpand:
