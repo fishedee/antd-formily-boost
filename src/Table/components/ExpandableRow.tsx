@@ -6,7 +6,7 @@ type ExpandableRowProps = {
     fixed?: boolean | 'left' | 'right';
     width?: string;
     expandedIndex?: string;
-    defaultExpand: boolean;
+    defaultExpand?: boolean;
 };
 
 class ExpandableRowPropsKey implements KeyProps<ExpandableRowProps> {

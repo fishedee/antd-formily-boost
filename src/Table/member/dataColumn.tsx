@@ -8,6 +8,7 @@ import { ColumnSchema, RowRenderType, TableConfig } from './config';
 import React from 'react';
 import { getDataInIndex } from '../util';
 import { DataSourceType } from './virtual';
+import { Schema } from '@formily/json-schema';
 
 type FastLabelProps = {
     data: any[];
@@ -22,6 +23,29 @@ const FastLabel: React.FC<FastLabelProps> = observer((props) => {
         return result;
     }
 });
+
+function getSplitIndex(
+    index: string,
+    splitLevel: number,
+): { realIndex: string } {
+    let currentFind = 0;
+    let i = index.length - 1;
+    for (; i >= 0; i--) {
+        if (index[i] != '.') {
+            continue;
+        }
+        currentFind++;
+        if (currentFind == splitLevel * 2) {
+            break;
+        }
+    }
+    let realIndex = index.substring(0, i);
+    if (realIndex == '') {
+        //容错逻辑，一般情况下不会出现
+        return { realIndex: index };
+    }
+    return { realIndex: realIndex };
+}
 
 function getDataColumns(
     data: any[],
@@ -58,19 +82,19 @@ function getDataColumns(
                         column.columnProps!.rowRender[level];
                     const nextChildIndex =
                         tableConfig.dataConvertProps!.list[level];
-                    if (rowRender.type == 'none') {
-                        //不渲染
-                        return <></>;
-                    } else if (rowRender.type == 'normal') {
+                    function renderNormal(
+                        columnSchema: ColumnSchema,
+                        index: string,
+                        nextChildIndex: string,
+                    ) {
                         //普通渲染方式
-                        const labelIndex =
-                            rowRender.schema.columnProps?.labelIndex;
+                        const labelIndex = columnSchema.columnProps?.labelIndex;
                         if (labelIndex) {
                             //直接返回数据，绕过field，这样做会失去effect，但是效率较高
                             return (
                                 <FastLabel
                                     data={data}
-                                    index={record._index + '.' + labelIndex}
+                                    index={index + '.' + labelIndex}
                                 />
                             );
                         } else {
@@ -79,21 +103,56 @@ function getDataColumns(
                                 <ArrayRecursiveContextProvider
                                     value={nextChildIndex}
                                 >
-                                    <ArrayIndexContextProvider
-                                        value={record._index}
-                                    >
+                                    <ArrayIndexContextProvider value={index}>
                                         <RecursionField
-                                            name={record._index}
-                                            schema={rowRender.schema.schema}
+                                            name={index}
+                                            schema={columnSchema.schema}
                                             onlyRenderProperties
                                         />
                                     </ArrayIndexContextProvider>
                                 </ArrayRecursiveContextProvider>
                             );
                         }
+                    }
+                    if (rowRender.type == 'none') {
+                        //不渲染
+                        return <></>;
+                    } else if (rowRender.type == 'normal') {
+                        //普通渲染
+                        return renderNormal(
+                            rowRender.schema,
+                            record._index,
+                            nextChildIndex,
+                        );
                     } else if (rowRender.type == 'splitRow') {
-                        //FIXME，未完成
-                        throw new Error('Oh my god');
+                        //合并行渲染
+                        const { realIndex } = getSplitIndex(
+                            record._index,
+                            rowRender.level,
+                        );
+                        let rowSpan =
+                            record._rowSpan[
+                                record._rowSpan.length - rowRender.level
+                            ];
+                        if (rowSpan == 0) {
+                            return {
+                                children: <></>,
+                                props: {
+                                    rowSpan: 0,
+                                },
+                            };
+                        } else {
+                            return {
+                                children: renderNormal(
+                                    rowRender.schema,
+                                    realIndex,
+                                    nextChildIndex,
+                                ),
+                                props: {
+                                    rowSpan: rowSpan,
+                                },
+                            };
+                        }
                     }
                 },
             };

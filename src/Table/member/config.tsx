@@ -369,16 +369,22 @@ function getSplitRowRender(
                 };
             }
             //将子树上的SplitRow合并到本层上
+            let rowRenderTree: RowRenderTreeType = {
+                renderType: new Map<string, RowRenderType>(),
+            };
             let normalSchema = getAllNormalColumn(columnSchema, !isTopParent);
             normalSchema.forEach((value, key) => {
-                splitChildInfo.rowRenderTree.renderType.set(key, {
+                rowRenderTree.renderType.set(key, {
                     type: 'splitRow',
                     schema: value,
                     level: dataConvert.splitIndex.length,
                 });
             });
+            splitChildInfo.rowRenderTree.renderType.forEach((value, key) => {
+                rowRenderTree.renderType.set(key, value);
+            });
             return {
-                rowRenderTree: splitChildInfo.rowRenderTree,
+                rowRenderTree: rowRenderTree,
                 dataConvert: dataConvert,
             };
         }
@@ -627,6 +633,9 @@ function checkSplitRowSchemaInner(columnSchema: ColumnSchema[]) {
         throw new Error('SplitRow 在同一层级只能有一个');
     }
     if (splitColumns.length != 0) {
+        if (!splitColumns[0].splitProps?.splitIndex) {
+            throw new Error('splitIndex 是空的');
+        }
         checkSplitRowSchemaInner(splitColumns[0].splitProps!.children);
     }
     return;
@@ -668,6 +677,9 @@ function checkSplitRowSchema(columnSchema: ColumnSchema[]) {
         }
         if (splitColumns.length > 1) {
             throw new Error('SplitRow在同一层级只能有一个');
+        }
+        if (!splitColumns[0].splitProps?.splitIndex) {
+            throw new Error('splitIndex 是空的');
         }
         checkSplitRowSchemaInner(splitColumns[0].splitProps!.children);
     } else {

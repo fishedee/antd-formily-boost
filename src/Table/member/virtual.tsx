@@ -1,8 +1,14 @@
 import { Form } from '@formily/core';
+import { ArraySet } from '@formily/reactive/esm/array';
 import { TableProps as RcTableProps } from 'rc-table/lib/Table';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { any, throttle } from 'underscore';
-import { DataConvertType, TableConfig } from './config';
+import {
+    DataConvertType,
+    NormalConverType,
+    SplitRowConvertType,
+    TableConfig,
+} from './config';
 
 type VirtualScrollSizeProps = {
     size: 'default' | 'middle' | 'small';
@@ -23,8 +29,11 @@ export type DataSourceType = {
     _index: string;
     _currentLevel: number;
     _isRecursive: boolean;
-    _style?: any;
+
+    //可选属性
     _children?: DataSourceType[];
+    _style?: any;
+    _rowSpan?: number[];
 
     //以下属性仅仅是运算时使用，render时没用
     _begin?: number;
@@ -32,12 +41,78 @@ export type DataSourceType = {
     _visible?: boolean;
 };
 
+function convertSplitDataSourceTypeInner(
+    result: DataSourceType[],
+    data: any[],
+    preIndex: string,
+    currentLevel: number,
+    currentSplitLevel: number,
+    splitLevel: string[],
+) {
+    let count = 0;
+    for (let i = 0; i != data.length; i++) {
+        const index = preIndex != '' ? preIndex + '.' + i : i + '';
+        if (currentSplitLevel == splitLevel.length) {
+            //底端
+            let initRowSpan = [];
+            for (let j = 0; j != splitLevel.length; j++) {
+                initRowSpan.push(0);
+            }
+            result.push({
+                _index: index,
+                _currentLevel: currentLevel,
+                _isRecursive: false,
+                _rowSpan: initRowSpan,
+            });
+            count++;
+        } else {
+            //中间端
+            let oldSize = result.length;
+            let childIndex = splitLevel[currentSplitLevel];
+            convertSplitDataSourceTypeInner(
+                result,
+                data[i][childIndex],
+                index + '.' + childIndex,
+                currentLevel,
+                currentSplitLevel + 1,
+                splitLevel,
+            );
+            let newSize = result.length;
+            if (newSize - oldSize > 0) {
+                result[oldSize]!._rowSpan![currentSplitLevel] =
+                    newSize - oldSize;
+            }
+        }
+    }
+}
+function convertSplitData(
+    data: any[],
+    preIndex: string,
+    currentLevel: number,
+    dataConvert: SplitRowConvertType,
+): DataSourceType[] {
+    let result: DataSourceType[] = [];
+    convertSplitDataSourceTypeInner(
+        result,
+        data,
+        preIndex,
+        currentLevel,
+        0,
+        dataConvert.splitIndex,
+    );
+    return result;
+}
+
 function getDataSourceRecursive(
     preIndex: string,
     currentLevel: number,
     data: any[],
     dataConvert: DataConvertType,
 ): DataSourceType[] {
+    if (dataConvert.type == 'split') {
+        //split数据的提前处理
+        return convertSplitData(data, preIndex, currentLevel, dataConvert);
+    }
     let result: DataSourceType[] = [];
     for (var i = 0; i != data.length; i++) {
         var single: DataSourceType = {
@@ -378,6 +453,13 @@ function getVirtualConfig(
     };
 }
 
+function hasSplitRow(dataConvert: DataConvertType): boolean {
+    while (dataConvert.type == 'children') {
+        dataConvert = dataConvert.children;
+    }
+    return dataConvert.type == 'split';
+}
+
 function getVirtual(
     data: any[],
     tableConfig: TableConfig,
@@ -395,6 +477,14 @@ function getVirtual(
         console.log(
             'You have not property set scroll.y，so Virtual Scroll disabled',
         );
+        return {
+            className: [],
+            ...getNoVirtual(data, tableConfig.dataConvertProps.tree),
+        };
+    }
+    let hasSplit: boolean = hasSplitRow(tableConfig.dataConvertProps.tree);
+    if (hasSplit) {
+        console.log('SplitRow can not support virtual');
         return {
             className: [],
             ...getNoVirtual(data, tableConfig.dataConvertProps.tree),
