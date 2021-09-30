@@ -102,7 +102,7 @@ const MyTable: MyTableType = observer((props: PropsType) => {
     //递归行，与展开行，只能二选一
     let expandable: ExpandableConfig<any> | undefined;
     if (tableConfig.commonExpandedProps) {
-        expandable = tableConfig.commonExpandedProps.expandedConfig;
+        expandable = recursiveRow?.expandedProps;
     } else {
         expandable = getExpandableRow(value, tableConfig);
     }

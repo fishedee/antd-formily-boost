@@ -4,6 +4,7 @@ import { ColumnSchema, TableConfig } from './config';
 import { flatDataInIndex, fillDataInIndex } from '../util';
 import React from 'react';
 import './rowSelectionStyle.css';
+import { batch } from '@formily/reactive';
 
 //rowSelection的设计的三个目标
 //1. 数组的每个元素的_rowSelected值都需要初始化为false
@@ -58,12 +59,14 @@ function getRowSelection(
         selectedRowKeys: selectedRowKeys,
         checkStrictly: rowSelectionColumnProps?.checkStrictly,
         onChange: (newSelectedRowKeys: React.Key[], selectedRows: any[]) => {
-            fillDataInIndex(
-                data,
-                selectedIndex,
-                selectedRowKeys,
-                newSelectedRowKeys as string[],
-            );
+            batch(() => {
+                fillDataInIndex(
+                    data,
+                    selectedIndex,
+                    selectedRowKeys,
+                    newSelectedRowKeys as string[],
+                );
+            });
         },
         selections: [
             Table.SELECTION_ALL,

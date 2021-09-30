@@ -19,11 +19,12 @@ type VirtualConfig = {
     itemHeight: number;
 };
 
-type DataSourceType = {
+export type DataSourceType = {
     _index: string;
+    _currentLevel: number;
+    _isRecursive: boolean;
     _style?: any;
     _children?: DataSourceType[];
-    _currentLevel?: number;
 
     //以下属性仅仅是运算时使用，render时没用
     _begin?: number;
@@ -42,6 +43,7 @@ function getDataSourceRecursive(
         var single: DataSourceType = {
             _index: preIndex != '' ? preIndex + '.' + i : i + '',
             _currentLevel: currentLevel,
+            _isRecursive: dataConvert.type == 'recursive',
         };
         if (dataConvert.type == 'children' || dataConvert.type == 'recursive') {
             let childIndex: string;
@@ -111,6 +113,7 @@ function getNormalVirtual(
             _index: i + '',
             _currentLevel: 0,
             _style: _style,
+            _isRecursive: false,
         });
     }
     let onRow = (record: any) => {
@@ -141,6 +144,8 @@ function getRecursiveHeightDataSource(
         var singleData = data[i];
         var single: DataSourceType = {
             _index: preIndex != '' ? preIndex + '.' + i : i + '',
+            _currentLevel: currentLevel,
+            _isRecursive: dataConvert.type == 'recursive',
         };
         single._begin = prevHeight;
         let totalChildrenCount = 0;
@@ -182,7 +187,6 @@ function getRecursiveHeightDataSource(
         }
 
         //写入当前的level
-        single._currentLevel = currentLevel;
         single._end =
             single._begin! + config.itemHeight * (totalChildrenCount + 1);
         prevHeight = single._end;

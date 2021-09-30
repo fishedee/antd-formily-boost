@@ -1,3 +1,4 @@
+import { batch } from '@formily/reactive';
 import { ExpandableConfig } from 'antd/lib/table/interface';
 import { flatDataInIndex, fillDataInIndex } from '../util';
 import { TableConfig } from './config';
@@ -19,16 +20,18 @@ function getRecursiveRow(
         '',
         0,
         !!tableConfig.commonExpandedProps?.defaultExpand,
-        tableConfig.dataConvertProps?.tree,
+        tableConfig.dataConvertProps.tree,
         true, //如果该层处于收缩的状态，提前停止往下查找expand状态的行
     );
     const onExpandedRowsChange = (newExpandedRowKeys: any) => {
-        fillDataInIndex(
-            data,
-            tableConfig.commonExpandedProps?.expandedIndex!,
-            expandedRowKeys,
-            newExpandedRowKeys,
-        );
+        batch(() => {
+            fillDataInIndex(
+                data,
+                tableConfig.commonExpandedProps!.expandedIndex!,
+                expandedRowKeys,
+                newExpandedRowKeys,
+            );
+        });
     };
     return {
         expandedProps: {

@@ -7,6 +7,7 @@ import {
 import { ColumnSchema, RowRenderType, TableConfig } from './config';
 import React from 'react';
 import { getDataInIndex } from '../util';
+import { DataSourceType } from './virtual';
 
 type FastLabelProps = {
     data: any[];
@@ -46,8 +47,13 @@ function getDataColumns(
             let single: ColumnType<object> = {
                 ...column,
                 ...column.columnProps,
-                render: (value: any, record: any, index: number) => {
-                    const level = record['_currentLevel'];
+                render: (value: any, record: DataSourceType, index: number) => {
+                    let level: number;
+                    if (record._isRecursive) {
+                        level = 0;
+                    } else {
+                        level = record._currentLevel;
+                    }
                     const rowRender: RowRenderType =
                         column.columnProps!.rowRender[level];
                     const nextChildIndex =

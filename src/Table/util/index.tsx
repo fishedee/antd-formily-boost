@@ -89,7 +89,7 @@ function flatDataInIndex(
                 childIndex = dataConvert.dataIndex;
                 childDataConvert = dataConvert;
             } else {
-                childIndex = dataConvert.dataIndex[currentLevel];
+                childIndex = dataConvert.dataIndex;
                 childDataConvert = dataConvert.children;
             }
             let children = single[childIndex];

@@ -95,7 +95,7 @@ export default () => {
                     x-component="Table"
                     x-component-props={{
                         bordered: true,
-                        paginaction: lastState.pagniaction,
+                        paginaction: 'pagniaction',
                         paginationProps: {
                             defaultPageSize: 10,
                             showQuickJumper: true,
@@ -151,7 +151,7 @@ antd-formily-boost 从[Formily](https://v2.formilyjs.org/)的先进的 Reactive 
 -   性能更好，Formily 机制尽可能少地触发整个 Table 的 render 操作
 -   动态性更好，基于 Formily 的实现，我们可以轻松实现任意列的动态控制显示与隐藏，同一行中不同列数据的联动，甚至直接从后端或者可视化编辑器中生成以上代码都可以。
 
-```tsx
+```tsx | pure
 import { createForm, onFieldReact } from '@formily/core';
 import { createSchemaField, FormConsumer, Schema } from '@formily/react';
 import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';

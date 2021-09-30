@@ -4,6 +4,7 @@ import { ArrayIndexContextProvider } from '../components/Context';
 import { TableConfig } from './config';
 import { flatDataInIndex, fillDataInIndex } from '../util';
 import React from 'react';
+import { batch } from '@formily/reactive';
 
 function getExpandableRow(
     data: any[],
@@ -34,12 +35,14 @@ function getExpandableRow(
         tableConfig.dataConvertProps.tree,
     );
     const onExpandedRowsChange = (newExpandedRowKeys: any) => {
-        fillDataInIndex(
-            data,
-            expandedIndex,
-            expandedRowKeys,
-            newExpandedRowKeys,
-        );
+        batch(() => {
+            fillDataInIndex(
+                data,
+                expandedIndex,
+                expandedRowKeys,
+                newExpandedRowKeys,
+            );
+        });
     };
     return {
         expandedRowRender: expandedRowRender,

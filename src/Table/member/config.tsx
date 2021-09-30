@@ -311,7 +311,7 @@ function getAllNormalColumn(
                     column.columnProps.children,
                 );
                 childMapColumns.forEach((value, key) => {
-                    result.set(key, column);
+                    result.set(key, value);
                 });
             }
         }
@@ -411,14 +411,12 @@ function getSingleChildrenRowRender(childrenRowSchema: ColumnSchema): {
     }
 
     //获取本层的RowRender与DataConvert
-    let dataConvert: DataConvertType;
-
     let currentLevelInfo = getSplitRowRender(childrenSchema, false, 0);
 
-    let rowRenderTree = currentLevelInfo.rowRenderTree;
     if (currentLevelInfo.dataConvert.type == 'split') {
         //本层含有SplitRow的，立即返回
-        dataConvert = {
+        let rowRenderTree: RowRenderTreeType = currentLevelInfo.rowRenderTree;
+        let dataConvert: DataConvertType = {
             type: 'children',
             dataIndex: childrenIndex,
             children: currentLevelInfo.dataConvert,
@@ -434,23 +432,26 @@ function getSingleChildrenRowRender(childrenRowSchema: ColumnSchema): {
         let nestedLevelInfo = getSingleChildrenRowRender(
             nestedChildrenRowSchema[0],
         );
-        rowRenderTree.children = nestedLevelInfo.rowRenderTree;
-        dataConvert = {
+        let rowRenderTree: RowRenderTreeType = {
+            renderType: currentLevelInfo.rowRenderTree.renderType,
+            children: nestedLevelInfo.rowRenderTree,
+        };
+        let dataConvert: DataConvertType = {
             type: 'children',
             dataIndex: childrenIndex,
             children: nestedLevelInfo.dataConvert,
         };
+
+        return { rowRenderTree, dataConvert };
     } else {
-        dataConvert = {
+        let rowRenderTree: RowRenderTreeType = currentLevelInfo.rowRenderTree;
+        let dataConvert: DataConvertType = {
             type: 'children',
             dataIndex: childrenIndex,
-            children: {
-                type: 'normal',
-            },
+            children: currentLevelInfo.dataConvert,
         };
+        return { rowRenderTree, dataConvert };
     }
-
-    return { rowRenderTree, dataConvert };
 }
 
 function fillRowRenderTreeToNormalColumn(
@@ -493,7 +494,16 @@ function getAllChildrenRowRender(
         //有childrenRow
         let childrenColumn = childrenColumns[0];
 
-        return getSingleChildrenRowRender(childrenColumn);
+        let rowRenderInfo = getSingleChildrenRowRender(childrenColumn);
+
+        let newRowRenderTree: RowRenderTreeType = {
+            renderType: rowRenderTree.renderType,
+            children: rowRenderInfo.rowRenderTree,
+        };
+        return {
+            rowRenderTree: newRowRenderTree,
+            dataConvert: rowRenderInfo.dataConvert,
+        };
     }
 }
 
@@ -713,7 +723,10 @@ function convertToTableConfig(columnSchema: ColumnSchema[]): TableConfig {
         } else if (column.type == 'column') {
             result.renderColumn.push(column);
         }
-        result.allColumn.push(column);
+
+        if (column.type != 'dataConvert') {
+            result.allColumn.push(column);
+        }
     });
     if (result.childrenColumn) {
         result.commonExpandedProps = {
@@ -741,6 +754,7 @@ function getTableConfig(schema: Schema): TableConfig {
         calculateRowRenderAndDataConvert(columnSchema);
 
     let config: TableConfig = convertToTableConfig(combineColumnSchema);
+
     return config;
 }
 
