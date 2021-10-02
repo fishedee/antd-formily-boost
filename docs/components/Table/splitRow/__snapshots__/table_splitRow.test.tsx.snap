@@ -58,15 +58,50 @@ exports[`Basic 1`] = `
                       >
                         <td
                           class="ant-table-cell"
+                          rowspan="2"
                         >
                           10001
                         </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          product_1
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="10"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -74,13 +109,44 @@ exports[`Basic 1`] = `
                       >
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          product_2
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="20"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -88,15 +154,50 @@ exports[`Basic 1`] = `
                       >
                         <td
                           class="ant-table-cell"
+                          rowspan="2"
                         >
                           10002
                         </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          product_3
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="30"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -104,13 +205,44 @@ exports[`Basic 1`] = `
                       >
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          product_4
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="40"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -410,6 +542,7 @@ exports[`Children 1`] = `
                         </td>
                         <td
                           class="ant-table-cell ant-table-cell-with-append"
+                          rowspan="2"
                         >
                           <span
                             class="ant-table-row-indent indent-level-1"
@@ -485,6 +618,7 @@ exports[`Children 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
+                          rowspan="2"
                         >
                           <div
                             class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -552,19 +686,6 @@ exports[`Children 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-with-append"
-                        >
-                          <span
-                            class="ant-table-row-indent indent-level-1"
-                            style="padding-left: 15px;"
-                          />
-                          <button
-                            aria-label="Expand row"
-                            class="ant-table-row-expand-icon ant-table-row-expand-icon-spaced"
-                            type="button"
-                          />
-                        </td>
-                        <td
                           class="ant-table-cell"
                         >
                           product_2
@@ -625,9 +746,6 @@ exports[`Children 1`] = `
                             </div>
                           </div>
                         </td>
-                        <td
-                          class="ant-table-cell"
-                        />
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-1"
@@ -655,6 +773,7 @@ exports[`Children 1`] = `
                         </td>
                         <td
                           class="ant-table-cell ant-table-cell-with-append"
+                          rowspan="2"
                         >
                           <span
                             class="ant-table-row-indent indent-level-1"
@@ -730,6 +849,7 @@ exports[`Children 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
+                          rowspan="2"
                         >
                           <div
                             class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -797,19 +917,6 @@ exports[`Children 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-with-append"
-                        >
-                          <span
-                            class="ant-table-row-indent indent-level-1"
-                            style="padding-left: 15px;"
-                          />
-                          <button
-                            aria-label="Expand row"
-                            class="ant-table-row-expand-icon ant-table-row-expand-icon-spaced"
-                            type="button"
-                          />
-                        </td>
-                        <td
                           class="ant-table-cell"
                         >
                           product_4
@@ -870,9 +977,6 @@ exports[`Children 1`] = `
                             </div>
                           </div>
                         </td>
-                        <td
-                          class="ant-table-cell"
-                        />
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -1044,6 +1148,7 @@ exports[`Children 1`] = `
                         </td>
                         <td
                           class="ant-table-cell ant-table-cell-with-append"
+                          rowspan="2"
                         >
                           <span
                             class="ant-table-row-indent indent-level-1"
@@ -1119,6 +1224,7 @@ exports[`Children 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
+                          rowspan="2"
                         >
                           <div
                             class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -1186,19 +1292,6 @@ exports[`Children 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-with-append"
-                        >
-                          <span
-                            class="ant-table-row-indent indent-level-1"
-                            style="padding-left: 15px;"
-                          />
-                          <button
-                            aria-label="Expand row"
-                            class="ant-table-row-expand-icon ant-table-row-expand-icon-spaced"
-                            type="button"
-                          />
-                        </td>
-                        <td
                           class="ant-table-cell"
                         >
                           product_6
@@ -1259,9 +1352,6 @@ exports[`Children 1`] = `
                             </div>
                           </div>
                         </td>
-                        <td
-                          class="ant-table-cell"
-                        />
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-1"
@@ -1289,6 +1379,7 @@ exports[`Children 1`] = `
                         </td>
                         <td
                           class="ant-table-cell ant-table-cell-with-append"
+                          rowspan="2"
                         >
                           <span
                             class="ant-table-row-indent indent-level-1"
@@ -1364,6 +1455,7 @@ exports[`Children 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
+                          rowspan="2"
                         >
                           <div
                             class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -1431,19 +1523,6 @@ exports[`Children 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-with-append"
-                        >
-                          <span
-                            class="ant-table-row-indent indent-level-1"
-                            style="padding-left: 15px;"
-                          />
-                          <button
-                            aria-label="Expand row"
-                            class="ant-table-row-expand-icon ant-table-row-expand-icon-spaced"
-                            type="button"
-                          />
-                        </td>
-                        <td
                           class="ant-table-cell"
                         >
                           product_8
@@ -1504,9 +1583,6 @@ exports[`Children 1`] = `
                             </div>
                           </div>
                         </td>
-                        <td
-                          class="ant-table-cell"
-                        />
                       </tr>
                     </tbody>
                   </table>
@@ -1552,7 +1628,7 @@ exports[`Children 1`] = `
         </span>
       </button>
       <div>
-        {"data":[{"salesOrderId":10001,"name":"fish","address":"fish_address","productors":[{"productorName":"company_1","count":0,"items":[{"productId":20001,"productName":"product_1","count":10},{"productId":20002,"productName":"product_2","count":20}],"_expanded":true,"_checkbox":false},{"productorName":"company_2","count":70,"items":[{"productId":20001,"productName":"product_3","count":30},{"productId":20002,"productName":"product_4","count":40}],"_expanded":true,"_checkbox":false}],"_expanded":true,"_checkbox":false},{"salesOrderId":10002,"name":"cat","address":"cat_address","productors":[{"productorName":"company_3","count":110,"items":[{"productId":20001,"productName":"product_5","count":50},{"productId":20002,"productName":"product_6","count":60}],"_expanded":true,"_checkbox":false},{"productorName":"company_4","count":130,"items":[{"productId":20001,"productName":"product_7","count":70},{"productId":20002,"productName":"product_8","count":80}],"_expanded":true,"_checkbox":false}],"_expanded":true,"_checkbox":false}]}
+        {"data":[{"salesOrderId":10001,"name":"fish","address":"fish_address","productors":[{"productorName":"company_1","count":0,"items":[{"productId":20001,"productName":"product_1","count":10,"_checkbox":false},{"productId":20002,"productName":"product_2","count":20,"_checkbox":false}],"_expanded":true,"_checkbox":false},{"productorName":"company_2","count":70,"items":[{"productId":20001,"productName":"product_3","count":30,"_checkbox":false},{"productId":20002,"productName":"product_4","count":40,"_checkbox":false}],"_expanded":true,"_checkbox":false}],"_expanded":true,"_checkbox":false},{"salesOrderId":10002,"name":"cat","address":"cat_address","productors":[{"productorName":"company_3","count":110,"items":[{"productId":20001,"productName":"product_5","count":50,"_checkbox":false},{"productId":20002,"productName":"product_6","count":60,"_checkbox":false}],"_expanded":true,"_checkbox":false},{"productorName":"company_4","count":130,"items":[{"productId":20001,"productName":"product_7","count":70,"_checkbox":false},{"productId":20002,"productName":"product_8","count":80,"_checkbox":false}],"_expanded":true,"_checkbox":false}],"_expanded":true,"_checkbox":false}]}
       </div>
     </form>
   </div>
@@ -1850,12 +1926,14 @@ exports[`Edit 1`] = `
                         </td>
                         <td
                           class="ant-table-cell ant-table-cell-fix-left"
+                          rowspan="4"
                           style="position: sticky; left: 0px;"
                         >
                           1
                         </td>
                         <td
                           class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last"
+                          rowspan="4"
                           style="position: sticky; left: 0px;"
                         >
                           <div
@@ -1892,6 +1970,7 @@ exports[`Edit 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
+                          rowspan="4"
                         >
                           <div
                             class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -1927,6 +2006,7 @@ exports[`Edit 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
+                          rowspan="4"
                         >
                           <div
                             class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -1962,17 +2042,78 @@ exports[`Edit 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
-                        />
+                          rowspan="2"
+                        >
+                          company_1
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          product_1
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-label"
+                            >
+                              <div
+                                class="ant-formily-item-label-content"
+                              >
+                                <span
+                                  class="ant-formily-item-asterisk"
+                                >
+                                  *
+                                </span>
+                                <label>
+                                  数量
+                                </label>
+                              </div>
+                              <span
+                                class="ant-formily-item-colon"
+                              >
+                                :
+                              </span>
+                            </div>
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="10"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                         <td
                           class="ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first"
+                          rowspan="2"
                           style="position: sticky; right: 0px;"
-                        />
+                        >
+                          30
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -2000,32 +2141,66 @@ exports[`Edit 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-fix-left"
-                          style="position: sticky; left: 0px;"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last"
-                          style="position: sticky; left: 0px;"
-                        />
+                          class="ant-table-cell"
+                        >
+                          product_2
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first"
-                          style="position: sticky; right: 0px;"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-label"
+                            >
+                              <div
+                                class="ant-formily-item-label-content"
+                              >
+                                <span
+                                  class="ant-formily-item-asterisk"
+                                >
+                                  *
+                                </span>
+                                <label>
+                                  数量
+                                </label>
+                              </div>
+                              <span
+                                class="ant-formily-item-colon"
+                              >
+                                :
+                              </span>
+                            </div>
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="20"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -2053,32 +2228,79 @@ exports[`Edit 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-fix-left"
-                          style="position: sticky; left: 0px;"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last"
-                          style="position: sticky; left: 0px;"
-                        />
+                          class="ant-table-cell"
+                          rowspan="2"
+                        >
+                          company_2
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          product_3
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-label"
+                            >
+                              <div
+                                class="ant-formily-item-label-content"
+                              >
+                                <span
+                                  class="ant-formily-item-asterisk"
+                                >
+                                  *
+                                </span>
+                                <label>
+                                  数量
+                                </label>
+                              </div>
+                              <span
+                                class="ant-formily-item-colon"
+                              >
+                                :
+                              </span>
+                            </div>
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="30"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                         <td
                           class="ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first"
+                          rowspan="2"
                           style="position: sticky; right: 0px;"
-                        />
+                        >
+                          70
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -2106,32 +2328,66 @@ exports[`Edit 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-fix-left"
-                          style="position: sticky; left: 0px;"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last"
-                          style="position: sticky; left: 0px;"
-                        />
+                          class="ant-table-cell"
+                        >
+                          product_4
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first"
-                          style="position: sticky; right: 0px;"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-label"
+                            >
+                              <div
+                                class="ant-formily-item-label-content"
+                              >
+                                <span
+                                  class="ant-formily-item-asterisk"
+                                >
+                                  *
+                                </span>
+                                <label>
+                                  数量
+                                </label>
+                              </div>
+                              <span
+                                class="ant-formily-item-colon"
+                              >
+                                :
+                              </span>
+                            </div>
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="40"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -2160,12 +2416,14 @@ exports[`Edit 1`] = `
                         </td>
                         <td
                           class="ant-table-cell ant-table-cell-fix-left"
+                          rowspan="4"
                           style="position: sticky; left: 0px;"
                         >
                           2
                         </td>
                         <td
                           class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last"
+                          rowspan="4"
                           style="position: sticky; left: 0px;"
                         >
                           <div
@@ -2202,6 +2460,7 @@ exports[`Edit 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
+                          rowspan="4"
                         >
                           <div
                             class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -2237,6 +2496,7 @@ exports[`Edit 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
+                          rowspan="4"
                         >
                           <div
                             class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -2272,17 +2532,78 @@ exports[`Edit 1`] = `
                         </td>
                         <td
                           class="ant-table-cell"
-                        />
+                          rowspan="2"
+                        >
+                          company_3
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          product_5
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-label"
+                            >
+                              <div
+                                class="ant-formily-item-label-content"
+                              >
+                                <span
+                                  class="ant-formily-item-asterisk"
+                                >
+                                  *
+                                </span>
+                                <label>
+                                  数量
+                                </label>
+                              </div>
+                              <span
+                                class="ant-formily-item-colon"
+                              >
+                                :
+                              </span>
+                            </div>
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="50"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                         <td
                           class="ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first"
+                          rowspan="2"
                           style="position: sticky; right: 0px;"
-                        />
+                        >
+                          110
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -2310,32 +2631,66 @@ exports[`Edit 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-fix-left"
-                          style="position: sticky; left: 0px;"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last"
-                          style="position: sticky; left: 0px;"
-                        />
+                          class="ant-table-cell"
+                        >
+                          product_6
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first"
-                          style="position: sticky; right: 0px;"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-label"
+                            >
+                              <div
+                                class="ant-formily-item-label-content"
+                              >
+                                <span
+                                  class="ant-formily-item-asterisk"
+                                >
+                                  *
+                                </span>
+                                <label>
+                                  数量
+                                </label>
+                              </div>
+                              <span
+                                class="ant-formily-item-colon"
+                              >
+                                :
+                              </span>
+                            </div>
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="60"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -2363,32 +2718,79 @@ exports[`Edit 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-fix-left"
-                          style="position: sticky; left: 0px;"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last"
-                          style="position: sticky; left: 0px;"
-                        />
+                          class="ant-table-cell"
+                          rowspan="2"
+                        >
+                          company_4
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
+                        >
+                          product_7
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-label"
+                            >
+                              <div
+                                class="ant-formily-item-label-content"
+                              >
+                                <span
+                                  class="ant-formily-item-asterisk"
+                                >
+                                  *
+                                </span>
+                                <label>
+                                  数量
+                                </label>
+                              </div>
+                              <span
+                                class="ant-formily-item-colon"
+                              >
+                                :
+                              </span>
+                            </div>
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="70"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                         <td
                           class="ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first"
+                          rowspan="2"
                           style="position: sticky; right: 0px;"
-                        />
+                        >
+                          150
+                        </td>
                       </tr>
                       <tr
                         class="ant-table-row ant-table-row-level-0"
@@ -2416,32 +2818,66 @@ exports[`Edit 1`] = `
                           </label>
                         </td>
                         <td
-                          class="ant-table-cell ant-table-cell-fix-left"
-                          style="position: sticky; left: 0px;"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-left ant-table-cell-fix-left-last"
-                          style="position: sticky; left: 0px;"
-                        />
+                          class="ant-table-cell"
+                        >
+                          product_8
+                        </td>
                         <td
                           class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell"
-                        />
-                        <td
-                          class="ant-table-cell ant-table-cell-fix-right ant-table-cell-fix-right-first"
-                          style="position: sticky; right: 0px;"
-                        />
+                        >
+                          <div
+                            class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                            data-span="1"
+                          >
+                            <div
+                              class="ant-formily-item-label"
+                            >
+                              <div
+                                class="ant-formily-item-label-content"
+                              >
+                                <span
+                                  class="ant-formily-item-asterisk"
+                                >
+                                  *
+                                </span>
+                                <label>
+                                  数量
+                                </label>
+                              </div>
+                              <span
+                                class="ant-formily-item-colon"
+                              >
+                                :
+                              </span>
+                            </div>
+                            <div
+                              class="ant-formily-item-control"
+                            >
+                              <div
+                                class="ant-formily-item-control-content"
+                              >
+                                <div
+                                  class="ant-formily-item-control-content-component"
+                                >
+                                  <span
+                                    class="ant-input-affix-wrapper"
+                                  >
+                                    <input
+                                      class="ant-input"
+                                      type="text"
+                                      value="80"
+                                    />
+                                    <span
+                                      class="ant-input-suffix"
+                                    >
+                                      <span />
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -2487,7 +2923,7 @@ exports[`Edit 1`] = `
         </span>
       </button>
       <div>
-        {"data":[{"salesOrderId":10001,"name":"fish","address":"fish_address","productors":[{"productorName":"company_1","count":30,"items":[{"productId":20001,"productName":"product_1","count":10},{"productId":20002,"productName":"product_2","count":20}]},{"productorName":"company_2","count":70,"items":[{"productId":20001,"productName":"product_3","count":30},{"productId":20002,"productName":"product_4","count":40}]}],"_checkbox":false},{"salesOrderId":10002,"name":"cat","address":"cat_address","productors":[{"productorName":"company_3","count":110,"items":[{"productId":20001,"productName":"product_5","count":50},{"productId":20002,"productName":"product_6","count":60}]},{"productorName":"company_4","count":150,"items":[{"productId":20001,"productName":"product_7","count":70},{"productId":20002,"productName":"product_8","count":80}]}],"_checkbox":false}]}
+        {"data":[{"salesOrderId":10001,"name":"fish","address":"fish_address","productors":[{"productorName":"company_1","count":30,"items":[{"productId":20001,"productName":"product_1","count":10,"_checkbox":false},{"productId":20002,"productName":"product_2","count":20,"_checkbox":false}],"_checkbox":false},{"productorName":"company_2","count":70,"items":[{"productId":20001,"productName":"product_3","count":30,"_checkbox":false},{"productId":20002,"productName":"product_4","count":40,"_checkbox":false}],"_checkbox":false}],"_checkbox":false},{"salesOrderId":10002,"name":"cat","address":"cat_address","productors":[{"productorName":"company_3","count":110,"items":[{"productId":20001,"productName":"product_5","count":50,"_checkbox":false},{"productId":20002,"productName":"product_6","count":60,"_checkbox":false}],"_checkbox":false},{"productorName":"company_4","count":150,"items":[{"productId":20001,"productName":"product_7","count":70,"_checkbox":false},{"productId":20002,"productName":"product_8","count":80,"_checkbox":false}],"_checkbox":false}],"_checkbox":false}]}
       </div>
     </form>
   </div>
@@ -2820,17 +3256,74 @@ exports[`Expandable 1`] = `
                                           >
                                             <td
                                               class="ant-table-cell"
+                                              rowspan="2"
                                             >
                                               company_1
                                             </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              product_1
+                                            </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              <div
+                                                class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                                                data-span="1"
+                                              >
+                                                <div
+                                                  class="ant-formily-item-label"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-label-content"
+                                                  >
+                                                    <span
+                                                      class="ant-formily-item-asterisk"
+                                                    >
+                                                      *
+                                                    </span>
+                                                    <label>
+                                                      数量
+                                                    </label>
+                                                  </div>
+                                                  <span
+                                                    class="ant-formily-item-colon"
+                                                  >
+                                                    :
+                                                  </span>
+                                                </div>
+                                                <div
+                                                  class="ant-formily-item-control"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-control-content"
+                                                  >
+                                                    <div
+                                                      class="ant-formily-item-control-content-component"
+                                                    >
+                                                      <span
+                                                        class="ant-input-affix-wrapper"
+                                                      >
+                                                        <input
+                                                          class="ant-input"
+                                                          type="text"
+                                                          value="10"
+                                                        />
+                                                        <span
+                                                          class="ant-input-suffix"
+                                                        >
+                                                          <span />
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                             <td
                                               class="ant-table-cell"
+                                              rowspan="2"
                                             >
                                               <div
                                                 class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -2858,16 +3351,65 @@ exports[`Expandable 1`] = `
                                           >
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              product_2
+                                            </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
-                                            <td
-                                              class="ant-table-cell"
-                                            />
-                                            <td
-                                              class="ant-table-cell"
-                                            />
+                                            >
+                                              <div
+                                                class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                                                data-span="1"
+                                              >
+                                                <div
+                                                  class="ant-formily-item-label"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-label-content"
+                                                  >
+                                                    <span
+                                                      class="ant-formily-item-asterisk"
+                                                    >
+                                                      *
+                                                    </span>
+                                                    <label>
+                                                      数量
+                                                    </label>
+                                                  </div>
+                                                  <span
+                                                    class="ant-formily-item-colon"
+                                                  >
+                                                    :
+                                                  </span>
+                                                </div>
+                                                <div
+                                                  class="ant-formily-item-control"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-control-content"
+                                                  >
+                                                    <div
+                                                      class="ant-formily-item-control-content-component"
+                                                    >
+                                                      <span
+                                                        class="ant-input-affix-wrapper"
+                                                      >
+                                                        <input
+                                                          class="ant-input"
+                                                          type="text"
+                                                          value="20"
+                                                        />
+                                                        <span
+                                                          class="ant-input-suffix"
+                                                        >
+                                                          <span />
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                           </tr>
                                           <tr
                                             class="ant-table-row ant-table-row-level-0"
@@ -2875,17 +3417,74 @@ exports[`Expandable 1`] = `
                                           >
                                             <td
                                               class="ant-table-cell"
+                                              rowspan="2"
                                             >
                                               company_2
                                             </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              product_3
+                                            </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              <div
+                                                class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                                                data-span="1"
+                                              >
+                                                <div
+                                                  class="ant-formily-item-label"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-label-content"
+                                                  >
+                                                    <span
+                                                      class="ant-formily-item-asterisk"
+                                                    >
+                                                      *
+                                                    </span>
+                                                    <label>
+                                                      数量
+                                                    </label>
+                                                  </div>
+                                                  <span
+                                                    class="ant-formily-item-colon"
+                                                  >
+                                                    :
+                                                  </span>
+                                                </div>
+                                                <div
+                                                  class="ant-formily-item-control"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-control-content"
+                                                  >
+                                                    <div
+                                                      class="ant-formily-item-control-content-component"
+                                                    >
+                                                      <span
+                                                        class="ant-input-affix-wrapper"
+                                                      >
+                                                        <input
+                                                          class="ant-input"
+                                                          type="text"
+                                                          value="30"
+                                                        />
+                                                        <span
+                                                          class="ant-input-suffix"
+                                                        >
+                                                          <span />
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                             <td
                                               class="ant-table-cell"
+                                              rowspan="2"
                                             >
                                               <div
                                                 class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -2913,16 +3512,65 @@ exports[`Expandable 1`] = `
                                           >
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              product_4
+                                            </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
-                                            <td
-                                              class="ant-table-cell"
-                                            />
-                                            <td
-                                              class="ant-table-cell"
-                                            />
+                                            >
+                                              <div
+                                                class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                                                data-span="1"
+                                              >
+                                                <div
+                                                  class="ant-formily-item-label"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-label-content"
+                                                  >
+                                                    <span
+                                                      class="ant-formily-item-asterisk"
+                                                    >
+                                                      *
+                                                    </span>
+                                                    <label>
+                                                      数量
+                                                    </label>
+                                                  </div>
+                                                  <span
+                                                    class="ant-formily-item-colon"
+                                                  >
+                                                    :
+                                                  </span>
+                                                </div>
+                                                <div
+                                                  class="ant-formily-item-control"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-control-content"
+                                                  >
+                                                    <div
+                                                      class="ant-formily-item-control-content-component"
+                                                    >
+                                                      <span
+                                                        class="ant-input-affix-wrapper"
+                                                      >
+                                                        <input
+                                                          class="ant-input"
+                                                          type="text"
+                                                          value="40"
+                                                        />
+                                                        <span
+                                                          class="ant-input-suffix"
+                                                        >
+                                                          <span />
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                           </tr>
                                         </tbody>
                                       </table>
@@ -3142,17 +3790,74 @@ exports[`Expandable 1`] = `
                                           >
                                             <td
                                               class="ant-table-cell"
+                                              rowspan="2"
                                             >
                                               company_3
                                             </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              product_5
+                                            </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              <div
+                                                class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                                                data-span="1"
+                                              >
+                                                <div
+                                                  class="ant-formily-item-label"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-label-content"
+                                                  >
+                                                    <span
+                                                      class="ant-formily-item-asterisk"
+                                                    >
+                                                      *
+                                                    </span>
+                                                    <label>
+                                                      数量
+                                                    </label>
+                                                  </div>
+                                                  <span
+                                                    class="ant-formily-item-colon"
+                                                  >
+                                                    :
+                                                  </span>
+                                                </div>
+                                                <div
+                                                  class="ant-formily-item-control"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-control-content"
+                                                  >
+                                                    <div
+                                                      class="ant-formily-item-control-content-component"
+                                                    >
+                                                      <span
+                                                        class="ant-input-affix-wrapper"
+                                                      >
+                                                        <input
+                                                          class="ant-input"
+                                                          type="text"
+                                                          value="50"
+                                                        />
+                                                        <span
+                                                          class="ant-input-suffix"
+                                                        >
+                                                          <span />
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                             <td
                                               class="ant-table-cell"
+                                              rowspan="2"
                                             >
                                               <div
                                                 class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -3180,16 +3885,65 @@ exports[`Expandable 1`] = `
                                           >
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              product_6
+                                            </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
-                                            <td
-                                              class="ant-table-cell"
-                                            />
-                                            <td
-                                              class="ant-table-cell"
-                                            />
+                                            >
+                                              <div
+                                                class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                                                data-span="1"
+                                              >
+                                                <div
+                                                  class="ant-formily-item-label"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-label-content"
+                                                  >
+                                                    <span
+                                                      class="ant-formily-item-asterisk"
+                                                    >
+                                                      *
+                                                    </span>
+                                                    <label>
+                                                      数量
+                                                    </label>
+                                                  </div>
+                                                  <span
+                                                    class="ant-formily-item-colon"
+                                                  >
+                                                    :
+                                                  </span>
+                                                </div>
+                                                <div
+                                                  class="ant-formily-item-control"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-control-content"
+                                                  >
+                                                    <div
+                                                      class="ant-formily-item-control-content-component"
+                                                    >
+                                                      <span
+                                                        class="ant-input-affix-wrapper"
+                                                      >
+                                                        <input
+                                                          class="ant-input"
+                                                          type="text"
+                                                          value="60"
+                                                        />
+                                                        <span
+                                                          class="ant-input-suffix"
+                                                        >
+                                                          <span />
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                           </tr>
                                           <tr
                                             class="ant-table-row ant-table-row-level-0"
@@ -3197,17 +3951,74 @@ exports[`Expandable 1`] = `
                                           >
                                             <td
                                               class="ant-table-cell"
+                                              rowspan="2"
                                             >
                                               company_4
                                             </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              product_7
+                                            </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              <div
+                                                class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                                                data-span="1"
+                                              >
+                                                <div
+                                                  class="ant-formily-item-label"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-label-content"
+                                                  >
+                                                    <span
+                                                      class="ant-formily-item-asterisk"
+                                                    >
+                                                      *
+                                                    </span>
+                                                    <label>
+                                                      数量
+                                                    </label>
+                                                  </div>
+                                                  <span
+                                                    class="ant-formily-item-colon"
+                                                  >
+                                                    :
+                                                  </span>
+                                                </div>
+                                                <div
+                                                  class="ant-formily-item-control"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-control-content"
+                                                  >
+                                                    <div
+                                                      class="ant-formily-item-control-content-component"
+                                                    >
+                                                      <span
+                                                        class="ant-input-affix-wrapper"
+                                                      >
+                                                        <input
+                                                          class="ant-input"
+                                                          type="text"
+                                                          value="70"
+                                                        />
+                                                        <span
+                                                          class="ant-input-suffix"
+                                                        >
+                                                          <span />
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                             <td
                                               class="ant-table-cell"
+                                              rowspan="2"
                                             >
                                               <div
                                                 class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
@@ -3235,16 +4046,65 @@ exports[`Expandable 1`] = `
                                           >
                                             <td
                                               class="ant-table-cell"
-                                            />
+                                            >
+                                              product_8
+                                            </td>
                                             <td
                                               class="ant-table-cell"
-                                            />
-                                            <td
-                                              class="ant-table-cell"
-                                            />
-                                            <td
-                                              class="ant-table-cell"
-                                            />
+                                            >
+                                              <div
+                                                class="ant-formily-item ant-formily-item-layout-horizontal ant-formily-item-feedback-layout-terse ant-formily-item-label-align-right ant-formily-item-control-align-left"
+                                                data-span="1"
+                                              >
+                                                <div
+                                                  class="ant-formily-item-label"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-label-content"
+                                                  >
+                                                    <span
+                                                      class="ant-formily-item-asterisk"
+                                                    >
+                                                      *
+                                                    </span>
+                                                    <label>
+                                                      数量
+                                                    </label>
+                                                  </div>
+                                                  <span
+                                                    class="ant-formily-item-colon"
+                                                  >
+                                                    :
+                                                  </span>
+                                                </div>
+                                                <div
+                                                  class="ant-formily-item-control"
+                                                >
+                                                  <div
+                                                    class="ant-formily-item-control-content"
+                                                  >
+                                                    <div
+                                                      class="ant-formily-item-control-content-component"
+                                                    >
+                                                      <span
+                                                        class="ant-input-affix-wrapper"
+                                                      >
+                                                        <input
+                                                          class="ant-input"
+                                                          type="text"
+                                                          value="80"
+                                                        />
+                                                        <span
+                                                          class="ant-input-suffix"
+                                                        >
+                                                          <span />
+                                                        </span>
+                                                      </span>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </td>
                                           </tr>
                                         </tbody>
                                       </table>

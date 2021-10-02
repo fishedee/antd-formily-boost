@@ -14,4 +14,6 @@ group:
 
 这个组件就没啥好说的吧
 
+<code src="./label.tsx"></code>
+
 <API src="../../../src/Link.tsx">SpaceDivider</API>

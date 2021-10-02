@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Label 1`] = `
+<DocumentFragment>
+  <div
+    class="ant-formily-layout"
+  >
+    <form>
+      <div>
+        {"data":[]}
+      </div>
+    </form>
+  </div>
+</DocumentFragment>
+`;

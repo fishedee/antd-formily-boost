@@ -12,7 +12,11 @@ const Label: React.FC<LabelProps> = observer((props) => {
     if (props.prefix) {
         result += props.prefix;
     }
-    result += props.value;
+    let value = props.value;
+    if (value == undefined) {
+        value = '';
+    }
+    result += value;
     if (props.suffix) {
         result += props.suffix;
     }
