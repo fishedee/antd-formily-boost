@@ -1,67 +1,45 @@
 import {
-    observer,
-    FormConsumer,
+    createForm,
     Field,
-    ObjectField,
-    ArrayField,
-} from '@formily/react';
-import { Input, FormItem, Form } from '@formily/antd';
-import { useMemo } from 'react';
-import { createForm } from '@formily/core';
-import { Space } from 'antd';
-import React from 'react';
+    onFieldChange,
+    onFieldInputValueChange,
+} from '@formily/core';
+import { createSchemaField, FormConsumer } from '@formily/react';
+import { Form, FormItem, Input, Select } from '@formily/antd';
+import React, { useMemo } from 'react';
 import { observable } from '@formily/reactive';
+import 'antd/dist/antd.compact.css';
 
-const MyTree: React.FC<any> = observer((props) => {
-    let onClick = () => {
-        props.pageData.current++;
-    };
-
-    return (
-        <span>
-            <button onClick={onClick}>点我</button>
-            <div>{props.pageData.current}</div>
-        </span>
-    );
+const SchemaField = createSchemaField({
+    components: {
+        FormItem,
+        Input,
+        Select,
+    },
 });
-
-let lastState: { data: any; paginaction: any } = observable({
-    data: [],
-    current: 1,
-    pageSize: 10,
-});
-
-for (var i = 0; i != 10; i++) {
-    lastState.data.push({
-        name: 'fish_' + i,
-        age: i,
-    });
-}
-
-const Test1: React.FC<any> = (props) => {
+export default () => {
     const form = useMemo(() => {
         return createForm({
-            values: lastState,
+            values: {},
+            effects: () => {
+                onFieldInputValueChange('title', (field) => {
+                    const field2 = field as Field;
+                    console.log('title change to ', field2.value);
+                    //这里故意写错，抛出了异常，但是控制台没有输出
+                    field.doSomeErrorThing();
+                    console.log('title change2', field2.value);
+                });
+            },
         });
     }, []);
     return (
-        <Form form={form} feedbackLayout={'none'}>
-            <ObjectField name="where" decorator={[Space]}>
-                <ArrayField
-                    name="data"
-                    title="数组"
-                    decorator={[FormItem]}
-                    component={[
-                        MyTree,
-                        {
-                            pageData: lastState,
-                        },
-                    ]}
-                />
-            </ObjectField>
-            <FormConsumer>{(data) => JSON.stringify(data.values)}</FormConsumer>
+        <Form form={form} feedbackLayout="terse">
+            <SchemaField>
+                <SchemaField.String name="title" x-component={'Input'} />
+            </SchemaField>
+            <FormConsumer>
+                {() => <div>{JSON.stringify(form.values)}</div>}
+            </FormConsumer>
         </Form>
     );
 };
-
-export default Test1;
