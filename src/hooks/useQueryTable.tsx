@@ -15,7 +15,7 @@ export type UseQueryTableProps = {
 export type UseQueryTableOptions = {
     refreshOnFilterChange?: boolean;
     firstDidNotRefresh?: boolean;
-    queryRequest?: (config: UseQueryRequest) => Promise<Result<any>>;
+    queryRequest?: (config: UseQueryRequest) => void;
     cacheKey?: string;
     cacheTime?: number;
 };
@@ -55,11 +55,10 @@ function useQueryTable(
 
     const queryBoostInfo = useQuery(
         async (axios) => {
-            let result: Result<any>;
             if (options?.queryRequest) {
-                result = await options?.queryRequest(axios);
+                await options?.queryRequest(axios);
             } else {
-                result = await axios({
+                let result = await axios({
                     url: ajaxUrl,
                     method: 'GET',
                     data: {

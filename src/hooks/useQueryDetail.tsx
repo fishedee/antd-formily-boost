@@ -11,7 +11,7 @@ export type UseQueryDetailOptions = {
     add?: string;
     mod?: string;
     del?: string;
-    queryRequest?: (config: UseQueryRequest) => Promise<Result<any>>;
+    queryRequest?: (config: UseQueryRequest) => void;
 };
 
 // useQueryDetai的工作也很少，包括
@@ -27,11 +27,10 @@ function useQueryDetail(
     let queryInfo: { fetch: () => Promise<void>; loading: boolean };
     if (id) {
         queryInfo = useQuery(async (axios) => {
-            let result: Result<any>;
             if (options?.queryRequest) {
-                result = await options?.queryRequest(axios);
+                await options?.queryRequest(axios);
             } else {
-                result = await request({
+                let result = await request({
                     method: 'GET',
                     url: getUrl,
                     data: {
