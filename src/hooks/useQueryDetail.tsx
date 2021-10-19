@@ -1,6 +1,7 @@
 import { Form } from '@formily/core';
-import useQuery from './useQuery';
+import useQuery, { UseQueryRequest } from './useQuery';
 import useRequest from './useRequest';
+import Result, { ResultSuccess, ResultFail } from './Result';
 
 export type UseQueryDetailProps = {
     detail: any;
@@ -10,6 +11,7 @@ export type UseQueryDetailOptions = {
     add?: string;
     mod?: string;
     del?: string;
+    queryRequest?: (config: UseQueryRequest) => Promise<Result<any>>;
 };
 
 // useQueryDetai的工作也很少，包括
@@ -24,18 +26,24 @@ function useQueryDetail(
 ) {
     let queryInfo: { fetch: () => Promise<void>; loading: boolean };
     if (id) {
-        queryInfo = useQuery(async (request) => {
-            let result = await request({
-                method: 'GET',
-                url: getUrl,
-                data: {
-                    id: id,
-                },
-            });
-            if (result.status == 'fail') {
-                return;
+        queryInfo = useQuery(async (axios) => {
+            let result: Result<any>;
+            if (options?.queryRequest) {
+                result = await options?.queryRequest(axios);
+            } else {
+                result = await request({
+                    method: 'GET',
+                    url: getUrl,
+                    data: {
+                        id: id,
+                    },
+                });
+
+                if (result.status == 'fail') {
+                    return;
+                }
+                form.values.detail = result.data;
             }
-            form.values.detail = result.data;
         });
     } else {
         queryInfo = {

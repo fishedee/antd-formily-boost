@@ -1,9 +1,10 @@
 import { Field, Form, onFieldInputValueChange } from '@formily/core';
 import { useMemo } from 'react';
-import useQuery from './useQuery';
+import useQuery, { UseQueryRequest } from './useQuery';
 import { throttle } from 'underscore';
 import { useCallback } from 'react';
 import { batch } from '@formily/reactive';
+import Result, { ResultSuccess, ResultFail } from './Result';
 
 export type UseQueryTableProps = {
     filter: any;
@@ -14,6 +15,7 @@ export type UseQueryTableProps = {
 export type UseQueryTableOptions = {
     refreshOnFilterChange?: boolean;
     firstDidNotRefresh?: boolean;
+    queryRequest?: (config: UseQueryRequest) => Promise<Result<any>>;
     cacheKey?: string;
     cacheTime?: number;
 };
@@ -52,28 +54,32 @@ function useQueryTable(
     }, []);
 
     const queryBoostInfo = useQuery(
-        async (request) => {
-            let result = await request({
-                url: ajaxUrl,
-                method: 'GET',
-                data: {
-                    ...form.values.filter,
-                    pageIndex:
-                        (form.values.paginaction.current - 1) *
-                        form.values.paginaction.pageSize,
-                    pageSize: form.values.paginaction.pageSize,
-                },
-            });
-
-            if (result.status == 'fail') {
-                return;
+        async (axios) => {
+            let result: Result<any>;
+            if (options?.queryRequest) {
+                result = await options?.queryRequest(axios);
+            } else {
+                result = await axios({
+                    url: ajaxUrl,
+                    method: 'GET',
+                    data: {
+                        ...form.values.filter,
+                        pageIndex:
+                            (form.values.paginaction.current - 1) *
+                            form.values.paginaction.pageSize,
+                        pageSize: form.values.paginaction.pageSize,
+                    },
+                });
+                if (result.status == 'fail') {
+                    return;
+                }
+                let newResult = result;
+                //批量触发，避免多次render，提高效率
+                batch(() => {
+                    (form.values.list = newResult.data.data),
+                        (form.values.paginaction.total = newResult.data.count);
+                });
             }
-            let newResult = result;
-            //批量触发，避免多次render，提高效率
-            batch(() => {
-                (form.values.list = newResult.data.data),
-                    (form.values.paginaction.total = newResult.data.count);
-            });
         },
         {
             //使用refreshDeps产生的ajax触发的注意点在于
