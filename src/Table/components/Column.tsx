@@ -8,7 +8,7 @@ type ColumnProps = {
     fixed?: 'left' | 'right';
     labelIndex?: string;
     refColumnName?: string;
-    render?: (data: any[], index: string) => JSX.Element;
+    render?: (data: any, index: string) => JSX.Element;
 };
 
 //运行时类型信息

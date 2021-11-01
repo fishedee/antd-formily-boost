@@ -12,12 +12,15 @@ import { Schema } from '@formily/json-schema';
 import { ReactElement } from 'react';
 
 type FastLabelProps = {
-    data: any[];
-    index: string;
+    rowData: any;
+    labelIndex: string;
 };
 
 const FastLabel: React.FC<FastLabelProps> = observer((props) => {
-    let result = getDataInIndex(props.data, props.index);
+    let result = undefined;
+    if (props.rowData instanceof Object) {
+        result = props.rowData[props.labelIndex];
+    }
     if (result === undefined) {
         return <></>;
     } else {
@@ -26,13 +29,13 @@ const FastLabel: React.FC<FastLabelProps> = observer((props) => {
 });
 
 type FastRenderProps = {
-    data: any[];
+    rowData: any;
     index: string;
-    render: (data: any[], index: string) => JSX.Element;
+    render: (data: any, index: string) => JSX.Element;
 };
 
 const FastRender: React.FC<FastRenderProps> = observer((props) => {
-    return props.render(props.data, props.index);
+    return props.render(props.rowData, props.index);
 });
 
 function getSplitIndex(
@@ -104,16 +107,18 @@ function getDataColumns(
                         const renderIndex = columnSchema.columnProps?.render;
                         if (labelIndex) {
                             //直接返回数据，绕过field，这样做会失去effect，但是效率较高
+                            const rowData = getDataInIndex(data, index);
                             return (
                                 <FastLabel
-                                    data={data}
-                                    index={index + '.' + labelIndex}
+                                    rowData={rowData}
+                                    labelIndex={labelIndex}
                                 />
                             );
                         } else if (renderIndex) {
+                            const rowData = getDataInIndex(data, index);
                             return (
                                 <FastRender
-                                    data={data}
+                                    rowData={rowData}
                                     index={index}
                                     render={renderIndex}
                                 />

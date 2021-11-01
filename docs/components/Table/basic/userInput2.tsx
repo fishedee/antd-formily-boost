@@ -42,11 +42,13 @@ export default () => {
         });
     }, []);
 
-    const myInput = (data: any[], index: string) => {
-        const value = getDataInIndex(data, index + '.name');
+    const myInput = (rowData: any, index: string) => {
+        const value = rowData ? rowData['name'] : undefined;
         const onChange = (e) => {
             const newValue = e.target.value;
-            setDataInIndex(data, index + '.name', newValue);
+            if (rowData) {
+                rowData['name'] = newValue;
+            }
         };
         return <Input value={value} onChange={onChange} />;
     };
@@ -74,7 +76,7 @@ export default () => {
                             title="年龄"
                             x-component="Table.Column"
                             x-component-props={{
-                                labelIndex: 'age',
+                                labelIndex: 'name',
                             }}
                         />
                     </SchemaField.Void>
