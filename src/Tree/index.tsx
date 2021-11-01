@@ -11,7 +11,11 @@ import { Tree } from 'antd';
 import { Key } from 'antd/lib/table/interface';
 import { DataNode } from 'rc-tree/lib/interface';
 import React from 'react';
-import { flatDataInIndex, fillDataInIndex } from '../Table/util';
+import {
+    flatDataInIndex,
+    fillDataInIndex,
+    getDataInIndex,
+} from '../Table/util';
 import { TreeProps } from 'antd/lib/tree';
 
 type VirtualScrollProps = {
@@ -52,6 +56,7 @@ type PropsType = {
     checkbox?: CheckboxProps;
     expand?: ExpandProps;
     labelIndex?: string;
+    render?: (data: any, index: string) => JSX.Element;
 };
 
 type MyTreeType = React.FC<PropsType>;
@@ -256,6 +261,16 @@ function getSchema() {
     return itemSchema;
 }
 
+type FastRenderProps = {
+    rowData: any;
+    index: string;
+    render: (data: any, index: string) => JSX.Element;
+};
+
+const FastRender: React.FC<FastRenderProps> = observer((props) => {
+    return props.render(props.rowData, props.index);
+});
+
 const MyTree: MyTreeType = observer((props: PropsType) => {
     const field = useField<ArrayField>();
     let value = field.value;
@@ -280,15 +295,24 @@ const MyTree: MyTreeType = observer((props: PropsType) => {
     );
 
     //渲染方式
+    const labelRender = props.render;
     let titleRender: ((node: DataNode) => React.ReactNode) | undefined;
-    if (labelIndex == '') {
+    if (labelIndex != '') {
+        titleRender = undefined;
+    } else if (labelRender) {
+        titleRender = (node: DataNode) => {
+            const index = node.key as string;
+            const data = getDataInIndex(value, index);
+            return (
+                <FastRender rowData={data} index={index} render={labelRender} />
+            );
+        };
+    } else {
         const itemSchema = getSchema();
         titleRender = (node: DataNode) => {
             const index = node.key as string;
             return <RecursionField schema={itemSchema} name={index} />;
         };
-    } else {
-        titleRender = undefined;
     }
 
     //获取虚拟滚动方式

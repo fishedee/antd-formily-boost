@@ -20,6 +20,10 @@ group:
 
 自定义组件
 
+<code src="./user2.tsx"></code>
+
+使用 render 来自定义组件
+
 <code src="./virtual.tsx"></code>
 
 默认打开虚拟滚动，只需要设置 scroll.y 就可以了，共 1 万条数据，在不需要定制 Tree 的每行内容的时候，直接使用 labelIndex 就可以了，速度更快
