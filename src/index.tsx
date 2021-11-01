@@ -30,6 +30,7 @@ import useRequest, {
     setRequestHandler,
 } from './hooks/useRequest';
 import myRequest, { setMyRequestUrlPrefixKey } from './hooks/myRequest';
+import { getDataInIndex, setDataInIndex } from './Table/util';
 
 export {
     Label,
@@ -39,6 +40,8 @@ export {
     Tree,
     TreeSelect,
     Hoverable,
+    getDataInIndex,
+    setDataInIndex,
     Result,
     ResultSuccess,
     ResultFail,

@@ -27,6 +27,12 @@ group:
 
 我们可以组合使用自己的 UI 组件，定义一个 MyInput 组件，然后替换掉 createSchemaField 的 Input 就可以了。注意，虽然是用自己的 Input 组件，但是当清空了输入数据以后，依然会有错误显示的 FeedBack，这是 FormItem 带来的效果
 
+## 自定义 render
+
+<code src="./userInput2.tsx"></code>
+
+可以自定义 render
+
 ## 安全的 none 初始值
 
 <code src="./none.tsx"></code>

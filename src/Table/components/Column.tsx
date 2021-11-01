@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, ReactElement } from 'react';
 import { KeyProps } from './KeyProps';
 
 //编译时类型信息
@@ -8,10 +8,12 @@ type ColumnProps = {
     fixed?: 'left' | 'right';
     labelIndex?: string;
     refColumnName?: string;
+    render?: (data: any[], index: string) => JSX.Element;
 };
 
 //运行时类型信息
 class ColumnPropsKeys implements KeyProps<ColumnProps> {
+    render = true;
     refColumnName = true;
     width = true;
     ellipsis = true;

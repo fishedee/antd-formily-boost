@@ -9,6 +9,7 @@ import React from 'react';
 import { getDataInIndex } from '../util';
 import { DataSourceType } from './virtual';
 import { Schema } from '@formily/json-schema';
+import { ReactElement } from 'react';
 
 type FastLabelProps = {
     data: any[];
@@ -22,6 +23,16 @@ const FastLabel: React.FC<FastLabelProps> = observer((props) => {
     } else {
         return result;
     }
+});
+
+type FastRenderProps = {
+    data: any[];
+    index: string;
+    render: (data: any[], index: string) => JSX.Element;
+};
+
+const FastRender: React.FC<FastRenderProps> = observer((props) => {
+    return props.render(props.data, props.index);
 });
 
 function getSplitIndex(
@@ -65,6 +76,7 @@ function getDataColumns(
                         return column.type == 'column';
                     })
                     .map(convertColumn),
+                render: undefined,
             };
             return single;
         } else {
@@ -89,12 +101,21 @@ function getDataColumns(
                     ) {
                         //普通渲染方式
                         const labelIndex = columnSchema.columnProps?.labelIndex;
+                        const renderIndex = columnSchema.columnProps?.render;
                         if (labelIndex) {
                             //直接返回数据，绕过field，这样做会失去effect，但是效率较高
                             return (
                                 <FastLabel
                                     data={data}
                                     index={index + '.' + labelIndex}
+                                />
+                            );
+                        } else if (renderIndex) {
+                            return (
+                                <FastRender
+                                    data={data}
+                                    index={index}
+                                    render={renderIndex}
                                 />
                             );
                         } else {
