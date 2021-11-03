@@ -24,32 +24,27 @@ function useQueryDetail(
     form: Form<UseQueryDetailProps>,
     options?: UseQueryDetailOptions,
 ) {
-    let queryInfo: { fetch: () => Promise<void>; loading: boolean };
-    if (id) {
-        queryInfo = useQuery(async (axios) => {
-            if (options?.queryRequest) {
-                await options?.queryRequest(axios);
-            } else {
-                let result = await request({
-                    method: 'GET',
-                    url: getUrl,
-                    data: {
-                        id: id,
-                    },
-                });
+    let queryInfo = useQuery(async (axios) => {
+        if (!id) {
+            return;
+        }
+        if (options?.queryRequest) {
+            await options?.queryRequest(axios);
+        } else {
+            let result = await request({
+                method: 'GET',
+                url: getUrl,
+                data: {
+                    id: id,
+                },
+            });
 
-                if (result.status == 'fail') {
-                    return;
-                }
-                form.values.detail = result.data;
+            if (result.status == 'fail') {
+                return;
             }
-        });
-    } else {
-        queryInfo = {
-            fetch: async () => {},
-            loading: false,
-        };
-    }
+            form.values.detail = result.data;
+        }
+    });
     const request = useRequest();
     const add = async () => {
         let result = await request({

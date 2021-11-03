@@ -13,7 +13,7 @@ Column 组件有一个 visible 属性，当设置为 false 的时候可以消失
 
 <code src="./columnControl2.tsx"></code>
 
-使用 Formily 的机制，我们可以用 query 来获取该列，然后动态控制是否显示该列
+将 column_config 的 address 传入到 Table 组件里面即可
 
 ## 联动控制列显示
 

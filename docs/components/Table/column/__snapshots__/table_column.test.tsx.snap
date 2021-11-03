@@ -659,7 +659,7 @@ exports[`ColumnControl2 1`] = `
               </div>
             </div>
             <div>
-              {"data":[{"name":"fish","age":123},{"name":"cat","age":456},{"name":"dog","age":789}]}
+              {"data":[{"name":"fish","age":123},{"name":"cat","age":456},{"name":"dog","age":789}],"column_config":{}}
             </div>
           </form>
         </div>

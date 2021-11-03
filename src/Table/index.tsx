@@ -43,6 +43,7 @@ import SplitRow, { SplitRowProps } from './components/SplitRow';
 import './index.css';
 
 type PropsType = {
+    columnConfig?: string;
     paginaction?: PaginationType;
     paginationProps?: PaginationPropsType;
     scroll?: RcTableProps<any>['scroll'];
@@ -73,7 +74,7 @@ type MyTableType = React.FC<PropsType> & {
 const MyTable: MyTableType = observer((props: PropsType) => {
     const field = useField<ArrayField>();
     const fieldSchema = useFieldSchema();
-    const tableConfig = getTableConfig(fieldSchema);
+    const tableConfig = getTableConfig(fieldSchema, props.columnConfig || '');
     let value = field.value;
     if (value === undefined || value instanceof Array == false) {
         value = [];
@@ -135,18 +136,6 @@ const MyTable: MyTableType = observer((props: PropsType) => {
                 onRow={virtual.onRow}
                 childrenColumnName={recursiveRow ? '_children' : undefined}
             />
-            {tableConfig.allColumn.map((column) => {
-                //这里实际渲染每个Column，以保证Column能接收到Reaction
-                //注意要使用onlyRenderSelf
-                return (
-                    <RecursionField
-                        key={'items_' + column.key}
-                        name={column.key}
-                        schema={column.schema}
-                        onlyRenderSelf
-                    />
-                );
-            })}
             <RecursionField
                 key={'properties'}
                 schema={fieldSchema}

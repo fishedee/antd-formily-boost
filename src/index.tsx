@@ -18,6 +18,7 @@ import useQueryDetail, {
 import useQuery, {
     clearQueryCache,
     invalidQueryCacheByKey,
+    setDeafultQueryLoadingRefresh,
     setDefaultQueryCacheTime,
 } from './hooks/useQuery';
 import useForm, {
@@ -65,4 +66,5 @@ export {
     setRequestHandler,
     myRequest,
     setMyRequestUrlPrefixKey,
+    setDeafultQueryLoadingRefresh,
 };

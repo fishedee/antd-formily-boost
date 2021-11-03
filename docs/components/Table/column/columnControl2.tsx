@@ -25,6 +25,7 @@ const form = createForm({
                 age: 789,
             },
         ],
+        column_config: {} as any,
     },
 });
 
@@ -40,18 +41,27 @@ const SchemaField = createSchemaField({
 
 export default () => {
     const onClick = () => {
-        const columnField = form.query('data.firstColumn').take();
-        if (!columnField) {
-            return;
+        const columnConfig = form.values.column_config;
+        if (!columnConfig.firstColumn) {
+            columnConfig.firstColumn = {
+                'x-visible': true,
+            };
         }
-        columnField.visible = !columnField.visible;
+        columnConfig.firstColumn['x-visible'] =
+            !columnConfig.firstColumn['x-visible'];
     };
     return (
         <Space direction="vertical" size={10} style={{ display: 'flex' }}>
             <div>
                 <Form form={form} feedbackLayout="terse">
                     <SchemaField>
-                        <SchemaField.Array name="data" x-component="Table">
+                        <SchemaField.Array
+                            name="data"
+                            x-component="Table"
+                            x-component-props={{
+                                columnConfig: 'column_config',
+                            }}
+                        >
                             <SchemaField.Void>
                                 <SchemaField.Void
                                     name="firstColumn"

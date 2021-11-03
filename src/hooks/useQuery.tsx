@@ -15,6 +15,12 @@ type QueryCacheInfo = {
 
 let queryCache = new Map<string, QueryCacheInfo>();
 
+let isOpenQueryLoadingRefresh = true;
+
+export function setDeafultQueryLoadingRefresh(isOpen: boolean) {
+    isOpenQueryLoadingRefresh = isOpen;
+}
+
 export function invalidQueryCacheByKey(prefixKey: string) {
     let cacheKeys = queryCache.keys();
     for (let key of cacheKeys) {
@@ -152,7 +158,9 @@ function useQuery(fetch: UseQueryFetch, options?: UseQueryOptions) {
         ): Promise<Result<any>> => {
             ref.current++;
             let current = ref.current;
-            setLoading(true);
+            if (isOpenQueryLoadingRefresh) {
+                setLoading(true);
+            }
             let result = await cacheRequest(config);
             if (current != ref.current) {
                 return {
@@ -161,7 +169,9 @@ function useQuery(fetch: UseQueryFetch, options?: UseQueryOptions) {
                     error: new Error('Conflit Error'),
                 };
             }
-            setLoading(false);
+            if (isOpenQueryLoadingRefresh) {
+                setLoading(false);
+            }
             return result;
         };
         await fetch(newRequest);

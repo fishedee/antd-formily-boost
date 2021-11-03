@@ -29,6 +29,7 @@ import {
 } from '../components/ChildrenRow';
 import { SplitRowProps, SplitRowPropsKey } from '../components/SplitRow';
 import { ExpandableConfig } from 'rc-table/lib/interface';
+import { Form } from '@formily/core';
 
 export type SplitRowRenderType = {
     type: 'splitRow';
@@ -105,35 +106,97 @@ type ColumnSchema = {
     };
 };
 
-function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
+function getColumnConfig(
+    form: Form<any>,
+    fieldAddress: string,
+    config: string,
+): any {
+    if (!config || typeof config != 'string' || config.length == 0) {
+        return {};
+    }
+    let configAddress: string;
+    if (config[0] == '.') {
+        configAddress = fieldAddress + config;
+    } else {
+        configAddress = config;
+    }
+    let result = form.getValuesIn(configAddress);
+    if (!result || typeof result != 'object') {
+        return {};
+    }
+    return result;
+}
+
+function getColumnSchemaInner(
+    schema: Schema,
+    columnConfig: string,
+): ColumnSchema[] {
     //在当前实现中，Column层看成是Field
     let itemsSchema: Schema['items'] = schema.items;
     const items = Array.isArray(itemsSchema) ? itemsSchema : [itemsSchema];
     //获取当前array的field
     let form = useForm();
     let field = useField();
+    let columnConfigObject = getColumnConfig(
+        form,
+        field.address.toString(),
+        columnConfig,
+    );
+    const getSingleColumnConfig = (
+        target: any,
+        schema: Schema,
+        name: keyof Schema,
+    ): any => {
+        if (target && typeof target == 'object') {
+            let propertyValue = target[name];
+            if (propertyValue != undefined) {
+                return propertyValue;
+            }
+        }
+        return schema[name];
+    };
+
+    const getSingleColumnComponentPropsConfig = (
+        target: any,
+        schema: Schema,
+        name: string,
+    ): any => {
+        if (target && typeof target == 'object') {
+            let componentProps = target['x-component-props'];
+            if (componentProps && typeof componentProps == 'object') {
+                let propertyValue = componentProps[name];
+                if (propertyValue != undefined) {
+                    return propertyValue;
+                }
+            }
+        }
+        return schema['x-component-props']?.[name];
+    };
+
     const parseSource = (schema: Schema): ColumnSchema[] => {
         //在渲染的时候，手动拿出每个Column的Field，并且将Schema作为保底逻辑
         //这里的写法，其实是先取field数据，再去createField
         //当第一次render的时候，Field不存在时，返回值为undefined
-        let columnField = form.query(field.address + '.' + schema.name).take();
+        let columnField = columnConfigObject[schema.name!];
         let component = schema['x-component'];
-        let isVisible = columnField ? columnField.visible : schema['x-visible'];
+        let isVisible = getSingleColumnConfig(columnField, schema, 'x-visible');
         if (isVisible == false) {
             return [];
         }
         let columnBase = {
             key: schema.name + '',
             dataIndex: schema.name + '',
-            title: columnField ? columnField.title : schema.title,
+            title: getSingleColumnConfig(columnField, schema, 'title'),
             schema: schema,
         };
         if (isColumnType(component)) {
             const config: any = {};
             for (let key in new ColumnPropsKeys()) {
-                config[key] = columnField
-                    ? columnField.componentProps?.[key]
-                    : schema['x-component-props']?.[key];
+                config[key] = getSingleColumnComponentPropsConfig(
+                    columnField,
+                    schema,
+                    key,
+                );
             }
             return [
                 {
@@ -150,9 +213,11 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
             //获取该列的信息
             const config: any = {};
             for (let key in new CheckboxColumnPropsKey()) {
-                config[key] = columnField
-                    ? columnField.componentProps?.[key]
-                    : schema['x-component-props']?.[key];
+                config[key] = getSingleColumnComponentPropsConfig(
+                    columnField,
+                    schema,
+                    key,
+                );
             }
             if (!config.selectedIndex) {
                 config.selectedIndex = '_selected';
@@ -174,9 +239,11 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
             //获取该列的信息
             const config: any = {};
             for (let key in new RadioColumnPropsKey()) {
-                config[key] = columnField
-                    ? columnField.componentProps?.[key]
-                    : schema['x-component-props']?.[key];
+                config[key] = getSingleColumnComponentPropsConfig(
+                    columnField,
+                    schema,
+                    key,
+                );
             }
             if (!config.selectedIndex) {
                 config.selectedIndex = '_selected';
@@ -195,9 +262,11 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
             //获取该列的信息
             const config: any = {};
             for (let key in new ExpandableRowPropsKey()) {
-                config[key] = columnField
-                    ? columnField.componentProps?.[key]
-                    : schema['x-component-props']?.[key];
+                config[key] = getSingleColumnComponentPropsConfig(
+                    columnField,
+                    schema,
+                    key,
+                );
             }
             if (!config.expandedIndex) {
                 config.expandedIndex = '_expanded';
@@ -212,9 +281,11 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
         } else if (isRecursiveRowType(component)) {
             const config: any = {};
             for (let key in new RecursiveRowPropsKey()) {
-                config[key] = columnField
-                    ? columnField.componentProps?.[key]
-                    : schema['x-component-props']?.[key];
+                config[key] = getSingleColumnComponentPropsConfig(
+                    columnField,
+                    schema,
+                    key,
+                );
             }
             if (!config.expandedIndex) {
                 config.expandedIndex = '_expanded';
@@ -229,9 +300,11 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
         } else if (isChildrenRowType(component)) {
             const config: any = {};
             for (let key in new ChildrenRowPropsKey()) {
-                config[key] = columnField
-                    ? columnField.componentProps?.[key]
-                    : schema['x-component-props']?.[key];
+                config[key] = getSingleColumnComponentPropsConfig(
+                    columnField,
+                    schema,
+                    key,
+                );
             }
             if (!config.expandedIndex) {
                 config.expandedIndex = '_expanded';
@@ -249,9 +322,11 @@ function getColumnSchemaInner(schema: Schema): ColumnSchema[] {
         } else if (isSplitRowType(component)) {
             const config: any = {};
             for (let key in new SplitRowPropsKey()) {
-                config[key] = columnField
-                    ? columnField.componentProps?.[key]
-                    : schema['x-component-props']?.[key];
+                config[key] = getSingleColumnComponentPropsConfig(
+                    columnField,
+                    schema,
+                    key,
+                );
             }
             return [
                 {
@@ -762,8 +837,11 @@ function convertToTableConfig(columnSchema: ColumnSchema[]): TableConfig {
     return result;
 }
 
-function getTableConfig(schema: Schema): TableConfig {
-    let columnSchema: ColumnSchema[] = getColumnSchemaInner(schema);
+function getTableConfig(schema: Schema, columnConfig: string): TableConfig {
+    let columnSchema: ColumnSchema[] = getColumnSchemaInner(
+        schema,
+        columnConfig,
+    );
     checkSplitRowSchema(columnSchema);
     let combineColumnSchema: ColumnSchema[] =
         calculateRowRenderAndDataConvert(columnSchema);
