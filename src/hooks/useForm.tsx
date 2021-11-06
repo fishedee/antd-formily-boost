@@ -7,7 +7,7 @@ let formCache = new Map<string, object>();
 
 let globalCacheDisabled = false;
 
-export function setQueryFormCacheDisabled(disabled: boolean) {
+export function setFormGlobalCacheDisabled(disabled: boolean) {
     globalCacheDisabled = disabled;
 }
 

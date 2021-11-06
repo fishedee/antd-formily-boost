@@ -23,7 +23,7 @@ import useQuery, {
     setDefaultQueryCacheTime,
 } from './hooks/useQuery';
 import useForm, {
-    setQueryFormCacheDisabled,
+    setFormGlobalCacheDisabled,
     invalidFormCacheByKey,
     clearFormCache,
     createFormProps,
@@ -58,7 +58,7 @@ export {
     useQuery,
     clearQueryCache,
     setQueryGlobalCacheDisabled,
-    setQueryFormCacheDisabled,
+    setFormGlobalCacheDisabled,
     invalidQueryCacheByKey,
     setDefaultQueryCacheTime,
     useForm,
