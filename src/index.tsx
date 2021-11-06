@@ -18,10 +18,12 @@ import useQueryDetail, {
 import useQuery, {
     clearQueryCache,
     invalidQueryCacheByKey,
+    setQueryGlobalCacheDisabled,
     setDeafultQueryLoadingRefresh,
     setDefaultQueryCacheTime,
 } from './hooks/useQuery';
 import useForm, {
+    setQueryFormCacheDisabled,
     invalidFormCacheByKey,
     clearFormCache,
     createFormProps,
@@ -55,6 +57,8 @@ export {
     UseQueryTableProps,
     useQuery,
     clearQueryCache,
+    setQueryGlobalCacheDisabled,
+    setQueryFormCacheDisabled,
     invalidQueryCacheByKey,
     setDefaultQueryCacheTime,
     useForm,

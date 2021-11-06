@@ -5,6 +5,12 @@ import { useMemo } from 'react';
 
 let formCache = new Map<string, object>();
 
+let globalCacheDisabled = false;
+
+export function setQueryFormCacheDisabled(disabled: boolean) {
+    globalCacheDisabled = disabled;
+}
+
 export function invalidFormCacheByKey(prefixKey: string) {
     let cacheKeys = formCache.keys();
     for (let key of cacheKeys) {
@@ -46,7 +52,7 @@ function useForm<T extends object = any>(
         let initialValue: object | undefined;
         let isCacheData = false;
         //先尝试从cacheKey拿
-        if (options?.cacheKey) {
+        if (options?.cacheKey && globalCacheDisabled === false) {
             initialValue = formCache.get(options?.cacheKey);
             if (initialValue) {
                 isCacheData = true;
@@ -60,7 +66,7 @@ function useForm<T extends object = any>(
         }
         if (!initialValue) {
             initialValue = formValue.values;
-            if (options?.cacheKey) {
+            if (options?.cacheKey && globalCacheDisabled === false) {
                 //写入到cache里面
                 formCache.set(options?.cacheKey, initialValue);
             }
@@ -75,7 +81,7 @@ function useForm<T extends object = any>(
     useEffect(() => {
         return () => {
             //当前页面退出的时候，自动写入到缓存中
-            if (options?.cacheKey) {
+            if (options?.cacheKey && globalCacheDisabled === false) {
                 let originData = toJS(result.form.values);
                 formCache.set(options?.cacheKey, originData);
             }

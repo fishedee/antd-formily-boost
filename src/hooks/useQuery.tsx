@@ -17,6 +17,12 @@ let queryCache = new Map<string, QueryCacheInfo>();
 
 let isOpenQueryLoadingRefresh = true;
 
+let globalCacheDisabled = false;
+
+export function setQueryGlobalCacheDisabled(disabled: boolean) {
+    globalCacheDisabled = disabled;
+}
+
 export function setDeafultQueryLoadingRefresh(isOpen: boolean) {
     isOpenQueryLoadingRefresh = isOpen;
 }
@@ -87,7 +93,10 @@ function useQuery(fetch: UseQueryFetch, options?: UseQueryOptions) {
         const cacheRequest = async (
             config: AxiosRequestConfig,
         ): Promise<Result<any>> => {
-            if (options?.cacheKey === undefined) {
+            if (
+                options?.cacheKey === undefined ||
+                globalCacheDisabled === true
+            ) {
                 //没有缓存的情况，不需要走请求池，也不需要走缓存
                 return await request(config);
             }
