@@ -32,7 +32,7 @@ let lastState = observable({
             productors: [
                 {
                     productorName: 'company_1',
-                    count: 0,
+                    count: 30,
                     items: [
                         {
                             productId: 20001,

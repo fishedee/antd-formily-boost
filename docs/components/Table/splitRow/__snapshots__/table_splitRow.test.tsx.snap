@@ -3338,7 +3338,7 @@ exports[`Expandable 1`] = `
                                                     <div
                                                       class="ant-formily-item-control-content-component"
                                                     >
-                                                      0
+                                                      30
                                                     </div>
                                                   </div>
                                                 </div>
@@ -4160,7 +4160,7 @@ exports[`Expandable 1`] = `
         </span>
       </button>
       <div>
-        {"data":[{"salesOrderId":10001,"name":"fish","address":"fish_address","productors":[{"productorName":"company_1","count":0,"items":[{"productId":20001,"productName":"product_1","count":10},{"productId":20002,"productName":"product_2","count":20}]},{"productorName":"company_2","count":70,"items":[{"productId":20001,"productName":"product_3","count":30},{"productId":20002,"productName":"product_4","count":40}]}],"_checkbox":false,"_expanded":true},{"salesOrderId":10002,"name":"cat","address":"cat_address","productors":[{"productorName":"company_3","count":110,"items":[{"productId":20001,"productName":"product_5","count":50},{"productId":20002,"productName":"product_6","count":60}]},{"productorName":"company_4","count":130,"items":[{"productId":20001,"productName":"product_7","count":70},{"productId":20002,"productName":"product_8","count":80}]}],"_checkbox":false,"_expanded":true}]}
+        {"data":[{"salesOrderId":10001,"name":"fish","address":"fish_address","productors":[{"productorName":"company_1","count":30,"items":[{"productId":20001,"productName":"product_1","count":10},{"productId":20002,"productName":"product_2","count":20}]},{"productorName":"company_2","count":70,"items":[{"productId":20001,"productName":"product_3","count":30},{"productId":20002,"productName":"product_4","count":40}]}],"_checkbox":false,"_expanded":true},{"salesOrderId":10002,"name":"cat","address":"cat_address","productors":[{"productorName":"company_3","count":110,"items":[{"productId":20001,"productName":"product_5","count":50},{"productId":20002,"productName":"product_6","count":60}]},{"productorName":"company_4","count":130,"items":[{"productId":20001,"productName":"product_7","count":70},{"productId":20002,"productName":"product_8","count":80}]}],"_checkbox":false,"_expanded":true}]}
       </div>
     </form>
   </div>

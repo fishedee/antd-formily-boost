@@ -619,7 +619,7 @@ function convertDataConvertTreeToList(dataConvert: DataConvertType): string[] {
         if (dataConvert.children) {
             childrenIndex = convertDataConvertTreeToList(dataConvert.children);
         }
-        return dataConvert.dataIndex, [...childrenIndex];
+        return [dataConvert.dataIndex, ...childrenIndex];
     } else {
         return [];
     }

@@ -221,24 +221,7 @@ export default observer(() => {
     const form = useMemo(() => {
         return createForm({
             values: lastState,
-            effects: () => {
-                /*
-                //加入effects会让数据在删除的时候出错
-                onFieldValueChange(
-                    'data.*.productors.*.items.*.count',
-                    (field) => {
-                        console.log('lastState', lastState);
-                        const fieldNormal = field as Field;
-                        let items = field.query('.items').value();
-                        let result = 0;
-                        for (let i = 0; i != items.length; i++) {
-                            result += parseInt(items[i].count);
-                        }
-                        fieldNormal.setValue(result);
-                    },
-                );
-                */
-            },
+            effects: () => {},
         });
     }, []);
     //因为effect失效了，所以，只能用这种方法来实现

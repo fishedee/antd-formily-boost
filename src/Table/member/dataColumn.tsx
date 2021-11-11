@@ -95,8 +95,14 @@ function getDataColumns(
                     }
                     const rowRender: RowRenderType =
                         column.columnProps!.rowRender[level];
-                    const nextChildIndex =
-                        tableConfig.dataConvertProps!.list[level];
+                    let nextChildIndex = '';
+                    if (tableConfig.dataConvertProps.tree.type == 'recursive') {
+                        nextChildIndex =
+                            tableConfig.dataConvertProps.tree.dataIndex;
+                    } else {
+                        nextChildIndex =
+                            tableConfig.dataConvertProps!.list[level];
+                    }
                     function renderNormal(
                         columnSchema: ColumnSchema,
                         index: string,
