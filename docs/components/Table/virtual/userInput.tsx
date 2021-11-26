@@ -2,34 +2,12 @@ import { createForm } from '@formily/core';
 import { createSchemaField } from '@formily/react';
 import { Label, Table, Link, SpaceDivider } from 'antd-formily-boost';
 import { Form, FormItem, Input, Select } from '@formily/antd';
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { observable } from '@formily/reactive';
-
-type MyInputType = {
-    value: string;
-    onChange: (data: any) => void;
-};
-
-const MyInput = (props: MyInputType) => {
-    return (
-        <input
-            style={{
-                color: 'red',
-                background: 'none',
-                outline: 'none',
-                width: '100%',
-                border: '1px solid grey',
-            }}
-            value={props.value}
-            onChange={props.onChange}
-        />
-    );
-};
 
 const SchemaField = createSchemaField({
     components: {
         FormItem,
-        MyInput,
         Select,
         Table,
         Label,
@@ -56,6 +34,24 @@ export default () => {
             values: lastState,
             effects: () => {},
         });
+    }, []);
+
+    const renderInput = useCallback((data) => {
+        return (
+            <input
+                style={{
+                    color: 'red',
+                    background: 'none',
+                    outline: 'none',
+                    width: '100%',
+                    border: '1px solid grey',
+                }}
+                value={data['name']}
+                onChange={(e) => {
+                    data['name'] = e.target.value;
+                }}
+            />
+        );
     }, []);
     return (
         <Form form={form} feedbackLayout="terse">
@@ -93,15 +89,9 @@ export default () => {
                             x-component="Table.Column"
                             x-component-props={{
                                 width: 300,
+                                render: renderInput,
                             }}
-                        >
-                            <SchemaField.String
-                                name="name"
-                                required={true}
-                                x-component="MyInput"
-                                x-decorator="FormItem"
-                            />
-                        </SchemaField.Void>
+                        />
                         <SchemaField.Void
                             title="名字3"
                             x-component="Table.Column"

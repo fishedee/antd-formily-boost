@@ -57,63 +57,42 @@ export default () => {
                             x-component-props={{
                                 fixed: 'left',
                                 width: 100,
+                                labelIndex: 'id',
                             }}
-                        >
-                            <SchemaField.String
-                                name="id"
-                                x-component={'Label'}
-                            />
-                        </SchemaField.Void>
+                        />
                         <SchemaField.Void
                             title="名字2"
                             x-component="Table.Column"
                             x-component-props={{
                                 width: 300,
+                                labelIndex: 'name',
                             }}
-                        >
-                            <SchemaField.String
-                                name="name"
-                                x-component={'Label'}
-                            />
-                        </SchemaField.Void>
+                        />
                         <SchemaField.Void
                             title="名字3"
                             x-component="Table.Column"
                             x-component-props={{
                                 width: 300,
+                                labelIndex: 'name',
                             }}
-                        >
-                            <SchemaField.String
-                                name="name"
-                                x-component={'Label'}
-                            />
-                        </SchemaField.Void>
+                        />
                         <SchemaField.Void
                             title="名字4"
                             x-component="Table.Column"
                             x-component-props={{
                                 width: 300,
+                                labelIndex: 'name',
                             }}
-                        >
-                            <SchemaField.String
-                                name="name"
-                                required={true}
-                                x-component={'Label'}
-                            />
-                        </SchemaField.Void>
+                        />
 
                         <SchemaField.Void
                             title="年龄"
                             x-component="Table.Column"
                             x-component-props={{
                                 width: 300,
+                                labelIndex: 'age',
                             }}
-                        >
-                            <SchemaField.String
-                                name="age"
-                                x-component={'Label'}
-                            />
-                        </SchemaField.Void>
+                        />
                     </SchemaField.Void>
                 </SchemaField.Array>
             </SchemaField>
