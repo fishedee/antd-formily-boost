@@ -16,5 +16,18 @@ export default defineConfig({
             path: 'https://github.com/fishedee/antd-formily-boost',
         },
     ],
+    /*
+    externals: {
+        react: 'window.React',
+        'react-dom': 'window.ReactDOM',
+    },
+
+    // 引入被 external 库的 scripts
+    // 区分 development 和 production，使用不同的产物
+    scripts: [
+        'https://unpkg.com/react@16.14.0/umd/react.production.min.js',
+        'https://unpkg.com/react-dom@16.14.0/umd/react-dom.production.min.js',
+    ],
     // more config: https://d.umijs.org/config
+*/
 });
