@@ -14,4 +14,6 @@ group:
 
 <code src="./basic2.tsx"></code>
 
+<code src="./basic3.tsx"></code>
+
 测试专区，忽略这里
