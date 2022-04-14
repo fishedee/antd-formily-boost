@@ -1,5 +1,21 @@
 ## antd-formily-boost
 
+## 声明
+
+该库因为设计问题，目前已声明为废弃状态，与最新版本的Formily也有兼容性问题，不再提供后续更新与支持
+
+```js
+"@formily/antd": "2.0.9",
+"@formily/core": "2.0.9",
+"@formily/reactive": "2.0.9",
+"@formily/reactive-react": "2.0.9",
+"@formily/grid": "2.0.9",
+"@formily/json-schema": "2.0.9",
+"@formily/react": "2.0.9",
+```
+
+现有的antd-formily-boost库仅支持@formily的2.0.9版本
+
 ## 特点
 
 在 Ant Design Table 组件的基础，包装为一个高性能，易组合，超低开发成本的表格组件，让 CURD 操作变得简单
